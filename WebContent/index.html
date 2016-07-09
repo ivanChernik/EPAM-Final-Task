@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
+	type="text/css">
+<link rel="stylesheet" href="myStyle/index.css" type="text/css">
+
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="jquery/jquery-3.0.0.min.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>HR System</title>
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<!-- <button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button> -->
+				<a class="navbar-brand" href="#">HR System</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<form class="navbar-form navbar-right">
+					<div class="form-group">
+						<input type="text" placeholder="Email" class="form-control">
+					</div>
+					<div class="form-group">
+						<input type="password" placeholder="Password" class="form-control">
+					</div>
+					<button type="submit" class="btn btn-success">Войти</button>
+					<a href="#popup-registration" class="btn btn-success">Регистрация</a>
+				</form>
+			</div>
+		</div>
+	</nav>
+	<!-- BACKGROUNG IMAGE -->
+	<div class="container jumbotron background-img">
+		<div class="topic-button-placing">
+			<h2 class="page-header">Добро пожаловать в систему HR</h2>
+			<button type="submit" class="btn btn-success button-img-placing">Создать
+				резюме</button>
+			<button type="submit" class="btn btn-success button-img-placing">Создать
+				вакансию</button>
+		</div>
+		<div class="vertical-line"></div>
+
+		<div class="mark-informtion">
+			<div class="number-value">50</div>
+			<div class="text-value">Резюме</div>
+		</div>
+		<div class="mark-informtion">
+			<div class="number-value">68</div>
+			<div class="text-value">Вакансий</div>
+		</div>
+		<div class="mark-informtion">
+			<div class="number-value">40</div>
+			<div class="text-value">Компаний</div>
+		</div>
+	</div>
+	<!-- LIST VACANCIES -->
+	<section class="section-placing">
+		<div class="row">
+			<div class="col-sm-6 col-md-4">
+				<div class="thumbnail">
+					<div class="caption">
+						<h3>Junior QA Developer</h3>
+						<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
+							dolor id nibh ultricies vehicula ut id elit.</p>
+						<p>
+							<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6 col-md-4">
+				<div class="thumbnail">
+					<div class="caption">
+						<h3>ASP.NET Tem Leader</h3>
+						<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
+							dolor id nibh ultricies vehicula ut id elit.</p>
+						<p>
+							<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6 col-md-4">
+				<div class="thumbnail">
+					<div class="caption">
+						<h3>Middle Frontend Developer</h3>
+						<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
+							dolor id nibh ultricies vehicula ut id elit.</p>
+						<p>
+							<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6 col-md-4">
+				<div class="thumbnail">
+					<div class="caption">
+						<h3>Senior Java Developer</h3>
+						<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
+							dolor id nibh ultricies vehicula ut id elit.</p>
+						<p>
+							<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6 col-md-4">
+				<div class="thumbnail">
+					<div class="caption">
+						<h3>Senior Python Developer</h3>
+						<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
+							dolor id nibh ultricies vehicula ut id elit.</p>
+						<p>
+							<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- POPUP SING UP -->
+	<!-- <a href="" id="popup-registration" class="overlay"></a>  -->
+	<div id="popup-registration"
+		class="regestration-window overlay">
+		<form class="form-inline form-registration" role="form">
+			<div class="form-group">
+				<label class="sr-only" for="email">Введите имя:</label> <input
+					type="email" class="form-control" id="email" >
+			</div>
+			<div class="form-group">
+				<label class="sr-only" for="email">Введите фамилию:</label> <input
+					type="email" class="form-control" id="email" >
+			</div>
+			<div class="form-group">
+				<label class="sr-only" for="email">Введите email</label> <input
+					type="email" class="form-control" id="email" >
+			</div>
+			<div class="form-group">
+				<label class="sr-only" for="pwd">Пароль:</label> <input
+					type="password" class="form-control" id="pwd">
+			</div>
+			<div class="form-group">
+				<label class="sr-only" for="email">Повторите пароль:</label> <input
+					type="email" class="form-control" id="email" >
+			</div>
+			<div class="checkbox">
+				<label><input type="checkbox">Соискатель</label>
+			</div>
+			<div class="checkbox">
+				<label><input type="checkbox">Работадатель</label>
+			</div>
+			<button type="submit" class="btn btn-success">Зарегистрироваться</button>
+		</form>
+	</div>
+	<!-- FOOTER -->
+	<footer>
+		<p class="text-footer">© 2016 EPAM Training Center, HR System.</p>
+	</footer>
+</body>
+</html>

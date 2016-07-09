@@ -1,0 +1,96 @@
+@CHARSET "UTF-8";
+
+.section-placing {
+	margin: 10px;
+}
+
+body {
+	background-color: #A9A9A9;
+}
+
+footer {
+	height: 50px;
+	background-color: #101010;
+}
+
+.text-footer {
+	font-size: 12px;
+	text-align: center;
+	color: #9d9d9d;
+	padding-top: 10px;
+}
+
+.background-img {
+	width: 100%;
+	height: 200px;
+	background-image: url("img/job.jpg");
+	margin-top: 50px;
+	margin-bottom: 0px;
+	padding-top: 10px;
+}
+
+.topic-button-placing {
+	width: 50%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.button-img-placing {
+	margin-top: 30px;
+}
+
+.vertical-line {
+	height: 170px;
+	width: 1px;
+	margin-left: 50px;
+	margin-right: 50px;
+	border-radius: 50px;
+	background-color: #eee;
+	display: inline-block;
+}
+
+.mark-informtion {
+	display: inline-block;
+	vertical-align: top;
+	margin: 20px;
+}
+
+.number-value {
+	font-size: 36px;
+}
+
+.text-value {
+	font-size: 18px;
+}
+
+.overlay {
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 100;
+	display: none;
+	background-color: rgba(0, 0, 0, 0.65);
+	position: fixed;
+	cursor: default;
+}
+
+.overlay:target {
+	display: block;
+}
+
+.overlay:target + .regestration-window {
+	display: block;
+}
+
+.regestration-window {
+	display: none;
+	position: fixed;
+	height: 200px;
+	top: 100px;
+	left: 30%;
+}
+
+.form-registration {
+	background-color: #A9A9A9;
+}
