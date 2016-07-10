@@ -5,6 +5,8 @@
 	type="text/css">
 <link rel="stylesheet" href="myStyle/index.css" type="text/css">
 
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="jquery/jquery-3.0.0.min.js"></script>
 
@@ -23,8 +25,21 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button> -->
-				<a class="navbar-brand" href="#">HR System</a>
+
+				<ul class="nav nav-tabs">
+					<li><a class="navbar-brand" href="#">HR System</a></li>
+					<li role="presentation" class="dropdown"><a
+						class="dropdown-toggle dropdown-button-color" data-toggle="dropdown" href="#"
+						role="button" aria-haspopup="true" aria-expanded="false">
+							Поиск <span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu dropdown-button-style">
+							<li><a href="searchingVacancy.html">Поиск вакансий</a></li>
+							<li><a href="searchingResume.html">Поиск резюме</a></li>
+						</ul></li>
+				</ul>
 			</div>
+
 			<div id="navbar" class="navbar-collapse collapse">
 				<form class="navbar-form navbar-right">
 					<div class="form-group">
@@ -43,10 +58,13 @@
 	<div class="container jumbotron background-img">
 		<div class="topic-button-placing">
 			<h2 class="page-header">Добро пожаловать в систему HR</h2>
-			<button type="submit" class="btn btn-success button-img-placing">Создать
-				резюме</button>
-			<button type="submit" class="btn btn-success button-img-placing">Создать
-				вакансию</button>
+			<a href="creatingResume.html"
+				class="btn btn-success button-img-placing"> <!-- <button type="submit">Создать
+				резюме</button> -->Создать резюме
+			</a> <a class="btn btn-success button-img-placing"
+				href="creatingVacancy.html"> <!-- <button type="submit" class="btn btn-success button-img-placing">  -->Создать
+				вакансию<!-- </button> -->
+			</a>
 		</div>
 		<div class="vertical-line"></div>
 
@@ -69,13 +87,15 @@
 			<div class="col-sm-6 col-md-4">
 				<div class="thumbnail">
 					<div class="caption">
-						<h3>Junior QA Developer</h3>
-						<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+						<h3>Junior Java Developer</h3>
+						<h4>Черников Иван</h4>
+						<p>Пример описания резюме!!!in, egestas eget
 							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
 							dolor id nibh ultricies vehicula ut id elit.</p>
-						<p>
-							<a href="#" class="btn btn-success" role="button">Просмотреть</a>
-						</p>
+
+						<a href="resume.html" class="btn btn-success"
+							role="button">Просмотреть</a>
+
 					</div>
 				</div>
 			</div>
@@ -84,12 +104,13 @@
 				<div class="thumbnail">
 					<div class="caption">
 						<h3>ASP.NET Tem Leader</h3>
+						<h4>Иванов Петр</h4>
 						<p>Cras justo odio, dapibus ac facilisis in, egestas eget
 							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
 							dolor id nibh ultricies vehicula ut id elit.</p>
-						<p>
-							<a href="#" class="btn btn-success" role="button">Просмотреть</a>
-						</p>
+
+						<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+
 					</div>
 				</div>
 			</div>
@@ -98,12 +119,13 @@
 				<div class="thumbnail">
 					<div class="caption">
 						<h3>Middle Frontend Developer</h3>
+						<h4>Бранцевич Александр</h4>
 						<p>Cras justo odio, dapibus ac facilisis in, egestas eget
 							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
 							dolor id nibh ultricies vehicula ut id elit.</p>
-						<p>
-							<a href="#" class="btn btn-success" role="button">Просмотреть</a>
-						</p>
+
+						<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+
 					</div>
 				</div>
 			</div>
@@ -114,12 +136,13 @@
 				<div class="thumbnail">
 					<div class="caption">
 						<h3>Senior Java Developer</h3>
+						<h4>Жуков Иван</h4>
 						<p>Cras justo odio, dapibus ac facilisis in, egestas eget
 							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
 							dolor id nibh ultricies vehicula ut id elit.</p>
-						<p>
-							<a href="#" class="btn btn-success" role="button">Просмотреть</a>
-						</p>
+
+						<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+
 					</div>
 				</div>
 			</div>
@@ -128,49 +151,70 @@
 				<div class="thumbnail">
 					<div class="caption">
 						<h3>Senior Python Developer</h3>
+						<h4>Горбунов Иван</h4>
 						<p>Cras justo odio, dapibus ac facilisis in, egestas eget
 							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
 							dolor id nibh ultricies vehicula ut id elit.</p>
-						<p>
-							<a href="#" class="btn btn-success" role="button">Просмотреть</a>
-						</p>
+
+						<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	<!-- POPUP SING UP -->
-	<!-- <a href="" id="popup-registration" class="overlay"></a>  -->
-	<div id="popup-registration"
-		class="regestration-window overlay">
-		<form class="form-inline form-registration" role="form">
+	<a href="" id="popup-registration" class="overlay"></a>
+	<div class="regestration-window thumbnail">
+		<form role="form">
+			
 			<div class="form-group">
-				<label class="sr-only" for="email">Введите имя:</label> <input
-					type="email" class="form-control" id="email" >
+				<label for="name">Введите имя:</label> <input type="text"
+					class="form-control" placeholder="Enter name" id="name"> 
 			</div>
+			
 			<div class="form-group">
-				<label class="sr-only" for="email">Введите фамилию:</label> <input
-					type="email" class="form-control" id="email" >
+				<label for="surname">Введите фамилию:</label> <input type="text"
+					class="form-control" placeholder="Enter surname" id="surname">
 			</div>
+			
 			<div class="form-group">
-				<label class="sr-only" for="email">Введите email</label> <input
-					type="email" class="form-control" id="email" >
+				<label for="patronymic">Введите отчество:</label> <input type="text"
+					class="form-control" placeholder="Enter patronymic" id="patronymic">
 			</div>
+			
 			<div class="form-group">
-				<label class="sr-only" for="pwd">Пароль:</label> <input
-					type="password" class="form-control" id="pwd">
+				<label for="email">Введите email:</label> <input type="email"
+					class="form-control" placeholder="Enter email"  id="email">
 			</div>
+			
 			<div class="form-group">
-				<label class="sr-only" for="email">Повторите пароль:</label> <input
-					type="email" class="form-control" id="email" >
+				<label for="patronymic">Введите логин:</label> <input type="text"
+					class="form-control" placeholder="Enter patronymic" id="patronymic" pattern="[\w]+">
 			</div>
-			<div class="checkbox">
-				<label><input type="checkbox">Соискатель</label>
+			
+			<div class="form-group">
+				<label for="pwd">Введите пароль:</label> <input type="password"
+					class="form-control" placeholder="Enter password" id="pwd">
 			</div>
-			<div class="checkbox">
-				<label><input type="checkbox">Работадатель</label>
+			
+			<div class="form-group">
+				<label for="pwd-repeat">Повторите пароль:</label> <input type="password"
+					class="form-control"  placeholder="Repeat password" id="pwd-repeat">
 			</div>
-			<button type="submit" class="btn btn-success">Зарегистрироваться</button>
+			
+			<div class="form-group dropdown">
+						<button class="btn  btn-success dropdown-toggle" type="button"
+							data-toggle="dropdown">
+							Кто вы? <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="accountApplicant.html">Соискатель</a></li>
+							<li><a href="accountHR.html">Работадатель</a></li>
+						</ul>
+			</div>
+			
+			<a href ="index.html" class="btn btn-success"><!-- <button type="submit" class="btn btn-success"> -->Submit<!-- </button> --></a>
 		</form>
 	</div>
 	<!-- FOOTER -->

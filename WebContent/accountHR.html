@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
+	type="text/css">
+<link rel="stylesheet" href="myStyle/account.css" type="text/css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="jquery/jquery-3.0.0.min.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account HR</title>
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<ul class="nav nav-tabs">
+					<li><a class="navbar-brand" href="index.html">HR System</a></li>
+					<li><a class="navbar-brand" href="creatingVacancy.html">Создать
+							вакансию</a></li>
+					<li role="presentation" class="dropdown"><a
+						class="dropdown-toggle dropdown-button-color"
+						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+						aria-expanded="false"> Поиск <span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu dropdown-button-style">
+							<li><a href="searchingVacancy.html">Поиск вакансий</a></li>
+							<li><a href="searchingResume.html">Поиск резюме</a></li>
+						</ul></li>
+				</ul>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<form class="navbar-form navbar-right">
+					<button type="submit" class="btn btn-success">Выйти</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+	<section>
+		<div class="thumbnail table-information">
+			<table class="table">
+				<caption>Таблица просмотров и откликов</caption>
+				<thead>
+					<tr>
+						<th>Название вакансии</th>
+						<th>Количество просмотров</th>
+						<th>Количество откликов</th>
+						<th>Дата подачи</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Junior C# Developer</td>
+						<td>7</td>
+						<td>5</td>
+						<td>21.01.2016</td>
+					</tr>
+					<tr>
+						<td>Middle C# Developer</td>
+						<td>8</td>
+						<td>1</td>
+						<td>25.03.2016</td>
+					</tr>
+					<tr>
+						<td>Team Leader Python Developer</td>
+						<td>7</td>
+						<td>5</td>
+						<td>21.01.2016</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</section>
+	<footer>
+		<p class="text-footer">© 2016 EPAM Training Center, HR System.</p>
+	</footer>
+</body>
+</html>
