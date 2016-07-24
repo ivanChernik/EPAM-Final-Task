@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import by.epam.tc.hr_system.command.ICommand;
+import by.epam.tc.hr_system.command.impl.RegistrationCommand;
+import by.epam.tc.hr_system.controller.helper.CommandHelper;
+import by.epam.tc.hr_system.exception.CommandException;
+
 
 @WebServlet(asyncSupported = true, urlPatterns = { "/ControllerServlet" })
 public class ControllerServlet extends HttpServlet {
@@ -23,7 +28,13 @@ public class ControllerServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String commandName = request.getParameter(COMMAND);
-		System.out.println("dsfffffffffffff");
+		ICommand command  = CommandHelper.getInstance().getCommand(commandName);	
+		
+		try {
+			command.execute(request, response);
+		} catch (CommandException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

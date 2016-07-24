@@ -14,11 +14,6 @@ import by.epam.tc.hr_system.exception.DAOException;
 
 public class EducationDAOImpl implements IEducationDAO {
 
-	private static final String ERROR_REMOVING_EDUCATION = "Error removing education";
-	private static final String ERROR_UPDATING_EDUCATION = "Error updating education";
-	private static final String ERROR_ADDING_NEW_EDUCATION = "Error adding new education";
-	private static final String ERROR_CLOSING_CONNECTION_OR_STATEMENTS = "Error closing connection or statements";
-	private static final String ERROR_CONNECTION_POOL_INSTANSE = "Error connection pool instanse";
 
 	private static final String SQL_UPDATE_EDUCATION = "UPDATE `hr-system`.`education` SET `id_candidate`=?,`institution`= ?, `department`=?, `speciality`= ?, `form_of_education`= ?, `date_of_entry`= ?, `date_of_graduation`= ? WHERE `id_education`= ?;";
 	private static final String SQL_ADD_EDUCATION_TO_CANDIDATE = "INSERT INTO `hr-system`.`education` (`id_candidate`,`institution`, `department`, `speciality`, `form_of_education`, `date_of_entry`, `date_of_graduation`) VALUES (?, ? , ?, ?, ? , ?, ?);";
@@ -32,8 +27,8 @@ public class EducationDAOImpl implements IEducationDAO {
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
-			log.fatal(ERROR_CONNECTION_POOL_INSTANSE, e);
-			throw new DAOException(ERROR_CONNECTION_POOL_INSTANSE, e);
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
 		}
 		Connection connection = null;
 		PreparedStatement addEducationPS = null;
@@ -53,8 +48,8 @@ public class EducationDAOImpl implements IEducationDAO {
 			addEducationPS.executeUpdate();
 			result = true;
 		} catch (SQLException | ConnectionPoolException e) {
-			log.error(ERROR_ADDING_NEW_EDUCATION, e);
-			throw new DAOException(ERROR_ADDING_NEW_EDUCATION, e);
+			log.error("Error adding new education", e);
+			throw new DAOException("Error adding new education", e);
 		}
 
 		finally {
@@ -62,7 +57,8 @@ public class EducationDAOImpl implements IEducationDAO {
 				addEducationPS.close();
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException(ERROR_CLOSING_CONNECTION_OR_STATEMENTS,
+				log.fatal("Error closing connection or statements", e);
+				throw new DAOException("Error closing connection or statements",
 						e);
 			}
 		}
@@ -75,8 +71,8 @@ public class EducationDAOImpl implements IEducationDAO {
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
-			log.fatal(ERROR_CONNECTION_POOL_INSTANSE, e);
-			throw new DAOException(ERROR_CONNECTION_POOL_INSTANSE, e);
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
 		}
 		Connection connection = null;
 		PreparedStatement removeEducationPS = null;
@@ -92,15 +88,16 @@ public class EducationDAOImpl implements IEducationDAO {
 			
 		} catch (SQLException | ConnectionPoolException e) {
 	
-			log.error(ERROR_REMOVING_EDUCATION, e);
-			throw new DAOException(ERROR_REMOVING_EDUCATION, e);
+			log.error("Error removing education", e);
+			throw new DAOException("Error removing education", e);
 
 		} finally {
 			try {
 				removeEducationPS.close();
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException(ERROR_CLOSING_CONNECTION_OR_STATEMENTS,
+				log.fatal("Error closing connection or statements", e);
+				throw new DAOException("Error closing connection or statements",
 						e);
 			}
 
@@ -115,8 +112,8 @@ public class EducationDAOImpl implements IEducationDAO {
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
-			log.fatal(ERROR_CONNECTION_POOL_INSTANSE, e);
-			throw new DAOException(ERROR_CONNECTION_POOL_INSTANSE, e);
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
 		}
 		Connection connection = null;
 		PreparedStatement updateEducationPS = null;
@@ -137,8 +134,8 @@ public class EducationDAOImpl implements IEducationDAO {
 			updateEducationPS.executeUpdate();
 			result = true;
 		} catch (SQLException | ConnectionPoolException e) {
-			log.error(ERROR_UPDATING_EDUCATION, e);
-			throw new DAOException(ERROR_UPDATING_EDUCATION, e);
+			log.error("Error updating education", e);
+			throw new DAOException("Error updating education", e);
 		}
 
 		finally {
@@ -146,7 +143,8 @@ public class EducationDAOImpl implements IEducationDAO {
 				updateEducationPS.close();
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException(ERROR_CLOSING_CONNECTION_OR_STATEMENTS,
+				log.fatal("Error closing connection or statements", e);
+				throw new DAOException("Error closing connection or statements",
 						e);
 			}
 		}

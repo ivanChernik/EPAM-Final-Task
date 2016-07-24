@@ -7,12 +7,12 @@ import by.epam.tc.hr_system.exception.DAOException;
 
 public interface IPersonDAO {
 
-	int registerPerson(String login, String password, String role)
+	String registerPerson(String login, String password, Person person)
 			throws DAOException;
 	
 	boolean removePersonByID(int idUser) throws DAOException ;
 
-	boolean addPersonInformation(Person person) throws DAOException;
+//	boolean addPersonInformation(Person person) throws DAOException;
 	
 	boolean updatePersonInformation(Person person) throws DAOException;
 

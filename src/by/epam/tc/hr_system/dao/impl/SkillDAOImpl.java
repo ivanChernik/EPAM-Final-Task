@@ -14,12 +14,6 @@ import by.epam.tc.hr_system.exception.ConnectionPoolException;
 import by.epam.tc.hr_system.exception.DAOException;
 
 public class SkillDAOImpl implements ISkillDAO {
-
-
-	private static final String ERROR_REMOVING_SKILL = "Error removing skill";
-	private static final String ERROR_ADDING_NEW_SKILL = "Error adding new skill";
-	private static final String ERROR_CLOSING_CONNECTION_OR_STATEMENTS = "Error closing connection or statements";
-	private static final String ERROR_CONNECTION_POOL_INSTANSE = "Error connection pool instanse";
 	
 	private static final String SQL_DELETE_SKILL = "DELETE FROM `hr-system`.`skill` WHERE  `name`= ?;";
 	private static final String SQL_ADD_NEW_SKILL = "INSERT INTO `hr-system`.`skill` (`name`) VALUES ( ?);";
@@ -33,8 +27,8 @@ public class SkillDAOImpl implements ISkillDAO {
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
-			log.fatal(ERROR_CONNECTION_POOL_INSTANSE, e);
-			throw new DAOException(ERROR_CONNECTION_POOL_INSTANSE, e);
+			log.fatal("Fatal error connection pool instanse", e);
+			throw new DAOException("Fatal error connection pool instanse", e);
 		}
 		Connection connection = null;
 		PreparedStatement addSkillPS = null;
@@ -49,8 +43,8 @@ public class SkillDAOImpl implements ISkillDAO {
 			addSkillPS.executeUpdate();
 			result = true;
 		} catch (SQLException | ConnectionPoolException e) {
-			log.error(ERROR_ADDING_NEW_SKILL, e);
-			throw new DAOException(ERROR_ADDING_NEW_SKILL, e);
+			log.error("Error addiction new skill", e);
+			throw new DAOException("Error addiction new skill", e);
 		}
 
 		finally {
@@ -58,7 +52,7 @@ public class SkillDAOImpl implements ISkillDAO {
 				addSkillPS.close();
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException(ERROR_CLOSING_CONNECTION_OR_STATEMENTS,
+				throw new DAOException("Error closing connection or statements",
 						e);
 			}
 		}
@@ -71,8 +65,8 @@ public class SkillDAOImpl implements ISkillDAO {
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
-			log.fatal(ERROR_CONNECTION_POOL_INSTANSE, e);
-			throw new DAOException(ERROR_CONNECTION_POOL_INSTANSE, e);
+			log.fatal("Fatal error connection pool instanse", e);
+			throw new DAOException("Fatal error connection pool instanse", e);
 		}
 		Connection connection = null;
 		PreparedStatement removeSkillPS = null;
@@ -87,8 +81,8 @@ public class SkillDAOImpl implements ISkillDAO {
 			removeSkillPS.executeUpdate();
 			result = true;
 		} catch (SQLException | ConnectionPoolException e) {
-			log.error(ERROR_REMOVING_SKILL, e);
-			throw new DAOException(ERROR_REMOVING_SKILL, e);
+			log.error("Error removing skill", e);
+			throw new DAOException("Error removing skill", e);
 		}
 
 		finally {
@@ -96,7 +90,7 @@ public class SkillDAOImpl implements ISkillDAO {
 				removeSkillPS.close();
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException(ERROR_CLOSING_CONNECTION_OR_STATEMENTS,
+				throw new DAOException("Error closing connection or statements",
 						e);
 			}
 		}

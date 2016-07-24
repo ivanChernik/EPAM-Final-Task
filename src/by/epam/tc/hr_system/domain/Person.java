@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.sql.Date;
 
 public class Person implements Serializable {
+	public static final String APPLICANT_ROLE = "applicant";
+	public static final String HR_ROLE = "hr";
+	public static final String ADMINISTRATOR_ROLE = "admin";
+
 	private int id;
 	private String name;
 	private String surname;
@@ -11,20 +15,29 @@ public class Person implements Serializable {
 	private Date dateOfBirthday;
 	private String email;
 	private String phone;
+	private String role;
 
 	public Person() {
 
 	}
 
-	public Person(String name, String surname, String middleName,
-			Date dateOfBirthday, String email, String phone) {
+	public Person(String name, String surname, String middleName, Date dateOfBirthday, String email,
+			String phone, String role) {
 		this.name = name;
 		this.surname = surname;
 		this.middleName = middleName;
 		this.dateOfBirthday = dateOfBirthday;
 		this.email = email;
 		this.phone = phone;
+		this.role = role;
+	}
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public String getName() {
@@ -87,14 +100,13 @@ public class Person implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((dateOfBirthday == null) ? 0 : dateOfBirthday.hashCode());
+		result = prime * result + ((dateOfBirthday == null) ? 0 : dateOfBirthday.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + id;
-		result = prime * result
-				+ ((middleName == null) ? 0 : middleName.hashCode());
+		result = prime * result + ((middleName == null) ? 0 : middleName.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
 		return result;
 	}
@@ -135,6 +147,11 @@ public class Person implements Serializable {
 				return false;
 		} else if (!phone.equals(other.phone))
 			return false;
+		if (role == null) {
+			if (other.role != null)
+				return false;
+		} else if (!role.equals(other.role))
+			return false;
 		if (surname == null) {
 			if (other.surname != null)
 				return false;
@@ -145,11 +162,9 @@ public class Person implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Person [id=" + id + ", name=" + name + ", surname=" + surname
-				+ ", middleName=" + middleName + ", dateOfBirthday="
-				+ dateOfBirthday + ", email=" + email + ", phone=" + phone
+		return "Person [id=" + id + ", name=" + name + ", surname=" + surname + ", middleName=" + middleName
+				+ ", dateOfBirthday=" + dateOfBirthday + ", email=" + email + ", phone=" + phone + ", role=" + role
 				+ "]";
 	}
-	
 
 }
