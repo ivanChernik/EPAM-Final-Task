@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,8 +8,9 @@
 	type="text/css">
 <link rel="stylesheet" href="myStyle/index.css" type="text/css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
 <!--
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
 
@@ -45,10 +49,12 @@ Latest compiled and minified JavaScript
 			<div id="navbar" class="navbar-collapse collapse">
 				<form class="navbar-form navbar-right">
 					<div class="form-group">
-						<input type="text" placeholder="Login" class="form-control" name="login">
+						<input type="text" placeholder="Login" class="form-control"
+							name="login">
 					</div>
 					<div class="form-group">
-						<input type="password" placeholder="Password" class="form-control" name="password">
+						<input type="password" placeholder="Password" class="form-control"
+							name="password">
 					</div>
 					<button type="submit" class="btn btn-success">Войти</button>
 					<a href="#popup-registration" class="btn btn-success">Регистрация</a>
@@ -165,82 +171,97 @@ Latest compiled and minified JavaScript
 		</div>
 	</section>
 	<!-- POPUP SING UP -->
-	<a href="" id="popup-registration" class="overlay"></a>
-	<div class="regestration-window thumbnail">
-		<form role="form" action="ControllerServlet" method="post">
+	<c:choose>
+		<c:when test="${not empty requestScope.errorMessage}">
 
-			<input name="command" value="REGISTRATION" type="hidden"/>
+			<a href="" class="overlay" style="display: block"></a>
+			<div class="regestration-window" style="display: block">
+		</c:when>
+		<c:otherwise>
+			<a href="" id="popup-registration" class="overlay"></a>
+			<div class="regestration-window thumbnail">
+		</c:otherwise>
+	</c:choose>
+	<form role="form" action="ControllerServlet" method="post">
 
-			<div class="form-group">
-				<label for="name">Введите имя:</label> <input type="text"
-					class="form-control" placeholder="Enter name" id="name" name="name">
+		<c:if test="${not empty requestScope.errorMessage}">
+
+			<div class="form-group alert alert-danger">
+				<strong>${errorMessage}</strong>
 			</div>
 
-			<div class="form-group">
-				<label for="surname">Введите фамилию:</label> <input type="text"
-					class="form-control" placeholder="Enter surname" id="surname"
-					name="surname">
-			</div>
+		</c:if>
 
-			<div class="form-group">
-				<label for="patronymic">Введите отчество:</label> <input type="text"
-					class="form-control" placeholder="Enter patronymic" id="patronymic"
-					name="patronymic">
-			</div>
+		<input name="command" value="REGISTRATION" type="hidden" />
 
-			<div class="form-group">
-				<label for="email">Введите email:</label> <input type="email"
-					class="form-control" placeholder="Enter email" id="email"
-					name="email">
-			</div>
+		<div class="form-group">
+			<label for="name">Введите имя:</label> <input type="text"
+				class="form-control" placeholder="Enter name" id="name" name="name" required>
+		</div>
 
-			<div class="form-group">
-				<label for="dateOfBirthday">Введите дату рождения:</label> <input
-					type="date" class="form-control"
-					placeholder="Enter date of birthday" id="dateOfBirthday"
-					name="dateOfBirthday">
-			</div>
+		<div class="form-group">
+			<label for="surname">Введите фамилию:</label> <input type="text"
+				class="form-control" placeholder="Enter surname" id="surname"
+				name="surname" required>
+		</div>
 
-			<div class="form-group">
-				<label for="phoneNumber">Введите номер телефона:</label> <input
-					type="text" class="form-control" placeholder="Enter phone number"
-					id="phoneNumber" name="phoneNumber">
-			</div>
+		<div class="form-group">
+			<label for="patronymic">Введите отчество:</label> <input type="text"
+				class="form-control" placeholder="Enter patronymic" id="patronymic"
+				name="patronymic">
+		</div>
 
-			<div class="form-group">
-				<label for="patronymic">Введите логин:</label> <input type="text"
-					class="form-control" placeholder="Enter login" id="login"
-					pattern="[\w]+" name="login">
-			</div>
+		<div class="form-group">
+			<label for="email">Введите email:</label> <input type="email"
+				class="form-control" placeholder="Enter email" id="email"
+				name="email" required>
+		</div>
 
-			<div class="form-group">
-				<label for="pwd">Введите пароль:</label> <input type="password"
-					class="form-control" placeholder="Enter password" id="pwd"
-					name="password">
-			</div>
+		<div class="form-group">
+			<label for="dateOfBirthday">Введите дату рождения:</label> <input
+				type="date" class="form-control"
+				placeholder="Enter date of birthday" id="dateOfBirthday"
+				name="dateOfBirthday" required>
+		</div>
 
-			<div class="form-group">
-				<label for="pwd-repeat">Повторите пароль:</label> <input
-					type="password" class="form-control" placeholder="Repeat password"
-					id="pwd-repeat" name="repeatedPassword">
-			</div>
+		<div class="form-group">
+			<label for="phoneNumber">Введите номер телефона:</label> <input
+				type="text" class="form-control" placeholder="Enter phone number"
+				id="phoneNumber" name="phoneNumber">
+		</div>
 
-			<div class="form-group">
-				<select class="selectpicker" name="role">
-					<option>Соискатель</option>
-					<option>Работадатель</option>
-				</select>
-			</div>
-			<button type="submit" class="btn btn-success">Зарегистрироваться</button>
-			<a href="index.html" class="btn btn-success">Отмена</a>
-		</form>
+		<div class="form-group">
+			<label for="patronymic">Введите логин:</label> <input type="text"
+				class="form-control" placeholder="Enter login" id="login"
+				pattern="[\w]+" name="login" required>
+		</div>
+
+		<div class="form-group">
+			<label for="pwd">Введите пароль:</label> <input type="password"
+				class="form-control" placeholder="Enter password" id="pwd"
+				name="password" required>
+		</div>
+
+		<div class="form-group">
+			<label for="pwd-repeat">Повторите пароль:</label> <input
+				type="password" class="form-control" placeholder="Repeat password"
+				id="pwd-repeat" name="repeatedPassword" required>
+		</div>
+
+		<div class="form-group">
+			<select class="selectpicker" name="role">
+				<option>Соискатель</option>
+				<option>Работадатель</option>
+			</select>
+		</div>
+		<button type="submit" class="btn btn-success">Зарегистрироваться</button>
+		<a href="index.html" class="btn btn-success">Отмена</a>
+	</form>
 	</div>
+
 	<!-- FOOTER -->
 	<footer>
-		<p class="text-footer">
-			© 2016 EPAM Training Center, HR System. <a href="siteMap.html">
-				Карта сайта</a>
-		</p>
+	 <jsp:include page="footer.jsp"/>
 	</footer>
 </body>
 </html>

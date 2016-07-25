@@ -10,5 +10,11 @@ public interface IVacancyDAO {
 	boolean updateVacancy(Vacancy vacancy, int idHR) throws DAOException;
 
 	boolean removeVacancy(int idVacancy) throws DAOException;
+	
+	int getCountVacancies() throws DAOException;
+	
+	int getCountResumes() throws DAOException;
+	
+	int getCountCompanies() throws DAOException;
 
 }

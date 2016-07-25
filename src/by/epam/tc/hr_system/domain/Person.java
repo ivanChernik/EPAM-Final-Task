@@ -16,7 +16,7 @@ public class Person implements Serializable {
 	private String email;
 	private String phone;
 	private String role;
-
+	
 	public Person() {
 
 	}
@@ -166,5 +166,6 @@ public class Person implements Serializable {
 				+ ", dateOfBirthday=" + dateOfBirthday + ", email=" + email + ", phone=" + phone + ", role=" + role
 				+ "]";
 	}
+
 
 }

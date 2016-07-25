@@ -7,18 +7,16 @@ import by.epam.tc.hr_system.exception.DAOException;
 
 public interface IPersonDAO {
 
-	String registerPerson(String login, String password, Person person)
-			throws DAOException;
-	
-	boolean removePersonByID(int idUser) throws DAOException ;
+	boolean searchSimilarLogin(String login) throws DAOException;
 
-//	boolean addPersonInformation(Person person) throws DAOException;
-	
+	void registerPerson(String login, String password, Person person) throws DAOException;
+
+	boolean removePersonByID(int idUser) throws DAOException;
+
 	boolean updatePersonInformation(Person person) throws DAOException;
 
 	Person searchPersonByEmail(String email) throws DAOException;
 
-	List<Person> searchPersonByNames(String name, String surname,
-			String middleName) throws DAOException;
+	List<Person> searchPersonByNames(String name, String surname, String middleName) throws DAOException;
 
 }

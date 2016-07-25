@@ -14,7 +14,7 @@ import by.epam.tc.hr_system.exception.ConnectionPoolException;
 import by.epam.tc.hr_system.exception.DAOException;
 
 public class SkillDAOImpl implements ISkillDAO {
-	
+
 	private static final String SQL_DELETE_SKILL = "DELETE FROM `hr-system`.`skill` WHERE  `name`= ?;";
 	private static final String SQL_ADD_NEW_SKILL = "INSERT INTO `hr-system`.`skill` (`name`) VALUES ( ?);";
 
@@ -23,12 +23,12 @@ public class SkillDAOImpl implements ISkillDAO {
 
 	@Override
 	public boolean addNewSkill(String skillName) throws DAOException {
-		
+
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
-			log.fatal("Fatal error connection pool instanse", e);
-			throw new DAOException("Fatal error connection pool instanse", e);
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
 		}
 		Connection connection = null;
 		PreparedStatement addSkillPS = null;
@@ -52,8 +52,7 @@ public class SkillDAOImpl implements ISkillDAO {
 				addSkillPS.close();
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements",
-						e);
+				throw new DAOException("Error closing connection or statements", e);
 			}
 		}
 		return result;
@@ -61,12 +60,12 @@ public class SkillDAOImpl implements ISkillDAO {
 
 	@Override
 	public boolean removeSkill(String nameSkill) throws DAOException {
-		
+
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
-			log.fatal("Fatal error connection pool instanse", e);
-			throw new DAOException("Fatal error connection pool instanse", e);
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
 		}
 		Connection connection = null;
 		PreparedStatement removeSkillPS = null;
@@ -90,16 +89,14 @@ public class SkillDAOImpl implements ISkillDAO {
 				removeSkillPS.close();
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements",
-						e);
+				throw new DAOException("Error closing connection or statements", e);
 			}
 		}
 		return result;
 	}
 
 	@Override
-	public List<Skill> getSkillsByIDApplicant(int applicantID)
-			throws DAOException {
+	public List<Skill> getSkillsByIDApplicant(int applicantID) throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
