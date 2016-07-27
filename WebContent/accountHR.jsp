@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,22 +22,22 @@
 			<div class="navbar-header">
 				<ul class="nav nav-tabs">
 					<li><a class="navbar-brand" href="index.html">HR System</a></li>
-					<li><a class="navbar-brand" href="creatingVacancy.html">Создать
-							вакансию</a></li>
+					<li><a class="navbar-brand" href="creatingVacancy.html">Ð¡Ð¾Ð·Ð´Ð°ÑÑ
+							Ð²Ð°ÐºÐ°Ð½ÑÐ¸Ñ</a></li>
 					<li role="presentation" class="dropdown"><a
 						class="dropdown-toggle dropdown-button-color"
 						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-						aria-expanded="false"> Поиск <span class="caret"></span>
+						aria-expanded="false"> ÐÐ¾Ð¸ÑÐº <span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu dropdown-button-style">
-							<li><a href="searchingVacancy.html">Поиск вакансий</a></li>
-							<li><a href="searchingResume.html">Поиск резюме</a></li>
+							<li><a href="searchingVacancy.html">ÐÐ¾Ð¸ÑÐº Ð²Ð°ÐºÐ°Ð½ÑÐ¸Ð¹</a></li>
+							<li><a href="searchingResume.html">ÐÐ¾Ð¸ÑÐº ÑÐµÐ·ÑÐ¼Ðµ</a></li>
 						</ul></li>
 				</ul>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<form class="navbar-form navbar-right">
-					<button type="submit" class="btn btn-success">Выйти</button>
+					<button type="submit" class="btn btn-success">ÐÑÐ¹ÑÐ¸</button>
 				</form>
 			</div>
 		</div>
@@ -43,13 +45,13 @@
 	<section>
 		<div class="thumbnail table-information">
 			<table class="table">
-				<caption>Таблица просмотров и откликов</caption>
+				<caption>Ð¢Ð°Ð±Ð»Ð¸ÑÐ° Ð¿ÑÐ¾ÑÐ¼Ð¾ÑÑÐ¾Ð² Ð¸ Ð¾ÑÐºÐ»Ð¸ÐºÐ¾Ð²</caption>
 				<thead>
 					<tr>
-						<th>Название вакансии</th>
-						<th>Количество просмотров</th>
-						<th>Количество откликов</th>
-						<th>Дата подачи</th>
+						<th>ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð²Ð°ÐºÐ°Ð½ÑÐ¸Ð¸</th>
+						<th>ÐÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð¾ Ð¿ÑÐ¾ÑÐ¼Ð¾ÑÑÐ¾Ð²</th>
+						<th>ÐÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð¾ Ð¾ÑÐºÐ»Ð¸ÐºÐ¾Ð²</th>
+						<th>ÐÐ°ÑÐ° Ð¿Ð¾Ð´Ð°ÑÐ¸</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -77,7 +79,7 @@
 
 	</section>
 	<footer>
-		<p class="text-footer">© 2016 EPAM Training Center, HR System. <a href="siteMap.html"> Карта сайта</a></p>
+		<p class="text-footer">Â© 2016 EPAM Training Center, HR System. <a href="siteMap.html"> ÐÐ°ÑÑÐ° ÑÐ°Ð¹ÑÐ°</a></p>
 	</footer>
 </body>
 </html>

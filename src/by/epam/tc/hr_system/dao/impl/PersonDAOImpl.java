@@ -18,14 +18,23 @@ import by.epam.tc.hr_system.exception.DAOException;
 
 public class PersonDAOImpl implements IPersonDAO {
 	
+	private static final String SQL_ROLE = "role";
+
+	private static final String SQL_ID_USER = "id_user";
+
 	private static final String SQL_UPDATE_PERSONAL_DATA_BY_ID = "UPDATE `hr-system`.`person` SET `name` =?, `surname`= ?, `middle_name`= ?, `date_of_birthday`= ?, `email`= ?, `phone`= ? WHERE `id_person` = ?;";
+	
 	private static final String SQL_DELETE_UDER_BY_ID = "DELETE FROM `hr-system`.`user` WHERE `id_user`= ?;";
 	private static final String SQL_DELETE_PERSONAL_INFORMATION_BY_ID = "DELETE FROM `hr-system`.`person` WHERE `id_person`= ?;";
+	
 	private final static String SQL_ADD_PERSONS_DATA = "INSERT INTO `hr-system`.`person` (`name`, `surname`, `middle_name`, `date_of_birthday`, `email`, `phone`,`id_person`) VALUES (? ,?, ?, ?, ?, ?, ?);";
 	private final static String SQL_ADD_NEW_APPLICANT = "INSERT INTO `hr-system`.`user` (`role`, `login`, `password`) VALUES (? ,?, ?);";
+	
 	private final static String SQL_SEARCH_PERSON_BY_EMAIL = "SELECT `name`, `surname`, `middle_name`, `date_of_birthday`, `email`, `phone` FROM `hr-system`.`person` WHERE `email` = ? ;";
 	private final static String SQL_SEARCH_PERSONS_BY_NAMES = "SELECT `name`, `surname`, `middle_name`, `date_of_birthday`, `email`, `phone` FROM `hr-system`.`person` WHERE `name` = ? AND `surname` = ? AND `middle_name`=?;";
 	private final static String SQL_SEARCH_PERSON_BY_LOGIN = "SELECT * FROM `hr-system`.`user` WHERE `login` = ? ;";
+	private static final String SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT `id_user`,`role`,`name`, `surname`, `middle_name`, `date_of_birthday`, `email`, `phone` FROM `hr-system`.user INNER JOIN `hr-system`.person ON id_user = id_person WHERE login = ? AND password = ?;";
+	
 	
 	private final static String SQL_NAME = "name";
 	private final static String SQL_SURNAME = "surname";
@@ -279,6 +288,8 @@ public class PersonDAOImpl implements IPersonDAO {
 	private Person getPerson(ResultSet rs) throws SQLException {
 		Person searchedPerson = new Person();
 		rs.next();
+		searchedPerson.setId(rs.getInt(SQL_ID_USER));
+		searchedPerson.setRole(rs.getString(SQL_ROLE));
 		searchedPerson.setName(rs.getString(SQL_NAME));
 		searchedPerson.setSurname(rs.getString(SQL_SURNAME));
 		searchedPerson.setMiddleName(rs.getString(SQL_MIDDLE_NAME));
@@ -344,6 +355,48 @@ public class PersonDAOImpl implements IPersonDAO {
 			searchedPersonList.add(searchedPerson);
 		}
 		return searchedPersonList;
+	}
+
+
+	@Override
+	public Person authorizePerson(String login, String password) throws DAOException {
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+		Connection connection = null;
+		PreparedStatement searchPersonPS = null;
+		ResultSet rs = null;
+		Person person = null;
+		try {
+			connection = connectionPool.takeConnection();
+			searchPersonPS = connection
+					.prepareStatement(SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD);
+			searchPersonPS.setString(1, login);
+			searchPersonPS.setString(2, password);
+			rs = searchPersonPS.executeQuery();
+			person =  getPerson(rs);
+		} catch (ConnectionPoolException | SQLException e) {
+			log.error("Error searching person by login and passowrd", e);
+			throw new DAOException("Error searching person by login and passowrd", e);
+
+		} finally {
+
+			try {
+				rs.close();
+				searchPersonPS.close();
+				connection.close();
+			} catch (SQLException e) {
+				log.fatal("Error closing resultSer or statement or connection",
+						e);
+				throw new DAOException(
+						"Error closing resultSer or statement or connection", e);
+			}
+		}
+		return person;
 	}
 
 

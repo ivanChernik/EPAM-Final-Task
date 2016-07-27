@@ -24,8 +24,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 
 import by.epam.tc.hr_system.exception.ConnectionPoolException;
-import by.epam.tc.hr_system.util.DBParameter;
-import by.epam.tc.hr_system.util.DBResourceManager;
+import by.epam.tc.hr_system.util.db.DBParameter;
+import by.epam.tc.hr_system.util.db.DBResourceManager;
 
 public final class ConnectionPool {
 

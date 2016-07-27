@@ -1,4 +1,4 @@
-package by.epam.tc.hr_system.util;
+package by.epam.tc.hr_system.util.db;
 
 public final class DBParameter {
 	public static final String DB_DRIVER = "db.driver";

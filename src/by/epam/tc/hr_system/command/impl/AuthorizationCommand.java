@@ -18,27 +18,17 @@ import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.UserData;
 
-public class RegistrationCommand implements ICommand {
+public class AuthorizationCommand implements ICommand {
 
-	private static final Logger log = Logger.getLogger(RegistrationCommand.class);
-
+	private static final Logger log = Logger.getLogger(AuthorizationCommand.class);
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-
 		try {
 			HttpSession session = request.getSession(true);
 
 			String login = request.getParameter(UserData.USER_LOGIN);
 			String password = request.getParameter(UserData.USER_PASSWORD);
-			String repeatedPassword = request.getParameter(UserData.USER_REPEATED_PASSWORD);
-			String role = request.getParameter(UserData.USER_ROLE);
-
-			String name = request.getParameter(UserData.USER_NAME);
-			String surname = request.getParameter(UserData.USER_SURNAME);
-			String patronymic = request.getParameter(UserData.USER_PATRONYMIC);
-			String email = request.getParameter(UserData.USER_EMAIL);
-			String phoneNumber = request.getParameter(UserData.USER_PHONE_NUMBER);
-			String dateOfBirthday = request.getParameter(UserData.USER_DATE_OF_BIRTHDAY);
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
@@ -47,26 +37,30 @@ public class RegistrationCommand implements ICommand {
 			String errorMessage = null;
 			try {
 				userService = serviceFactory.getUserService();
-				person = userService.registerUser(login, password, repeatedPassword, role, name, surname, patronymic,
-						email, phoneNumber, dateOfBirthday);
+				person = userService.authorizePerson(login, password);
 			} catch (ServiceException e) {
 
-				if (e.getMessage().equals(IUserService.MESSAGE_INVALID_PASSWORD)) {
-					errorMessage = IUserService.MESSAGE_INVALID_PASSWORD;
+				if (person == null) {
+					errorMessage = "failed";
 				}
-
-				if (e.getMessage().equals(IUserService.MESSAGE_LOGIN_ALREADY_EXISTS)) {
-					errorMessage = IUserService.MESSAGE_LOGIN_ALREADY_EXISTS;
-				}
-
 				request.setAttribute("errorMessage", errorMessage);
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
+//
+//				if (e.getMessage().equals(IUserService.MESSAGE_LOGIN_ALREADY_EXISTS)) {
+//					errorMessage = IUserService.MESSAGE_LOGIN_ALREADY_EXISTS;
+//				}
+//
+//				request.setAttribute("errorMessage", errorMessage);
+//				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+//				return;
 				// throw new CommandException("Error registeration login,
 				// password, role");
 			} finally {
-				session.setAttribute("person", person);
+				//session.setAttribute("person", person);
 			}
+			
+			session.setAttribute("person", person);
 
 			if (person.getRole().equals(Person.APPLICANT_ROLE)) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE_APPLICANT).forward(request, response);

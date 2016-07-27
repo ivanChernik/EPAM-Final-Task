@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,12 +21,45 @@ Latest compiled and minified JavaScript
 (Optional) Latest compiled and minified JavaScript translation files
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script> -->
 
-
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="jquery/jquery-3.0.0.min.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="localization.local" var="loc" />
+<fmt:message bundle="${loc}" key="local.signIn" var="signIn" />
+<fmt:message bundle="${loc}" key="local.singUp" var="singUp" />
+<%-- <fmt:message bundle="${loc}" key="local.logOut" var="logOut" /> --%>
+
+<fmt:message bundle="${loc}" key="local.searchVacancies" var="searchVacancies" />
+<fmt:message bundle="${loc}" key="local.searchResumes" var="searchResumes" />
+<fmt:message bundle="${loc}" key="local.welcomeToHR" var="welcomeToHR" />
+<fmt:message bundle="${loc}" key="local.countResumes" var="countResumes" />
+<fmt:message bundle="${loc}" key="local.countVacancies" var="countVacancies" />
+<fmt:message bundle="${loc}" key="local.countCompanies" var="countCompanies" />
+
+<fmt:message bundle="${loc}" key="local.look" var="look" />
+<fmt:message bundle="${loc}" key="local.ru" var="ru" />
+<fmt:message bundle="${loc}" key="local.en" var="en" />
+<fmt:message bundle="${loc}" key="local.createResume" var="createResume" />
+<fmt:message bundle="${loc}" key="local.createVacancy" var="createVacancy" />
+<fmt:message bundle="${loc}" key="local.search" var="search" />
+
+<fmt:message bundle="${loc}" key="local.enterName" var="enterName" />
+<fmt:message bundle="${loc}" key="local.enterSurname" var="enterSurname" />
+<fmt:message bundle="${loc}" key="local.enterPatronymic" var="enterPatronymic" />
+<fmt:message bundle="${loc}" key="local.enterDateOfBirthday" var="enterDateOfBirthday" />
+<fmt:message bundle="${loc}" key="local.enterEmail" var="enterEmail" />
+<fmt:message bundle="${loc}" key="local.enterPhone" var="enterPhone" />
+<fmt:message bundle="${loc}" key="local.enterLogin" var="enterLogin" />
+<fmt:message bundle="${loc}" key="local.enterPassword" var="enterPassword" />
+<fmt:message bundle="${loc}" key="local.repeatPassword" var="repeatPassword" />
+<fmt:message bundle="${loc}" key="local.cancel" var="cancel" />
+<fmt:message bundle="${loc}" key="local.applicant" var="applicant" />
+<fmt:message bundle="${loc}" key="local.employer" var="employer" />
+
 <title>HR System</title>
 </head>
 <body>
@@ -37,56 +71,67 @@ Latest compiled and minified JavaScript
 					<li role="presentation" class="dropdown"><a
 						class="dropdown-toggle dropdown-button-color"
 						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-						aria-expanded="false"> Поиск <span class="caret"></span>
+						aria-expanded="false"> ${search} <span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu dropdown-button-style">
-							<li><a href="searchingVacancy.html">Поиск вакансий</a></li>
-							<li><a href="searchingResume.html">Поиск резюме</a></li>
+							<li><a href="searchingVacancy.html">${searchVacancies}</a></li>
+							<li><a href="searchingResume.html">${searchResumes}</a></li>
 						</ul></li>
 				</ul>
 			</div>
 
 			<div id="navbar" class="navbar-collapse collapse">
-				<form class="navbar-form navbar-right">
-					<div class="form-group">
-						<input type="text" placeholder="Login" class="form-control"
-							name="login">
-					</div>
-					<div class="form-group">
-						<input type="password" placeholder="Password" class="form-control"
-							name="password">
-					</div>
-					<button type="submit" class="btn btn-success">Войти</button>
-					<a href="#popup-registration" class="btn btn-success">Регистрация</a>
-				</form>
+				<div class="navbar-right">
+
+					<form class="navbar-form" action="ControllerServlet" method="post">
+					<input name="command" value="authorization" type="hidden" />
+						<div class="form-group">
+							<input type="text" placeholder="Login" class="form-control"
+								name="login" value="">
+						</div>
+						<div class="form-group">
+							<input type="password" placeholder="Password"
+								class="form-control" name="password" value="">
+						</div>
+						<button type="submit" class="btn btn-success"> ${signIn} </button>
+						<a href="#popup-registration" class="btn btn-success"> ${singUp} </a>
+					</form>
+				</div>
+				<div class="navbar-right">
+					<form class="navbar-form" action="ControllerServlet" method="post">
+						<input name="command" value="change-local" type="hidden" />
+						<button type="submit" class="btn btn-link" name="local" value="en"> ${en}</button>
+						<button type="submit" class="btn btn-link" name="local" value="ru"> ${ru}</button>
+					</form>
+				</div>
 			</div>
 		</div>
 	</nav>
 	<!-- BACKGROUNG IMAGE -->
 	<div class="container jumbotron background-img">
 		<div class="topic-button-placing">
-			<h2 class="page-header">Добро пожаловать в систему HR</h2>
+			<h2 class="page-header">${welcomeToHR}</h2>
 			<a href="creatingResume.html"
 				class="btn btn-success button-img-placing"> <!-- <button type="submit">Создать
-				резюме</button> -->Создать резюме
+				резюме</button> --> ${createResume}
 			</a> <a class="btn btn-success button-img-placing"
-				href="creatingVacancy.html"> <!-- <button type="submit" class="btn btn-success button-img-placing">  -->Создать
-				вакансию<!-- </button> -->
+				href="creatingVacancy.html"> <!-- <button type="submit" class="btn btn-success button-img-placing">  -->
+				${createVacancy}<!-- </button> -->
 			</a>
 		</div>
 		<div class="vertical-line"></div>
 
 		<div class="mark-informtion">
 			<div class="number-value">50</div>
-			<div class="text-value">Резюме</div>
+			<div class="text-value">${countResumes}</div>
 		</div>
 		<div class="mark-informtion">
 			<div class="number-value">68</div>
-			<div class="text-value">Вакансий</div>
+			<div class="text-value">${countVacancies}</div>
 		</div>
 		<div class="mark-informtion">
 			<div class="number-value">40</div>
-			<div class="text-value">Компаний</div>
+			<div class="text-value">${countCompanies}</div>
 		</div>
 	</div>
 	<!-- LIST VACANCIES -->
@@ -101,7 +146,7 @@ Latest compiled and minified JavaScript
 							elit non mi porta gravida at eget metus. Nullam id dolor id nibh
 							ultricies vehicula ut id elit.</p>
 
-						<a href="resume.html" class="btn btn-success" role="button">Просмотреть</a>
+						<a href="resume.html" class="btn btn-success" role="button">${look}</a>
 
 					</div>
 				</div>
@@ -116,7 +161,7 @@ Latest compiled and minified JavaScript
 							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
 							dolor id nibh ultricies vehicula ut id elit.</p>
 
-						<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+						<a href="#" class="btn btn-success" role="button">${look}</a>
 
 					</div>
 				</div>
@@ -131,7 +176,7 @@ Latest compiled and minified JavaScript
 							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
 							dolor id nibh ultricies vehicula ut id elit.</p>
 
-						<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+						<a href="#" class="btn btn-success" role="button">${look}</a>
 
 					</div>
 				</div>
@@ -148,7 +193,7 @@ Latest compiled and minified JavaScript
 							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
 							dolor id nibh ultricies vehicula ut id elit.</p>
 
-						<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+						<a href="#" class="btn btn-success" role="button">${look}</a>
 
 					</div>
 				</div>
@@ -163,7 +208,7 @@ Latest compiled and minified JavaScript
 							quam. Donec id elit non mi porta gravida at eget metus. Nullam id
 							dolor id nibh ultricies vehicula ut id elit.</p>
 
-						<a href="#" class="btn btn-success" role="button">Просмотреть</a>
+						<a href="#" class="btn btn-success" role="button">${look}</a>
 
 					</div>
 				</div>
@@ -192,76 +237,77 @@ Latest compiled and minified JavaScript
 
 		</c:if>
 
-		<input name="command" value="REGISTRATION" type="hidden" />
+		<input name="command" value="registration" type="hidden" />
 
 		<div class="form-group">
-			<label for="name">Введите имя:</label> <input type="text"
-				class="form-control" placeholder="Enter name" id="name" name="name" required>
+			<label for="name">*${enterName}:</label> <input type="text"
+				class="form-control" placeholder="Enter name" id="name" name="name"
+				required>
 		</div>
 
 		<div class="form-group">
-			<label for="surname">Введите фамилию:</label> <input type="text"
+			<label for="surname">*${enterSurname}:</label> <input type="text"
 				class="form-control" placeholder="Enter surname" id="surname"
 				name="surname" required>
 		</div>
 
 		<div class="form-group">
-			<label for="patronymic">Введите отчество:</label> <input type="text"
+			<label for="patronymic">${enterPatronymic}:</label> <input type="text"
 				class="form-control" placeholder="Enter patronymic" id="patronymic"
 				name="patronymic">
 		</div>
 
 		<div class="form-group">
-			<label for="email">Введите email:</label> <input type="email"
+			<label for="email">*${enterEmail}:</label> <input type="email"
 				class="form-control" placeholder="Enter email" id="email"
 				name="email" required>
 		</div>
 
 		<div class="form-group">
-			<label for="dateOfBirthday">Введите дату рождения:</label> <input
+			<label for="dateOfBirthday">*${enterDateOfBirthday}:</label> <input
 				type="date" class="form-control"
 				placeholder="Enter date of birthday" id="dateOfBirthday"
 				name="dateOfBirthday" required>
 		</div>
 
 		<div class="form-group">
-			<label for="phoneNumber">Введите номер телефона:</label> <input
+			<label for="phoneNumber">${enterPhone}:</label> <input
 				type="text" class="form-control" placeholder="Enter phone number"
 				id="phoneNumber" name="phoneNumber">
 		</div>
 
 		<div class="form-group">
-			<label for="patronymic">Введите логин:</label> <input type="text"
+			<label for="patronymic">*${enterLogin}:</label> <input type="text"
 				class="form-control" placeholder="Enter login" id="login"
 				pattern="[\w]+" name="login" required>
 		</div>
 
 		<div class="form-group">
-			<label for="pwd">Введите пароль:</label> <input type="password"
+			<label for="pwd">* ${enterPassword}: </label> <input type="password"
 				class="form-control" placeholder="Enter password" id="pwd"
 				name="password" required>
 		</div>
 
 		<div class="form-group">
-			<label for="pwd-repeat">Повторите пароль:</label> <input
+			<label for="pwd-repeat">*${repeatPassword}:</label> <input
 				type="password" class="form-control" placeholder="Repeat password"
 				id="pwd-repeat" name="repeatedPassword" required>
 		</div>
 
 		<div class="form-group">
 			<select class="selectpicker" name="role">
-				<option>Соискатель</option>
-				<option>Работадатель</option>
+				<option> ${applicant} </option>
+				<option> ${employer} </option>
 			</select>
 		</div>
-		<button type="submit" class="btn btn-success">Зарегистрироваться</button>
-		<a href="index.html" class="btn btn-success">Отмена</a>
+		<button type="submit" class="btn btn-success"> ${singUp} </button>
+		<a href="index.jsp" class="btn btn-success"> ${cancel} </a>
 	</form>
 	</div>
 
 	<!-- FOOTER -->
 	<footer>
-	 <jsp:include page="footer.jsp"/>
+		<jsp:include page="footer.jsp" />
 	</footer>
 </body>
 </html>

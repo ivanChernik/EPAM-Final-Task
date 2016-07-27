@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import by.epam.tc.hr_system.command.ICommand;
+import by.epam.tc.hr_system.command.impl.AuthorizationCommand;
+import by.epam.tc.hr_system.command.impl.ChangeLocalCommand;
 import by.epam.tc.hr_system.command.impl.RegistrationCommand;
 
 public class CommandHelper {
@@ -12,6 +14,8 @@ public class CommandHelper {
 	
 	private CommandHelper(){
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());
+		commands.put(CommandName.CHANGE_LOCAL, new ChangeLocalCommand());
+		commands.put(CommandName.AUTHORIZATION, new AuthorizationCommand());
 	}
 	
 	public ICommand getCommand(String name) {

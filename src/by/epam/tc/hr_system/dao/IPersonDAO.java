@@ -14,6 +14,8 @@ public interface IPersonDAO {
 	boolean removePersonByID(int idUser) throws DAOException;
 
 	boolean updatePersonInformation(Person person) throws DAOException;
+	
+	Person authorizePerson(String login, String password) throws DAOException;
 
 	Person searchPersonByEmail(String email) throws DAOException;
 
