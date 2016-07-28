@@ -6,6 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import by.epam.tc.hr_system.exception.CommandException;
 
 public interface ICommand {
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException;
+	public void execute(HttpServletRequest request, HttpServletResponse response);
 
 }

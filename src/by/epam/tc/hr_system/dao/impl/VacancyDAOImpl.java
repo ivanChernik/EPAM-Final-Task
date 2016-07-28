@@ -23,11 +23,10 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	private static final String SQL_UPDATE_VACANCY = "UPDATE `hr-system`.`vacancy` SET `name`= ?, `description`= ?, `requirement`=?, `company`= ?, `salary`= ?, `date_of_submission`=?, `status`=?, `id_hr`= ? WHERE `id_vacancy`= ?;";
 
 	private static final Logger log = Logger.getLogger(VacancyDAOImpl.class);
-	private ConnectionPool connectionPool;
 
 	@Override
 	public boolean addVacancy(Vacancy vacancy, int idHR) throws DAOException {
-
+		ConnectionPool connectionPool = null;
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
@@ -71,7 +70,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 
 	@Override
 	public boolean updateVacancy(Vacancy vacancy, int idHR) throws DAOException {
-
+		ConnectionPool connectionPool = null;
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
@@ -116,7 +115,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 
 	@Override
 	public boolean removeVacancy(int idVacancy) throws DAOException {
-
+		ConnectionPool connectionPool = null;
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
@@ -154,6 +153,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	@Override
 	public int getCountVacancies() throws DAOException {
 		int countVacancies = 0;
+		ConnectionPool connectionPool = null;
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
@@ -187,6 +187,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	@Override
 	public int getCountResumes() throws DAOException {
 		int countResumes = 0;
+		ConnectionPool connectionPool = null;
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
@@ -220,6 +221,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	@Override
 	public int getCountCompanies() throws DAOException {
 		int countCompanies = 0;
+		ConnectionPool connectionPool = null;
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {

@@ -23,7 +23,7 @@ public class RegistrationCommand implements ICommand {
 	private static final Logger log = Logger.getLogger(RegistrationCommand.class);
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
 			HttpSession session = request.getSession(true);
@@ -62,16 +62,13 @@ public class RegistrationCommand implements ICommand {
 				request.setAttribute("errorMessage", errorMessage);
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
-				// throw new CommandException("Error registeration login,
-				// password, role");
 			} finally {
 				session.setAttribute("person", person);
 			}
 
 			if (person.getRole().equals(Person.APPLICANT_ROLE)) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE_APPLICANT).forward(request, response);
-			}
-			if (person.getRole().equals(Person.HR_ROLE)) {
+			} else if (person.getRole().equals(Person.HR_ROLE)) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE_HR).forward(request, response);
 			}
 

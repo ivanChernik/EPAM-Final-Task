@@ -35,6 +35,8 @@ Latest compiled and minified JavaScript
 
 <fmt:message bundle="${loc}" key="local.searchVacancies" var="searchVacancies" />
 <fmt:message bundle="${loc}" key="local.searchResumes" var="searchResumes" />
+<fmt:message bundle="${loc}" key="local.search" var="search" />
+
 <fmt:message bundle="${loc}" key="local.welcomeToHR" var="welcomeToHR" />
 <fmt:message bundle="${loc}" key="local.countResumes" var="countResumes" />
 <fmt:message bundle="${loc}" key="local.countVacancies" var="countVacancies" />
@@ -45,7 +47,7 @@ Latest compiled and minified JavaScript
 <fmt:message bundle="${loc}" key="local.en" var="en" />
 <fmt:message bundle="${loc}" key="local.createResume" var="createResume" />
 <fmt:message bundle="${loc}" key="local.createVacancy" var="createVacancy" />
-<fmt:message bundle="${loc}" key="local.search" var="search" />
+
 
 <fmt:message bundle="${loc}" key="local.enterName" var="enterName" />
 <fmt:message bundle="${loc}" key="local.enterSurname" var="enterSurname" />

@@ -29,12 +29,7 @@ public class ControllerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String commandName = request.getParameter(COMMAND);
 		ICommand command  = CommandHelper.getInstance().getCommand(commandName);	
-		
-		try {
-			command.execute(request, response);
-		} catch (CommandException e) {
-			e.printStackTrace();
-		}
+		command.execute(request, response);
 	}
 
 }
