@@ -5,7 +5,8 @@
 	type="text/css">
 <link rel="stylesheet" href="myStyle/create.css" type="text/css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="jquery/jquery-3.0.0.min.js"></script>
 <meta charset="UTF-8">
@@ -18,9 +19,9 @@
 				<ul class="nav nav-tabs">
 					<li><a class="navbar-brand" href="index.html">HR System</a></li>
 					<li role="presentation" class="dropdown"><a
-						class="dropdown-toggle dropdown-button-color" data-toggle="dropdown" href="#"
-						role="button" aria-haspopup="true" aria-expanded="false">
-							Поиск <span class="caret"></span>
+						class="dropdown-toggle dropdown-button-color"
+						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+						aria-expanded="false"> Поиск <span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu dropdown-button-style">
 							<li><a href="searchingVacancy.html">Поиск вакансий</a></li>
@@ -36,51 +37,66 @@
 		</div>
 	</nav>
 	<section class="section-information">
-		<form role="form">
-			<div class="form-group">
-				<label for="title-vacancy">Заголовок вакансии:</label> <input
-					type="text" placeholder="Vacancy title" class="form-control"
-					id="title-vacancy" pattern="[\w]+">
-			</div>
-			<div class="form-group">
-				<label for="title-vacancy">Название компании:</label> <input
-					type="text" placeholder="Company name" class="form-control"
-					id="title-vacancy" pattern="[\w]+">
+		<form role="form" method="post" action="ControllerServlet">
+
+			<div class="thumbnail input-information">
+				<div class="form-group">
+					<label for="titleVacancy">Заголовок вакансии:</label> <input
+						type="text" placeholder="Vacancy title" class="form-control"
+						id="titleVacancy" pattern="[\w]+" name="titleVacancy">
+				</div>
+				<div class="form-group">
+					<label for="companyName">Название компании:</label> <input
+						type="text" placeholder="Company name" class="form-control"
+						id="companyName" pattern="[\w]+" name="companyName">
+				</div>
+
+				<div class="form-group">
+					<label for="contactData">Контактные данные:</label> <input
+						type="text" placeholder="Contact company" class="form-control"
+						id="contactData" name="contactData">
+				</div>
+
+				<div class="form-group">
+					<select class="selectpicker" name="employment">
+						<option>Полная занятость</option>
+						<option>Частичная занятость</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label for="shortDescription">Частичное описание:</label>
+					<textarea class="form-control" placeholder="Description" rows="5"
+						id="shortDescription" name="shortDescription"></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="description">Полное описание:</label>
+					<textarea class="form-control" placeholder="Description" rows="5"
+						id="description" name="description"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="requirement">Требования:</label>
+					<textarea class="form-control" placeholder="Requirements" rows="5"
+						id="requirement" name="requirement"></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="salary">Уровень оплаты:</label> <input type="text"
+						placeholder="Salary" class="form-control" id="salary"
+						name="salary">
+				</div>
 			</div>
 
-			<div class="form-group">
-				<label for="address-vacancy">Адрес компании:</label> <input
-					type="text" placeholder="Company address" class="form-control"
-					id="title-vacancy" id="address-vacancy">
-			</div>
-			
-			<div class="form-group dropdown">
-				<button class="btn  btn-success dropdown-toggle" type="button"
-					data-toggle="dropdown">Занятость <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<li><a href="#">Полная занятость</a></li>
-					<li><a href="#">Частичная занятость</a></li>
-				</ul>
-			</div>
-
-			<div class="form-group">
-				<label for="description">Описание:</label>
-				<textarea class="form-control" placeholder="Description" rows="5"
-					id="description"></textarea>
-			</div>
-			<div class="form-group">
-				<label for="requirement">Требования:</label>
-				<textarea class="form-control" placeholder="Requirements" rows="5"
-					id="requirement"></textarea>
-			</div>
-
-			<button type="submit" name="createVacancy"  class="btn btn-success">Создать
+			<button type="submit" name="createVacancy" class="btn btn-success">Создать
 				вакансию</button>
 		</form>
 	</section>
 	<footer>
-		<p class="text-footer">© 2016 EPAM Training Center, HR System.  <a href="siteMap.html"> Карта сайта</a></p>
+		<p class="text-footer">
+			© 2016 EPAM Training Center, HR System. <a href="siteMap.html">
+				Карта сайта</a>
+		</p>
 	</footer>
 
 </body>

@@ -18,7 +18,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	private static final String SQL_SELECT_COUNT_COMPANIES = "SELECT COUNT(distinct company) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_COUNT_RESUMES = "SELECT COUNT(id_user) FROM `hr-system`.user WHERE `role` = 'applicant';";
 	private static final String SQL_SELECT_COUNT_VACANCIES = "SELECT count(id_vacancy) FROM `hr-system`.vacancy;";
-	private static final String SQL_ADD_NEW_VACANCY = "INSERT INTO `hr-system`.`vacancy` (`name`, `description`, `requirement`, `company`, `salary`,  `date_of_submission`, `status`, `id_hr`) VALUES (?, ?, ?, ?, ?, ?, ?,?);";
+	private static final String SQL_ADD_NEW_VACANCY = "INSERT INTO `hr-system`.`vacancy` (`id_hr`, `name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description`) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String SQL_DELETE_VACANCY = "DELETE FROM `hr-system`.`vacancy` WHERE  `id_vacancy`= ?;";
 	private static final String SQL_UPDATE_VACANCY = "UPDATE `hr-system`.`vacancy` SET `name`= ?, `description`= ?, `requirement`=?, `company`= ?, `salary`= ?, `date_of_submission`=?, `status`=?, `id_hr`= ? WHERE `id_vacancy`= ?;";
 
@@ -40,16 +40,17 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		try {
 			connection = connectionPool.takeConnection();
 			addVacancyPS = connection.prepareStatement(SQL_ADD_NEW_VACANCY);
-
-			addVacancyPS.setString(1, vacancy.getName());
-			addVacancyPS.setString(2, vacancy.getDescrption());
-			addVacancyPS.setString(3, vacancy.getRequirement());
-			addVacancyPS.setString(4, vacancy.getCompany());
+			addVacancyPS.setInt(1, idHR);
+			addVacancyPS.setString(2, vacancy.getName());
+			addVacancyPS.setString(3, vacancy.getDescrption());
+			addVacancyPS.setString(4, vacancy.getRequirement());
 			addVacancyPS.setInt(5, vacancy.getSalary());
 			addVacancyPS.setDate(6, vacancy.getDateSubmission());
 			addVacancyPS.setString(7, vacancy.getStatus());
-			addVacancyPS.setInt(8, idHR);
-
+			addVacancyPS.setString(8, vacancy.getCompanyName());
+			addVacancyPS.setString(9, vacancy.getContactInformation());
+			addVacancyPS.setString(10, vacancy.getEmployment());
+			addVacancyPS.setString(11, vacancy.getShortDescription());
 			addVacancyPS.executeUpdate();
 			result = true;
 		} catch (SQLException | ConnectionPoolException e) {
@@ -88,7 +89,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			updateVacancyPS.setString(1, vacancy.getName());
 			updateVacancyPS.setString(2, vacancy.getDescrption());
 			updateVacancyPS.setString(3, vacancy.getRequirement());
-			updateVacancyPS.setString(4, vacancy.getCompany());
+			updateVacancyPS.setString(4, vacancy.getCompanyName());
 			updateVacancyPS.setInt(5, vacancy.getSalary());
 			updateVacancyPS.setDate(6, vacancy.getDateSubmission());
 			updateVacancyPS.setString(7, vacancy.getStatus());

@@ -17,6 +17,7 @@ public class UserServiceImpl implements IUserService {
 	private static final String APPLICANT_EN = "Applicant";
 	private static final String HR_RU = "Работадатель";
 	private static final String APPLICANT_RU = "Соискатель";
+	
 	private static final Logger log = Logger.getLogger(UserServiceImpl.class);
 
 	@Override

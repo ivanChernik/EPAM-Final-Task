@@ -11,15 +11,15 @@ import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.domain.Person;
-import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.PageName;
-import by.epam.tc.hr_system.util.UserData;
+import by.epam.tc.hr_system.util.UserParameter;
 
 public class RegistrationCommand implements ICommand {
 
+	private static final String ERROR_REGISTRATION = "Error registration";
 	private static final Logger log = Logger.getLogger(RegistrationCommand.class);
 
 	@Override
@@ -28,17 +28,17 @@ public class RegistrationCommand implements ICommand {
 		try {
 			HttpSession session = request.getSession(true);
 
-			String login = request.getParameter(UserData.USER_LOGIN);
-			String password = request.getParameter(UserData.USER_PASSWORD);
-			String repeatedPassword = request.getParameter(UserData.USER_REPEATED_PASSWORD);
-			String role = request.getParameter(UserData.USER_ROLE);
+			String login = request.getParameter(UserParameter.LOGIN);
+			String password = request.getParameter(UserParameter.PASSWORD);
+			String repeatedPassword = request.getParameter(UserParameter.REPEATED_PASSWORD);
+			String role = request.getParameter(UserParameter.ROLE);
 
-			String name = request.getParameter(UserData.USER_NAME);
-			String surname = request.getParameter(UserData.USER_SURNAME);
-			String patronymic = request.getParameter(UserData.USER_PATRONYMIC);
-			String email = request.getParameter(UserData.USER_EMAIL);
-			String phoneNumber = request.getParameter(UserData.USER_PHONE_NUMBER);
-			String dateOfBirthday = request.getParameter(UserData.USER_DATE_OF_BIRTHDAY);
+			String name = request.getParameter(UserParameter.NAME);
+			String surname = request.getParameter(UserParameter.SURNAME);
+			String patronymic = request.getParameter(UserParameter.PATRONYMIC);
+			String email = request.getParameter(UserParameter.EMAIL);
+			String phoneNumber = request.getParameter(UserParameter.PHONE_NUMBER);
+			String dateOfBirthday = request.getParameter(UserParameter.DATE_OF_BIRTHDAY);
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
@@ -53,13 +53,19 @@ public class RegistrationCommand implements ICommand {
 
 				if (e.getMessage().equals(IUserService.MESSAGE_INVALID_PASSWORD)) {
 					errorMessage = IUserService.MESSAGE_INVALID_PASSWORD;
+					request.setAttribute("errorMessage", errorMessage);
+					request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+					return;
 				}
 
 				if (e.getMessage().equals(IUserService.MESSAGE_LOGIN_ALREADY_EXISTS)) {
 					errorMessage = IUserService.MESSAGE_LOGIN_ALREADY_EXISTS;
+					request.setAttribute("errorMessage", errorMessage);
+					request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+					return;
 				}
 
-				request.setAttribute("errorMessage", errorMessage);
+				request.setAttribute("errorMessage", ERROR_REGISTRATION);
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
 			} finally {

@@ -15,7 +15,7 @@ import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.PageName;
-import by.epam.tc.hr_system.util.UserData;
+import by.epam.tc.hr_system.util.UserParameter;
 
 public class AuthorizationCommand implements ICommand {
 
@@ -26,8 +26,8 @@ public class AuthorizationCommand implements ICommand {
 		try {
 			HttpSession session = request.getSession(true);
 
-			String login = request.getParameter(UserData.USER_LOGIN);
-			String password = request.getParameter(UserData.USER_PASSWORD);
+			String login = request.getParameter(UserParameter.LOGIN);
+			String password = request.getParameter(UserParameter.PASSWORD);
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 

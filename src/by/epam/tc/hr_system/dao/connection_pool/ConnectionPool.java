@@ -52,11 +52,6 @@ public final class ConnectionPool {
 	}
 
 	public static ConnectionPool getInstance() throws ConnectionPoolException {
-//		try {
-//			instance.initConnectionPool();
-//		} catch (ConnectionPoolException e) {
-//			throw e;
-//		}
 		return instance;
 	}
 
