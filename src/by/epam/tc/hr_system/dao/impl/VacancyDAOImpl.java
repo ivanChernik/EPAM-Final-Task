@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -15,9 +17,21 @@ import by.epam.tc.hr_system.exception.DAOException;
 
 public class VacancyDAOImpl implements IVacancyDAO {
 
+	private static final String SQL_SHORT_DESCRIPTION = "short_description";
+	private static final String SQL_TYPE_EMPLOYMENT = "type_employment";
+	private static final String SQL_CONTACT_INFORMATION = "contact_information";
+	private static final String SQL_COMPANY_NAME = "company_name";
+	private static final String SQL_STATUS = "status";
+	private static final String SQL_DATE_OF_SUBMISSION = "date_of_submission";
+	private static final String SQL_SALARY = "salary";
+	private static final String SQL_REQUIREMENT = "requirement";
+	private static final String SQL_DESCRIPTION = "description";
+	private static final String SQL_NAME = "name";
 	private static final String SQL_SELECT_COUNT_COMPANIES = "SELECT COUNT(distinct company) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_COUNT_RESUMES = "SELECT COUNT(id_user) FROM `hr-system`.user WHERE `role` = 'applicant';";
 	private static final String SQL_SELECT_COUNT_VACANCIES = "SELECT count(id_vacancy) FROM `hr-system`.vacancy;";
+	private static final String SQL_SELECT_HR_VACANCY = "SELECT `name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_hr` = ?;";
+
 	private static final String SQL_ADD_NEW_VACANCY = "INSERT INTO `hr-system`.`vacancy` (`id_hr`, `name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description`) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String SQL_DELETE_VACANCY = "DELETE FROM `hr-system`.`vacancy` WHERE  `id_vacancy`= ?;";
 	private static final String SQL_UPDATE_VACANCY = "UPDATE `hr-system`.`vacancy` SET `name`= ?, `description`= ?, `requirement`=?, `company`= ?, `salary`= ?, `date_of_submission`=?, `status`=?, `id_hr`= ? WHERE `id_vacancy`= ?;";
@@ -149,6 +163,61 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public List<Vacancy> getHRVacancies(int idHR) throws DAOException {
+		List<Vacancy> vacancyList = null;
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+		Connection connection = null;
+		PreparedStatement searchHRVacancyPS = null;
+		try {
+			connection = connectionPool.takeConnection();
+			searchHRVacancyPS = connection.prepareStatement(SQL_SELECT_HR_VACANCY);
+			vacancyList = getVacancyList(searchHRVacancyPS.executeQuery());
+
+		} catch (SQLException | ConnectionPoolException e) {
+			log.error("Error computing count vacancies", e);
+			throw new DAOException("Error computing count vacancies", e);
+		}
+
+		finally {
+			try {
+				searchHRVacancyPS.close();
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException("Error closing connection or statements", e);
+			}
+		}
+
+		return vacancyList;
+	}
+
+	private List<Vacancy> getVacancyList(ResultSet rs) throws SQLException {
+		List<Vacancy> vacancyList = new ArrayList<Vacancy>();
+		
+		while(rs.next()){
+			Vacancy vacancy = new Vacancy();
+			vacancy.setName(rs.getString(SQL_NAME));
+			vacancy.setDescrption(rs.getString(SQL_DESCRIPTION));
+			vacancy.setShortDescription(SQL_SHORT_DESCRIPTION);
+			vacancy.setRequirement(rs.getString(SQL_REQUIREMENT));
+			vacancy.setSalary(rs.getInt(SQL_SALARY));
+			vacancy.setDateSubmission(rs.getDate(SQL_DATE_OF_SUBMISSION));
+			vacancy.setStatus(rs.getString(SQL_STATUS));
+			vacancy.setCompanyName(rs.getString(SQL_COMPANY_NAME));
+			vacancy.setContactInformation(rs.getString(SQL_CONTACT_INFORMATION));
+			vacancy.setEmployment(rs.getString(SQL_TYPE_EMPLOYMENT));
+			vacancyList.add(vacancy);
+		}
+		return vacancyList;
+
 	}
 
 	@Override

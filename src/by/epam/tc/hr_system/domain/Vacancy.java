@@ -8,6 +8,9 @@ public class Vacancy implements Serializable {
 	public static final String OPEN_STATUS = "open";
 	public static final String CLOSE_STATUS = "close";
 	
+	public static final String FULL_TIME = "full-time";
+	public static final String PART_TIME = "part-time";
+
 	private int id;
 	private String name;
 	private String descrption;

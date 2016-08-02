@@ -3,8 +3,7 @@
 <head>
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
 	type="text/css">
-<link rel="stylesheet" href="myStyle/create.css"
-	type="text/css">
+<link rel="stylesheet" href="myStyle/create.css" type="text/css">
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -20,9 +19,9 @@
 				<ul class="nav nav-tabs">
 					<li><a class="navbar-brand" href="index.html">HR System</a></li>
 					<li role="presentation" class="dropdown"><a
-						class="dropdown-toggle dropdown-button-color" data-toggle="dropdown" href="#"
-						role="button" aria-haspopup="true" aria-expanded="false">
-							Поиск <span class="caret"></span>
+						class="dropdown-toggle dropdown-button-color"
+						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+						aria-expanded="false"> Поиск <span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu dropdown-button-style">
 							<li><a href="searchingVacancy.html">Поиск вакансий</a></li>
@@ -37,151 +36,165 @@
 			</div>
 		</div>
 	</nav>
-	<section class="section-information">
-		<form role="form">
+	<section class="section-information" >
+		<form action="ControllerServlet" role="form" method="post" enctype="multipart/form-data">
+
+			<input type="hidden" name="command" value="create-resume">
 			<div class="thumbnail input-information">
 				<h4 class="page-header resume-item-header">Общая информация</h4>
 				<div class="form-group">
 					<label for="position">Желаемая должность:</label> <input
 						type="text" placeholder="Position" class="form-control"
-						id="position" pattern="[\w]+">
+						id="position" pattern="[\w]+" name="position">
+				</div>
+
+				<div class="form-group">
+					<label for="photo">Загрузите фото:</label> <input type="file"
+						name="photo" id="photo" accept="image/jpeg">
 				</div>
 
 				<div class="form-group">
 					<label for="prof-infirmation">Профессиональная информация:</label>
 					<textarea class="form-control"
 						placeholder="Professional information" rows="5"
-						id="prof-infirmation"></textarea>
+						id="prof-infirmation" name="prof-infirmation"></textarea>
 				</div>
 				<div class="form-group">
 					<label for="skill">Навыки:</label>
 					<textarea class="form-control" placeholder="Skills" rows="5"
-						id="skill"></textarea>
+						id="skill" name="skill"></textarea>
 				</div>
 			</div>
 
 			<div class="thumbnail input-information">
 				<h4 class="page-header resume-item-header">Информация об
 					образовании</h4>
-					
-				<div class="form-group dropdown">
-						<button class="btn  btn-success dropdown-toggle" type="button"
-							data-toggle="dropdown">
-							Образование <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-							<li><a href="#">Высшее</a></li>
-							<li><a href="#">Неоконченное высшее</a></li>
-							<li><a href="#">Средне-специальное</a></li>
-							<li><a href="#">Среднее</a></li>
-							<li><a href="#">Профессионально-техническое</a></li>
-						</ul>
-					</div>
-				
+
+				<div class="form-group">
+					<select class="selectpicker" name="kind-education">
+						<option>Высшее</option>
+						<option>Неоконченное высшее</option>
+						<option>Средне-специальное</option>
+						<option>Среднее</option>
+						<option>Профессионально-техническое</option>
+					</select>
+				</div>
+
+
 				<div class="form-group">
 					<label for="university">Название учреждения образования:</label> <input
 						type="text" placeholder="University" class="form-control"
-						id="university">
+						id="university" name="university">
 				</div>
 
 				<div class="form-group">
 					<label for="faculty">Название факультета:</label> <input
 						type="text" placeholder="Faculty" class="form-control"
-						id="faculty">
+						id="faculty" name="faculty">
 				</div>
 
 				<div class="form-group">
 					<label for="specialty">Название специальности:</label> <input
 						type="text" placeholder="Specialty" class="form-control"
-						id="specialty">
+						id="specialty" name="specialty">
 				</div>
 
-				<div class="form-group dropdown">
-					<button class="btn  btn-success dropdown-toggle" type="button"
-						data-toggle="dropdown">
-						Вид обучения <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						<li><a href="#">Дневное отделение</a></li>
-						<li><a href="#">Заочное отделение</a></li>
-						<li><a href="#">Дистанционное отделение</a></li>
-					</ul>
+
+				<div class="form-group">
+					<select class="selectpicker" name="form-education">
+						<option>Дневное отделение</option>
+						<option>Заочное отделение</option>
+						<option>Дистанционное отделение</option>
+					</select>
 				</div>
-				
+
 				<div class="form-group">
 					<label for="period-education">Период обучения:</label> <input
-						type="text" placeholder="From - To" class="form-control"
-						id="period-education">
+						type="date" placeholder="From" class="form-control"
+						id="period-education" name="educationFrom">
+				</div>
+
+				<div class="form-group">
+					<input type="date" placeholder="From" class="form-control"
+						id="period-education" name="educationTo">
 				</div>
 
 				<div class="form-group">
 					<label for="education-description">Описание:</label>
 					<textarea class="form-control" placeholder="Description education"
-						rows="5" id="education-description"></textarea>
+						rows="5" id="education-description" name="education-description"></textarea>
 				</div>
 			</div>
 
 			<div class="thumbnail input-information">
 				<h4 class="page-header resume-item-header">Опыт</h4>
 				<div class="form-group">
-					<label for="previos-position">Должность:</label> <input
-						type="text" placeholder="Previos position" class="form-control"
-						id="previos-position">
+					<label for="previos-position">Должность:</label> <input type="text"
+						placeholder="Previos position" class="form-control"
+						id="previos-position" name="previos-position">
 				</div>
-				
+
 				<div class="form-group">
-					<label for="period-work">Период работы:</label> <input
-						type="text" placeholder="From - To" class="form-control"
-						id="period-work">
+					<label for="period-work">Период работы:</label> <input type="date"
+						placeholder="From" class="form-control" id="workFrom"
+						name="workFrom">
+				</div>
+
+				<div class="form-group">
+					<input type="date" placeholder="To" class="form-control"
+						id="period-work" name="workTo">
 				</div>
 
 				<div class="form-group">
 					<label for="work-description">Описание:</label>
-					<textarea class="form-control" placeholder="Description previos work"
-						rows="5" id="work-description"></textarea>
+					<textarea class="form-control"
+						placeholder="Description previos work" rows="5"
+						id="work-description" name="work-description"></textarea>
 				</div>
-				
+
 			</div>
-		
+
 			<div class="thumbnail input-information">
 				<div class="form-group">
 					<h4 class="page-header resume-item-header">Контактная
 						информация</h4>
 					<label for="phone">Контактный телефон:</label> <input type="text"
-						placeholder="Phone" class="form-control" id="phone">
+						placeholder="Phone" class="form-control" id="phone" name="phone">
 				</div>
 
 				<div class="form-group">
 					<label for="email">Контактный email:</label> <input type="email"
-						class="form-control" id="email" placeholder="Email">
+						class="form-control" id="email" placeholder="Email" name="email">
 				</div>
 
 				<div class="form-group">
 					<label for="address">Адрес:</label> <input type="text"
-						class="form-control" id="address" placeholder="Address">
+						class="form-control" id="address" placeholder="Address"
+						name="address">
 				</div>
 
 				<div class="form-group">
 					<label for="google-plus">Ссылка Google+:</label> <input type="text"
-						class="form-control" id="google-plus" placeholder="Google+">
+						class="form-control" id="google-plus" name="link-google-plus"
+						placeholder="Google+">
 				</div>
 
 
 				<div class="form-group">
 					<label for="link-linkedin">Ссылка LinkedIn:</label> <input
 						type="text" class="form-control" id="link-linkedin"
-						placeholder="LinkedIn">
+						name="link-linkedin" placeholder="LinkedIn">
 				</div>
 
 				<div class="form-group">
 					<label for="link-twitter">Ссылка Twitter:</label> <input
 						type="text" class="form-control" id="link-twitter"
-						placeholder="Twitter">
+						name="link-twitter" placeholder="Twitter">
 				</div>
 				<div class="form-group">
 					<label for="link-facebook">Ссылка Facebook:</label> <input
 						type="text" class="form-control" id="link-facebook"
-						placeholder="Facebook">
+						name="link-facebook" placeholder="Facebook">
 				</div>
 			</div>
 			<button type="submit" name="createResume" class="btn btn-success">Создать
@@ -189,7 +202,10 @@
 		</form>
 	</section>
 	<footer>
-		<p class="text-footer">© 2016 EPAM Training Center, HR System. <a href="siteMap.html"> Карта сайта</a></p>
+		<p class="text-footer">
+			© 2016 EPAM Training Center, HR System. <a href="siteMap.html">
+				Карта сайта</a>
+		</p>
 	</footer>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package by.epam.tc.hr_system.util;
+package by.epam.tc.hr_system.util.parameter;
 
 public class UserParameter {
 	public static final String DATE_OF_BIRTHDAY = "dateOfBirthday";

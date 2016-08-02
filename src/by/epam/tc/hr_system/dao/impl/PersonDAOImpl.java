@@ -18,9 +18,7 @@ import by.epam.tc.hr_system.exception.DAOException;
 
 public class PersonDAOImpl implements IPersonDAO {
 	
-	private static final String SQL_ROLE = "role";
 
-	private static final String SQL_ID_USER = "id_user";
 
 	private static final String SQL_UPDATE_PERSONAL_DATA_BY_ID = "UPDATE `hr-system`.`person` SET `name` =?, `surname`= ?, `middle_name`= ?, `date_of_birthday`= ?, `email`= ?, `phone`= ? WHERE `id_person` = ?;";
 	
@@ -30,12 +28,13 @@ public class PersonDAOImpl implements IPersonDAO {
 	private final static String SQL_ADD_PERSONS_DATA = "INSERT INTO `hr-system`.`person` (`name`, `surname`, `middle_name`, `date_of_birthday`, `email`, `phone`,`id_person`) VALUES (? ,?, ?, ?, ?, ?, ?);";
 	private final static String SQL_ADD_NEW_APPLICANT = "INSERT INTO `hr-system`.`user` (`role`, `login`, `password`) VALUES (? ,?, ?);";
 	
-	private final static String SQL_SEARCH_PERSON_BY_EMAIL = "SELECT `name`, `surname`, `middle_name`, `date_of_birthday`, `email`, `phone` FROM `hr-system`.`person` WHERE `email` = ? ;";
-	private final static String SQL_SEARCH_PERSONS_BY_NAMES = "SELECT `name`, `surname`, `middle_name`, `date_of_birthday`, `email`, `phone` FROM `hr-system`.`person` WHERE `name` = ? AND `surname` = ? AND `middle_name`=?;";
-	private final static String SQL_SEARCH_PERSON_BY_LOGIN = "SELECT * FROM `hr-system`.`user` WHERE `login` = ? ;";
+	private final static String SQL_SELECT_PERSON_BY_EMAIL = "SELECT `name`, `surname`, `middle_name`, `date_of_birthday`, `email`, `phone` FROM `hr-system`.`person` WHERE `email` = ? ;";
+	private final static String SQL_SELECT_PERSONS_BY_NAMES = "SELECT `name`, `surname`, `middle_name`, `date_of_birthday`, `email`, `phone` FROM `hr-system`.`person` WHERE `name` = ? AND `surname` = ? AND `middle_name`=?;";
+	private final static String SQL_SELECT_PERSON_BY_LOGIN = "SELECT * FROM `hr-system`.`user` WHERE `login` = ? ;";
 	private static final String SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT `id_user`,`role`,`name`, `surname`, `middle_name`, `date_of_birthday`, `email`, `phone` FROM `hr-system`.user INNER JOIN `hr-system`.person ON id_user = id_person WHERE login = ? AND password = ?;";
 	
-	
+	private static final String SQL_ROLE = "role";
+	private static final String SQL_ID_USER = "id_user";
 	private final static String SQL_NAME = "name";
 	private final static String SQL_SURNAME = "surname";
 	private final static String SQL_MIDDLE_NAME = "middle_name";
@@ -133,7 +132,7 @@ public class PersonDAOImpl implements IPersonDAO {
 		ResultSet rs = null;
 		try {
 			connection = connectionPool.takeConnection();
-			searchLoginPS = connection.prepareStatement(SQL_SEARCH_PERSON_BY_LOGIN);
+			searchLoginPS = connection.prepareStatement(SQL_SELECT_PERSON_BY_LOGIN);
 			searchLoginPS.setString(1, login);
 			rs = searchLoginPS.executeQuery();
 			return rs.next();
@@ -263,7 +262,7 @@ public class PersonDAOImpl implements IPersonDAO {
 
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection
-					.prepareStatement(SQL_SEARCH_PERSON_BY_EMAIL);
+					.prepareStatement(SQL_SELECT_PERSON_BY_EMAIL);
 			preparedStatement.setString(1, email);
 			rs = preparedStatement.executeQuery();
 			searchedPerson = getPerson(rs);
@@ -317,7 +316,7 @@ public class PersonDAOImpl implements IPersonDAO {
 		try {
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection
-					.prepareStatement(SQL_SEARCH_PERSONS_BY_NAMES);
+					.prepareStatement(SQL_SELECT_PERSONS_BY_NAMES);
 			preparedStatement.setString(1, name);
 			preparedStatement.setString(2, surname);
 			preparedStatement.setString(3, middleName);

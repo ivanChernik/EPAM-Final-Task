@@ -14,8 +14,9 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.service.ServiceFactory;
+import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
-import by.epam.tc.hr_system.util.UserParameter;
+import by.epam.tc.hr_system.util.parameter.UserParameter;
 
 public class RegistrationCommand implements ICommand {
 
@@ -51,15 +52,15 @@ public class RegistrationCommand implements ICommand {
 						email, phoneNumber, dateOfBirthday);
 			} catch (ServiceException e) {
 
-				if (e.getMessage().equals(IUserService.MESSAGE_INVALID_PASSWORD)) {
-					errorMessage = IUserService.MESSAGE_INVALID_PASSWORD;
+				if (e.getMessage().equals(MessageManager.MESSAGE_INVALID_PASSWORD)) {
+					errorMessage = MessageManager.MESSAGE_INVALID_PASSWORD;
 					request.setAttribute("errorMessage", errorMessage);
 					request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 					return;
 				}
 
-				if (e.getMessage().equals(IUserService.MESSAGE_LOGIN_ALREADY_EXISTS)) {
-					errorMessage = IUserService.MESSAGE_LOGIN_ALREADY_EXISTS;
+				if (e.getMessage().equals(MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS)) {
+					errorMessage = MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS;
 					request.setAttribute("errorMessage", errorMessage);
 					request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 					return;

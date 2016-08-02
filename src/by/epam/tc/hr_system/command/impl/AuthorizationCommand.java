@@ -15,7 +15,7 @@ import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.PageName;
-import by.epam.tc.hr_system.util.UserParameter;
+import by.epam.tc.hr_system.util.parameter.UserParameter;
 
 public class AuthorizationCommand implements ICommand {
 

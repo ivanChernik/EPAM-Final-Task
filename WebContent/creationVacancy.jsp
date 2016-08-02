@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,16 +42,17 @@
 	<section class="section-information">
 		<form role="form" method="post" action="ControllerServlet">
 
+		<input name="command" value="create-vacancy" type="hidden" />
 			<div class="thumbnail input-information">
 				<div class="form-group">
 					<label for="titleVacancy">Заголовок вакансии:</label> <input
 						type="text" placeholder="Vacancy title" class="form-control"
-						id="titleVacancy" pattern="[\w]+" name="titleVacancy">
+						id="titleVacancy" name="titleVacancy">
 				</div>
 				<div class="form-group">
 					<label for="companyName">Название компании:</label> <input
 						type="text" placeholder="Company name" class="form-control"
-						id="companyName" pattern="[\w]+" name="companyName">
+						id="companyName"  name="companyName">
 				</div>
 
 				<div class="form-group">
@@ -63,9 +67,9 @@
 						<option>Частичная занятость</option>
 					</select>
 				</div>
-				
+
 				<div class="form-group">
-					<label for="shortDescription">Частичное описание:</label>
+					<label for="shortDescription">Краткое описание:</label>
 					<textarea class="form-control" placeholder="Description" rows="5"
 						id="shortDescription" name="shortDescription"></textarea>
 				</div>
@@ -92,12 +96,9 @@
 				вакансию</button>
 		</form>
 	</section>
+	<!-- FOOTER -->
 	<footer>
-		<p class="text-footer">
-			© 2016 EPAM Training Center, HR System. <a href="siteMap.html">
-				Карта сайта</a>
-		</p>
+		<jsp:include page="footer.jsp" />
 	</footer>
-
 </body>
 </html>

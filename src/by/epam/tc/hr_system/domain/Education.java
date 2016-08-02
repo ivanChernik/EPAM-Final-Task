@@ -4,62 +4,67 @@ import java.io.Serializable;
 import java.sql.Date;
 
 public class Education implements Serializable  {
-	private int id;
-	private int idPerson;
-	private String institution;
-	private String departament;
+
+	public static final String FULL_TIME = "Full-Time";
+	public static final String PART_TIME = "Part-Time";
+	public static final String DISTANT = "Distant";
+ 
+	public static final String HIGHER = "Higher";
+	public static final String AVERAGE = "Average";
+	public static final String SPECIALIZED_SECONDARY = "Specialized-secondary";
+	public static final String VOCATIONAL_TECHNICAL = "Vocational-technical";
+	public static final String INCOMPLETE_HIGHER_EDUCATION = "Incomplete higher education";
+	
+	private String kindEducation;
+	private String university;
+	private String faculty;
 	private String specialty;
-	private String formEduction;
-	private Date dateEntry;
-	private Date dateGraduation;
+	private String formEducation;
+	private String educationDescription;
+	private Date educationFrom;
+	private Date educationTo;
+	
+	public Education(){
+		
+	}	
 
-	public Education() {
-
-	}
-
-	public Education(int id, int idPerson, String institution,
-			String departament, String specialty, String formEduction,
-			Date dateEntry, Date dateGraduation) {
-		this.id = id;
-		this.idPerson = idPerson;
-		this.institution = institution;
-		this.departament = departament;
+	public Education(String kindEducation, String university, String faculty, String specialty, String formEducation,
+			String educationDescription, Date educationFrom, Date educationTo) {
+		super();
+		this.kindEducation = kindEducation;
+		this.university = university;
+		this.faculty = faculty;
 		this.specialty = specialty;
-		this.formEduction = formEduction;
-		this.dateEntry = dateEntry;
-		this.dateGraduation = dateGraduation;
+		this.formEducation = formEducation;
+		this.educationDescription = educationDescription;
+		this.educationFrom = educationFrom;
+		this.educationTo = educationTo;
 	}
 
-	public int getId() {
-		return id;
+
+
+	public String getKindEducation() {
+		return kindEducation;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setKindEducation(String kindEducation) {
+		this.kindEducation = kindEducation;
 	}
 
-	public int getIdPerson() {
-		return idPerson;
+	public String getUniversity() {
+		return university;
 	}
 
-	public void setIdPerson(int idPerson) {
-		this.idPerson = idPerson;
+	public void setUniversity(String university) {
+		this.university = university;
 	}
 
-	public String getInstitution() {
-		return institution;
+	public String getFaculty() {
+		return faculty;
 	}
 
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
-
-	public String getDepartament() {
-		return departament;
-	}
-
-	public void setDepartament(String departament) {
-		this.departament = departament;
+	public void setFaculty(String faculty) {
+		this.faculty = faculty;
 	}
 
 	public String getSpecialty() {
@@ -70,95 +75,36 @@ public class Education implements Serializable  {
 		this.specialty = specialty;
 	}
 
-	public String getFormEduction() {
-		return formEduction;
+	public String getFormEducation() {
+		return formEducation;
 	}
 
-	public void setFormEduction(String formEduction) {
-		this.formEduction = formEduction;
+	public void setFormEducation(String formEducation) {
+		this.formEducation = formEducation;
 	}
 
-	public Date getDateEntry() {
-		return dateEntry;
+	public String getEducationDescription() {
+		return educationDescription;
 	}
 
-	public void setDateEntry(Date dateEntry) {
-		this.dateEntry = dateEntry;
+	public void setEducationDescription(String educationDescription) {
+		this.educationDescription = educationDescription;
 	}
 
-	public Date getDateGraduation() {
-		return dateGraduation;
+	public Date getEducationFrom() {
+		return educationFrom;
 	}
 
-	public void setDateGraduation(Date dateGraduation) {
-		this.dateGraduation = dateGraduation;
+	public void setEducationFrom(Date educationFrom) {
+		this.educationFrom = educationFrom;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((dateEntry == null) ? 0 : dateEntry.hashCode());
-		result = prime * result
-				+ ((dateGraduation == null) ? 0 : dateGraduation.hashCode());
-		result = prime * result
-				+ ((departament == null) ? 0 : departament.hashCode());
-		result = prime * result
-				+ ((formEduction == null) ? 0 : formEduction.hashCode());
-		result = prime * result + id;
-		result = prime * result + idPerson;
-		result = prime * result
-				+ ((institution == null) ? 0 : institution.hashCode());
-		result = prime * result
-				+ ((specialty == null) ? 0 : specialty.hashCode());
-		return result;
+	public Date getEducationTo() {
+		return educationTo;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Education other = (Education) obj;
-		if (dateEntry == null) {
-			if (other.dateEntry != null)
-				return false;
-		} else if (!dateEntry.equals(other.dateEntry))
-			return false;
-		if (dateGraduation == null) {
-			if (other.dateGraduation != null)
-				return false;
-		} else if (!dateGraduation.equals(other.dateGraduation))
-			return false;
-		if (departament == null) {
-			if (other.departament != null)
-				return false;
-		} else if (!departament.equals(other.departament))
-			return false;
-		if (formEduction == null) {
-			if (other.formEduction != null)
-				return false;
-		} else if (!formEduction.equals(other.formEduction))
-			return false;
-		if (id != other.id)
-			return false;
-		if (idPerson != other.idPerson)
-			return false;
-		if (institution == null) {
-			if (other.institution != null)
-				return false;
-		} else if (!institution.equals(other.institution))
-			return false;
-		if (specialty == null) {
-			if (other.specialty != null)
-				return false;
-		} else if (!specialty.equals(other.specialty))
-			return false;
-		return true;
+	public void setEducationTo(Date educationTo) {
+		this.educationTo = educationTo;
 	}
 
 }

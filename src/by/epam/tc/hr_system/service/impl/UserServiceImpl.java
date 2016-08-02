@@ -10,6 +10,7 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IUserService;
+import by.epam.tc.hr_system.util.MessageManager;
 
 public class UserServiceImpl implements IUserService {
 
@@ -35,8 +36,8 @@ public class UserServiceImpl implements IUserService {
 		try {
 			personDAO = daoFactory.getPersonDAO();
 			if (personDAO.searchSimilarLogin(login)) {
-				log.error(MESSAGE_LOGIN_ALREADY_EXISTS);
-				throw new ServiceException(MESSAGE_LOGIN_ALREADY_EXISTS);
+				log.error(MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS);
+				throw new ServiceException(MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS);
 			}
 		} catch (DAOException e) {
 			log.error("Error searching similar login");
@@ -49,8 +50,8 @@ public class UserServiceImpl implements IUserService {
 		}
 
 		if (!password.equals(repeatedPassword)) {
-			log.error(MESSAGE_INVALID_PASSWORD);
-			throw new ServiceException(MESSAGE_INVALID_PASSWORD);
+			log.error(MessageManager.MESSAGE_INVALID_PASSWORD);
+			throw new ServiceException(MessageManager.MESSAGE_INVALID_PASSWORD);
 		}
 
 		if (role == null || role.isEmpty()) {

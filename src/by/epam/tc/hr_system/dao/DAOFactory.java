@@ -1,16 +1,14 @@
 package by.epam.tc.hr_system.dao;
 
-import by.epam.tc.hr_system.dao.impl.EducationDAOImpl;
 import by.epam.tc.hr_system.dao.impl.PersonDAOImpl;
-import by.epam.tc.hr_system.dao.impl.SkillDAOImpl;
+import by.epam.tc.hr_system.dao.impl.ResumeDAOImpl;
 import by.epam.tc.hr_system.dao.impl.VacancyDAOImpl;
 import by.epam.tc.hr_system.exception.DAOException;
 
 public class DAOFactory {
 	private static final DAOFactory instance = new DAOFactory();
 	private IPersonDAO personDAO = new PersonDAOImpl();
-	private IEducationDAO educationDAO = new EducationDAOImpl();
-	private ISkillDAO skillDAO = new SkillDAOImpl();
+	private IResumeDAO resumeDAO = new ResumeDAOImpl();
 	private IVacancyDAO vacancyDAO = new VacancyDAOImpl();
 
 	public static DAOFactory getInstance() {
@@ -21,12 +19,8 @@ public class DAOFactory {
 		return personDAO;
 	}
 
-	public IEducationDAO getEducationDAO() throws DAOException {
-		return educationDAO;
-	}
-
-	public ISkillDAO getSkillDAO() throws DAOException {
-		return skillDAO;
+	public IResumeDAO getResumeDAO() throws DAOException {
+		return resumeDAO;
 	}
 
 	public IVacancyDAO getVacancyDAO() throws DAOException {
