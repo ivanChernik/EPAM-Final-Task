@@ -49,10 +49,10 @@ public class AuthorizationCommand implements ICommand {
 			session.setAttribute("person", person);
 
 			if (person.getRole().equals(Person.APPLICANT_ROLE)) {
-				request.getRequestDispatcher(PageName.INDEX_PAGE_APPLICANT).forward(request, response);
+				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
 			}
 			if (person.getRole().equals(Person.HR_ROLE)) {
-				request.getRequestDispatcher(PageName.INDEX_PAGE_HR).forward(request, response);
+				request.getRequestDispatcher(PageName.INDEX_HR_PAGE).forward(request, response);
 			}
 
 		} catch (ServletException e) {

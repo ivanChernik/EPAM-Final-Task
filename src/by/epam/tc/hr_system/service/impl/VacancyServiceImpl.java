@@ -97,12 +97,12 @@ public class VacancyServiceImpl implements IVacancyService {
 
 	@Override
 	public List<Vacancy> getHRVacancies(int userID) throws ServiceException {
-		if(userID < 0){
+		if (userID < 0) {
 			throw new ServiceException("Error getting HR vacancies: userID");
 		}
-		
+
 		DAOFactory daoFactory = DAOFactory.getInstance();
-		
+
 		List<Vacancy> listVacancy = null;
 		try {
 			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
@@ -111,6 +111,78 @@ public class VacancyServiceImpl implements IVacancyService {
 			throw new ServiceException(e);
 		}
 		return listVacancy;
+	}
+
+	@Override
+	public List<Vacancy> getTopVacancies() throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+
+		List<Vacancy> listVacancy = null;
+		try {
+			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
+			listVacancy = vacancyDAO.getTopVacancies();
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		return listVacancy;
+	}
+
+	@Override
+	public int getCountVacancies() throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		int countVacancies = 0;
+		try {
+			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
+			countVacancies = vacancyDAO.getCountVacancies();
+		} catch (DAOException e) {
+			//throw new ServiceException(e);
+		}
+		return countVacancies;
+	}
+
+	@Override
+	public int getCountResumes() throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		int countResumes = 0;
+		try {
+			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
+			countResumes = vacancyDAO.getCountResumes();
+		} catch (DAOException e) {
+			//throw new ServiceException(e);
+		}
+		return countResumes;
+	}
+
+	@Override
+	public int getCountCompanies() throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		int countCompanies = 0;
+		try {
+			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
+			countCompanies = vacancyDAO.getCountCompanies();
+		} catch (DAOException e) {
+			//throw new ServiceException(e);
+		}
+		return countCompanies;
+	}
+
+	@Override
+	public Vacancy getVacancyByID(int vacancyId) throws ServiceException {
+		
+		if(vacancyId < 0){
+			log.error("Error getting vacancy ID");
+			throw new ServiceException("Error getting vacancy ID");
+		}
+		
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		Vacancy vacancy = null;
+		try {
+			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
+			vacancy = vacancyDAO.getVacancyByID(vacancyId);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		return vacancy;
 	}
 
 }

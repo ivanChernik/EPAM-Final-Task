@@ -74,9 +74,9 @@ public class RegistrationCommand implements ICommand {
 			}
 
 			if (person.getRole().equals(Person.APPLICANT_ROLE)) {
-				request.getRequestDispatcher(PageName.INDEX_PAGE_APPLICANT).forward(request, response);
+				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
 			} else if (person.getRole().equals(Person.HR_ROLE)) {
-				request.getRequestDispatcher(PageName.INDEX_PAGE_HR).forward(request, response);
+				request.getRequestDispatcher(PageName.INDEX_HR_PAGE).forward(request, response);
 			}
 
 		} catch (ServletException e) {

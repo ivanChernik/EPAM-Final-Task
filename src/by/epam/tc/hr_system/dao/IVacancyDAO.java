@@ -4,6 +4,7 @@ import java.util.List;
 
 import by.epam.tc.hr_system.domain.Vacancy;
 import by.epam.tc.hr_system.exception.DAOException;
+import by.epam.tc.hr_system.exception.ServiceException;
 
 public interface IVacancyDAO {
 
@@ -13,7 +14,11 @@ public interface IVacancyDAO {
 
 	boolean removeVacancy(int idVacancy) throws DAOException;
 	
+	List<Vacancy> getTopVacancies() throws DAOException;
+	
 	List<Vacancy> getHRVacancies(int idHR) throws DAOException;
+	
+	Vacancy getVacancyByID(int vacancyId) throws DAOException;
 	
 	int getCountVacancies() throws DAOException;
 	

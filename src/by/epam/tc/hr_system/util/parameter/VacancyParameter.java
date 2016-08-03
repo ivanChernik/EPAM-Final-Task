@@ -1,6 +1,7 @@
 package by.epam.tc.hr_system.util.parameter;
 
 public class VacancyParameter {
+	public static final String ID = "idVacancy";
 	public static final String EMPLOYMENT = "employment";
 	public static final String CONTACT_DATA = "contactData";
 	public static final String COMPANY_NAME = "companyName";

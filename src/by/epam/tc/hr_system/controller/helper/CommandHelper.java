@@ -11,6 +11,8 @@ import by.epam.tc.hr_system.command.impl.ChangeLocalCommand;
 import by.epam.tc.hr_system.command.impl.CreateResumeCommand;
 import by.epam.tc.hr_system.command.impl.CreateVacancyCommand;
 import by.epam.tc.hr_system.command.impl.RegistrationCommand;
+import by.epam.tc.hr_system.command.impl.ShowTopVacancies;
+import by.epam.tc.hr_system.command.impl.ShowVacancyCommand;
 import by.epam.tc.hr_system.controller.ControllerServlet;
 import by.epam.tc.hr_system.exception.CommandException;
 
@@ -25,6 +27,8 @@ public class CommandHelper {
 		commands.put(CommandName.AUTHORIZATION, new AuthorizationCommand());
 		commands.put(CommandName.CREATE_VACANCY, new CreateVacancyCommand());
 		commands.put(CommandName.CREATE_RESUME, new CreateResumeCommand());
+		commands.put(CommandName.SHOW_TOP_VACANCIES, new ShowTopVacancies());
+		commands.put(CommandName.SHOW_VACANCY, new ShowVacancyCommand());
 	}
 	
 	public ICommand getCommand(String name) throws CommandException {
