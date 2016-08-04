@@ -16,33 +16,11 @@
 <title>Vacancy</title>
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<ul class="nav nav-tabs">
-					<li><a class="navbar-brand" href="index.html">HR System</a></li>
-					<li role="presentation" class="dropdown"><a
-						class="dropdown-toggle dropdown-button-color"
-						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-						aria-expanded="false"> Поиск <span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu dropdown-button-style">
-							<li><a href="searchingVacancy.html">Поиск вакансий</a></li>
-							<li><a href="searchingResume.html">Поиск резюме</a></li>
-						</ul></li>
-				</ul>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<form class="navbar-form navbar-right">
-					<button type="submit" class="btn btn-success">Выйти</button>
-				</form>
-			</div>
-		</div>
-	</nav>
+	<jsp:include page="navigation.jsp"></jsp:include>
 	<section class="main-information">
 		<form action="ControllerServlet" method="post">
 		
-			<input name="command" value="respond" type="hidden">
+			<input name="command" value="responce-to-vacancy" type="hidden">
 			 <input name="idVacancy" value="${requestScope.vacancy.id}" type="hidden">
 			 
 			<div class="thumbnail section-information ">

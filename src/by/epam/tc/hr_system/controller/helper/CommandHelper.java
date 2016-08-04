@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.ICommand;
+import by.epam.tc.hr_system.command.impl.ApplyForJobCommand;
 import by.epam.tc.hr_system.command.impl.AuthorizationCommand;
 import by.epam.tc.hr_system.command.impl.ChangeLocalCommand;
 import by.epam.tc.hr_system.command.impl.CreateResumeCommand;
@@ -29,6 +30,7 @@ public class CommandHelper {
 		commands.put(CommandName.CREATE_RESUME, new CreateResumeCommand());
 		commands.put(CommandName.SHOW_TOP_VACANCIES, new ShowTopVacancies());
 		commands.put(CommandName.SHOW_VACANCY, new ShowVacancyCommand());
+		commands.put(CommandName.RESPONCE_TO_VACANCY, new ApplyForJobCommand());
 	}
 	
 	public ICommand getCommand(String name) throws CommandException {

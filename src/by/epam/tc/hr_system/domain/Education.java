@@ -13,7 +13,7 @@ public class Education implements Serializable  {
 	public static final String AVERAGE = "Average";
 	public static final String SPECIALIZED_SECONDARY = "Specialized-secondary";
 	public static final String VOCATIONAL_TECHNICAL = "Vocational-technical";
-	public static final String INCOMPLETE_HIGHER_EDUCATION = "Incomplete higher education";
+	public static final String INCOMPLETE_HIGHER_EDUCATION = "Incomplete-higher-education";
 	
 	private String kindEducation;
 	private String university;

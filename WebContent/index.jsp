@@ -29,9 +29,13 @@ Latest compiled and minified JavaScript
 
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="localization.local" var="loc" />
-<fmt:message bundle="${loc}" key="local.signIn" var="signIn" />
-<fmt:message bundle="${loc}" key="local.singUp" var="singUp" />
-<%-- <fmt:message bundle="${loc}" key="local.logOut" var="logOut" /> --%>
+
+<fmt:message bundle="${loc}" key="local.singUpIndex" var="singUpIndex" />
+<fmt:message bundle="${loc}" key="local.createResumeIndex" var="createResumeIndex" />
+<fmt:message bundle="${loc}" key="local.createVacancyIndex" var="createVacancyIndex" />	
+
+<fmt:message bundle="${loc}" key="local.updateResume"
+	var="updateResume" />
 
 <fmt:message bundle="${loc}" key="local.searchVacancies"
 	var="searchVacancies" />
@@ -49,10 +53,6 @@ Latest compiled and minified JavaScript
 <fmt:message bundle="${loc}" key="local.look" var="look" />
 <fmt:message bundle="${loc}" key="local.ru" var="ru" />
 <fmt:message bundle="${loc}" key="local.en" var="en" />
-<fmt:message bundle="${loc}" key="local.createResume" var="createResume" />
-<fmt:message bundle="${loc}" key="local.createVacancy"
-	var="createVacancy" />
-
 
 <fmt:message bundle="${loc}" key="local.enterName" var="enterName" />
 <fmt:message bundle="${loc}" key="local.enterSurname" var="enterSurname" />
@@ -76,57 +76,7 @@ Latest compiled and minified JavaScript
 <body>
 	<!-- NAVIGATION -->
 
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<ul class="nav nav-tabs">
-					<li><a class="navbar-brand" href="#">HR System</a></li>
-					<li role="presentation" class="dropdown"><a
-						class="dropdown-toggle dropdown-button-color"
-						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-						aria-expanded="false"> ${search} <span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu dropdown-button-style">
-							<li><a href="searchingVacancy.html">${searchVacancies}</a></li>
-							<li><a href="searchingResume.html">${searchResumes}</a></li>
-						</ul></li>
-				</ul>
-			</div>
-
-			<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li>
-						<form class="navbar-form" action="ControllerServlet" method="post">
-							<input name="command" value="authorization" type="hidden">
-							<div class="form-group">
-								<input type="text" placeholder="Login" class="form-control"
-									name="login" value="">
-							</div>
-							<div class="form-group">
-								<input type="password" placeholder="Password"
-									class="form-control" name="password" value="">
-							</div>
-							<button type="submit" class="btn btn-success">${signIn}
-							</button>
-							<a href="#popup-registration" class="btn btn-success">
-								${singUp} </a>
-						</form>
-					</li>
-					<li>
-						<form class="navbar-form" action="ControllerServlet" method="post"
-							style="width: 200px;">
-							<input name="command" value="change-local" type="hidden">
-							<button type="submit" class="btn btn-link" name="local"
-								value="en">${en}</button>
-							<button type="submit" class="btn btn-link" name="local"
-								value="ru">${ru}</button>
-						</form>
-					</li>
-
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<jsp:include page="navigation.jsp"></jsp:include>
 
 	<jsp:include page="${request.contextPath}/ControllerServlet">
 		<jsp:param name="command" value="show-top-vacancies" />
@@ -136,13 +86,10 @@ Latest compiled and minified JavaScript
 	<div class="container jumbotron background-img">
 		<div class="topic-button-placing">
 			<h2 class="page-header">${welcomeToHR}</h2>
-			<a href="creatingResume.html"
-				class="btn btn-success button-img-placing"> <!-- <button type="submit">Создать
-				резюме</button> --> ${createResume}
-			</a> <a class="btn btn-success button-img-placing"
-				href="creatingVacancy.html"> <!-- <button type="submit" class="btn btn-success button-img-placing">  -->
-				${createVacancy}<!-- </button> -->
-			</a>
+			<a href="creationResume.jsp"
+				class="btn btn-success button-img-placing"> ${createResumeIndex} </a> <a
+				class="btn btn-success button-img-placing"
+				href="creationVacancy.jsp"> ${createVacancyIndex} </a>
 		</div>
 		<div class="vertical-line"></div>
 
@@ -166,8 +113,8 @@ Latest compiled and minified JavaScript
 			<c:forEach var="vacancy" items="${requestScope.vacancyList}">
 
 				<form action="ControllerServlet" method="post">
-					<input name="command" value="show-vacancy" type="hidden">
-					 <input	name="idVacancy" value="${vacancy.id}" type="hidden">
+					<input name="command" value="show-vacancy" type="hidden"> <input
+						name="idVacancy" value="${vacancy.id}" type="hidden">
 					<div class="col-sm-6 col-md-4">
 						<div class="thumbnail">
 							<div class="caption">
@@ -215,66 +162,66 @@ Latest compiled and minified JavaScript
 
 		<div class="form-group">
 			<label for="name">*${enterName}:</label> <input type="text"
-				class="form-control" placeholder="Enter name" id="name" name="name"
-				required>
+				class="form-control" placeholder="${enterName}" id="name"
+				name="name" required>
 		</div>
 
 		<div class="form-group">
 			<label for="surname">*${enterSurname}:</label> <input type="text"
-				class="form-control" placeholder="Enter surname" id="surname"
+				class="form-control" placeholder="${enterSurname}" id="surname"
 				name="surname" required>
 		</div>
 
 		<div class="form-group">
 			<label for="patronymic">${enterPatronymic}:</label> <input
-				type="text" class="form-control" placeholder="Enter patronymic"
+				type="text" class="form-control" placeholder="${enterPatronymic}"
 				id="patronymic" name="patronymic">
 		</div>
 
 		<div class="form-group">
 			<label for="email">*${enterEmail}:</label> <input type="email"
-				class="form-control" placeholder="Enter email" id="email"
+				class="form-control" placeholder="${enterEmail}" id="email"
 				name="email" required>
 		</div>
 
 		<div class="form-group">
 			<label for="dateOfBirthday">*${enterDateOfBirthday}:</label> <input
 				type="date" class="form-control"
-				placeholder="Enter date of birthday" id="dateOfBirthday"
+				placeholder="${enterDateOfBirthday}" id="dateOfBirthday"
 				name="dateOfBirthday" required>
 		</div>
 
 		<div class="form-group">
 			<label for="phoneNumber">${enterPhone}:</label> <input type="text"
-				class="form-control" placeholder="Enter phone number"
-				id="phoneNumber" name="phoneNumber">
+				class="form-control" placeholder="${enterPhone}" id="phoneNumber"
+				name="phoneNumber">
 		</div>
 
 		<div class="form-group">
 			<label for="patronymic">*${enterLogin}:</label> <input type="text"
-				class="form-control" placeholder="Enter login" id="login"
+				class="form-control" placeholder="${enterLogin}" id="login"
 				pattern="[\w]+" name="login" required>
 		</div>
 
 		<div class="form-group">
 			<label for="pwd">* ${enterPassword}: </label> <input type="password"
-				class="form-control" placeholder="Enter password" id="pwd"
+				class="form-control" placeholder="${enterPassword}" id="pwd"
 				name="password" required>
 		</div>
 
 		<div class="form-group">
 			<label for="pwd-repeat">*${repeatPassword}:</label> <input
-				type="password" class="form-control" placeholder="Repeat password"
+				type="password" class="form-control" placeholder="${repeatPassword}"
 				id="pwd-repeat" name="repeatedPassword" required>
 		</div>
 
 		<div class="form-group">
 			<select class="selectpicker" name="role">
-				<option>${applicant}</option>
-				<option>${employer}</option>
+				<option value="applicant">${applicant}</option>
+				<option value="hr">${employer}</option>
 			</select>
 		</div>
-		<button type="submit" class="btn btn-success">${singUp}</button>
+		<button type="submit" class="btn btn-success">${singUpIndex}</button>
 		<a href="index.jsp" class="btn btn-success"> ${cancel} </a>
 	</form>
 	</div>

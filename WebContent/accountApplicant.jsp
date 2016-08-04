@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
@@ -21,50 +21,33 @@
 <fmt:message bundle="${loc}" key="local.logOut" var="logOut" />
 <fmt:message bundle="${loc}" key="local.createResume" var="createResume" />
 
-<fmt:message bundle="${loc}" key="local.searchVacancies" var="searchVacancies" />
-<fmt:message bundle="${loc}" key="local.searchResumes" var="searchResumes" />
+<fmt:message bundle="${loc}" key="local.searchVacancies"
+	var="searchVacancies" />
+<fmt:message bundle="${loc}" key="local.searchResumes"
+	var="searchResumes" />
 <fmt:message bundle="${loc}" key="local.search" var="search" />
-<fmt:message bundle="${loc}" key="local.tableStatusFeedback" var="tableStatusFeedback" />
+<fmt:message bundle="${loc}" key="local.tableStatusFeedback"
+	var="tableStatusFeedback" />
 <fmt:message bundle="${loc}" key="local.company" var="company" />
 <fmt:message bundle="${loc}" key="local.status" var="status" />
 <fmt:message bundle="${loc}" key="local.date" var="date" />
 
+
 <title>Account Applicant</title>
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<ul class="nav nav-tabs">
-					<li><a class="navbar-brand" href="index.html">HR System</a></li>
-					<li><a class="navbar-brand" href="creatingResume.html"> ${createResume}</a></li>
-					<li role="presentation" class="dropdown"><a
-						class="dropdown-toggle dropdown-button-color"
-						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-						aria-expanded="false"> ${search} <span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu dropdown-button-style">
-							<li><a href="searchingVacancy.html">${searchVacancies}</a></li>
-							<li><a href="searchingResume.html">${searchResumes}</a></li>
-						</ul></li>
-				</ul>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<form class="navbar-form navbar-right">
-					<button type="submit" class="btn btn-success">${logOut}</button>
-				</form>
-			</div>
-		</div>
-	</nav>
+
+<jsp:include page="navigation.jsp"></jsp:include>
+
 	<section>
 		<div class="thumbnail table-information">
 			<table class="table">
-				<caption> ${tableStatusFeedback}</caption>
+				<caption>${tableStatusFeedback}</caption>
 				<thead>
 					<tr>
-						<th> ${company}</th>
-						<th> ${status}</th>
-						<th> ${date}</th>
+						<th>${company}</th>
+						<th>${status}</th>
+						<th>${date}</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -33,30 +33,8 @@
 <title>Account HR</title>
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<ul class="nav nav-tabs">
-					<li><a class="navbar-brand" href="index.html">HR System</a></li>
-					<li><a class="navbar-brand" href="creatingVacancy.html"> ${createVacancy}</a></li>
-					<li role="presentation" class="dropdown"><a
-						class="dropdown-toggle dropdown-button-color"
-						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-						aria-expanded="false">${search}<span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu dropdown-button-style">
-							<li><a href="searchingVacancy.html">${searchVacancies}</a></li>
-							<li><a href="searchingResume.html">${searchResumes}</a></li>
-						</ul></li>
-				</ul>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<form class="navbar-form navbar-right">
-					<button type="submit" class="btn btn-success"> ${logOut}</button>
-				</form>
-			</div>
-		</div>
-	</nav>
+	<jsp:include page="navigation.jsp"></jsp:include>
+	
 	<section>	
 		<div class="thumbnail table-information">
 				<table class="table">

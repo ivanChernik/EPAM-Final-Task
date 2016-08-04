@@ -2,6 +2,7 @@ package by.epam.tc.hr_system.service;
 
 import by.epam.tc.hr_system.service.impl.ResumeServiceImpl;
 import by.epam.tc.hr_system.service.impl.UserServiceImpl;
+import by.epam.tc.hr_system.service.impl.VacancyResponceServiceImpl;
 import by.epam.tc.hr_system.service.impl.VacancyServiceImpl;
 
 public class ServiceFactory {
@@ -9,20 +10,26 @@ public class ServiceFactory {
 	private IUserService userService = new UserServiceImpl();
 	private IVacancyService vacancyService = new VacancyServiceImpl();
 	private IResumeService resumeService = new ResumeServiceImpl();
-	
-	public static ServiceFactory getInstance(){
+	private IVacancyResponceService vacancyResponceService = new VacancyResponceServiceImpl();
+
+	public static ServiceFactory getInstance() {
 		return instance;
 	}
 
-	public IUserService getUserService(){
+	public IUserService getUserService() {
 		return userService;
 	}
-	
-	public IVacancyService getVacancyService(){
+
+	public IVacancyService getVacancyService() {
 		return vacancyService;
 	}
-	
-	public IResumeService getResumeService(){
+
+	public IResumeService getResumeService() {
 		return resumeService;
 	}
+
+	public IVacancyResponceService getVacancyResponceService() {
+		return vacancyResponceService;
+	}
+
 }

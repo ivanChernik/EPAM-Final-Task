@@ -16,8 +16,6 @@ import by.epam.tc.hr_system.service.IVacancyService;
 
 public class VacancyServiceImpl implements IVacancyService {
 
-	private static final String PART_TIME_RU = "Частичная занятость";
-	private static final String FULL_TIME_RU = "Полная занятость";
 	private static final Logger log = Logger.getLogger(VacancyServiceImpl.class);
 
 	@Override
@@ -63,18 +61,10 @@ public class VacancyServiceImpl implements IVacancyService {
 			log.error("Error creation vacancy: contactInformation");
 			throw new ServiceException("Error creation vacancy: contactInformation");
 		}
-
-		if (employment == null || employment.isEmpty()) {
-			log.error("Error creation vacancy: employment");
-			throw new ServiceException("Error creation vacancy: employment");
-		} else if (employment.equals(FULL_TIME_RU)) {
-			employment = Vacancy.FULL_TIME;
-
-		} else if (employment.equals(PART_TIME_RU)) {
-			employment = Vacancy.PART_TIME;
-		} else {
-			throw new ServiceException("Error creation vacancy: employment");
-		}
+//
+//		if (!employment.equals(Vacancy.FULL_TIME) || !employment.equals(Vacancy.PART_TIME)) {
+//			throw new ServiceException("Error creation vacancy: employment");
+//		}
 
 		Formatter formatter = new Formatter();
 		Calendar calendar = Calendar.getInstance();
@@ -135,23 +125,11 @@ public class VacancyServiceImpl implements IVacancyService {
 			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
 			countVacancies = vacancyDAO.getCountVacancies();
 		} catch (DAOException e) {
-			//throw new ServiceException(e);
+			// throw new ServiceException(e);
 		}
 		return countVacancies;
 	}
 
-	@Override
-	public int getCountResumes() throws ServiceException {
-		DAOFactory daoFactory = DAOFactory.getInstance();
-		int countResumes = 0;
-		try {
-			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
-			countResumes = vacancyDAO.getCountResumes();
-		} catch (DAOException e) {
-			//throw new ServiceException(e);
-		}
-		return countResumes;
-	}
 
 	@Override
 	public int getCountCompanies() throws ServiceException {
@@ -161,19 +139,19 @@ public class VacancyServiceImpl implements IVacancyService {
 			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
 			countCompanies = vacancyDAO.getCountCompanies();
 		} catch (DAOException e) {
-			//throw new ServiceException(e);
+			// throw new ServiceException(e);
 		}
 		return countCompanies;
 	}
 
 	@Override
 	public Vacancy getVacancyByID(int vacancyId) throws ServiceException {
-		
-		if(vacancyId < 0){
+
+		if (vacancyId < 0) {
 			log.error("Error getting vacancy ID");
 			throw new ServiceException("Error getting vacancy ID");
 		}
-		
+
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		Vacancy vacancy = null;
 		try {

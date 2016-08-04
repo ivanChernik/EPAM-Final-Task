@@ -5,5 +5,7 @@ import by.epam.tc.hr_system.exception.ServiceException;
 
 public interface IResumeService {
 	void addResume(Resume resume, int userId) throws ServiceException;
+	
+	int getCountResumes() throws ServiceException;
 
 }

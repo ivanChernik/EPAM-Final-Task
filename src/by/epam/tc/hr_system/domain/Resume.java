@@ -7,7 +7,6 @@ import java.util.List;
 public class Resume implements Serializable{
 	
 	private String pathImage;
-	
 	private String postion;
 	private String profInformation;
 	private String skill;
@@ -82,6 +81,5 @@ public class Resume implements Serializable{
 	public void setContactInfo(ApplicantContactInfo contactInfo) {
 		this.contactInfo = contactInfo;
 	}
-
 	
 }

@@ -29,7 +29,6 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	private static final String SQL_NAME = "name";
 	private static final String SQL_ID_VACANCY = "id_vacancy";
 	private static final String SQL_SELECT_COUNT_COMPANIES = "SELECT COUNT(distinct company_name) FROM `hr-system`.vacancy;";
-	private static final String SQL_SELECT_COUNT_RESUMES = "SELECT COUNT(id_user) FROM `hr-system`.user WHERE `role` = 'applicant';";
 	private static final String SQL_SELECT_COUNT_VACANCIES = "SELECT count(id_vacancy) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_HR_VACANCY = "SELECT `name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_hr` = ?;";
 	private static final String SQL_SELECT_TOP_VACANCY = "SELECT `id_vacancy`,`name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_vacancy` in (1,2,3,4);";
@@ -290,40 +289,6 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		}
 
 		return countVacancies;
-	}
-
-	@Override
-	public int getCountResumes() throws DAOException {
-		int countResumes = 0;
-		ConnectionPool connectionPool = null;
-		try {
-			connectionPool = ConnectionPool.getInstance();
-		} catch (ConnectionPoolException e) {
-			log.fatal("Error connection pool instanse", e);
-			throw new DAOException("Error connection pool instanse", e);
-		}
-		Connection connection = null;
-		PreparedStatement countResunesPS = null;
-		try {
-			connection = connectionPool.takeConnection();
-			countResunesPS = connection.prepareStatement(SQL_SELECT_COUNT_RESUMES);
-			countResumes = getCountRows(countResunesPS.executeQuery());
-
-		} catch (SQLException | ConnectionPoolException e) {
-			log.error("Error computing count resumes", e);
-			throw new DAOException("Error computing count resumes", e);
-		}
-
-		finally {
-			try {
-				countResunesPS.close();
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
-			}
-		}
-
-		return countResumes;
 	}
 
 	@Override

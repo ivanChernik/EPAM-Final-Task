@@ -3,6 +3,7 @@ package by.epam.tc.hr_system.dao;
 import by.epam.tc.hr_system.dao.impl.PersonDAOImpl;
 import by.epam.tc.hr_system.dao.impl.ResumeDAOImpl;
 import by.epam.tc.hr_system.dao.impl.VacancyDAOImpl;
+import by.epam.tc.hr_system.dao.impl.VacancyResponceDAOImpl;
 import by.epam.tc.hr_system.exception.DAOException;
 
 public class DAOFactory {
@@ -10,6 +11,7 @@ public class DAOFactory {
 	private IPersonDAO personDAO = new PersonDAOImpl();
 	private IResumeDAO resumeDAO = new ResumeDAOImpl();
 	private IVacancyDAO vacancyDAO = new VacancyDAOImpl();
+	private IVacancyResponceDAO vacancyResponceDAO = new VacancyResponceDAOImpl();
 
 	public static DAOFactory getInstance() {
 		return instance;
@@ -25,6 +27,10 @@ public class DAOFactory {
 
 	public IVacancyDAO getVacancyDAO() throws DAOException {
 		return vacancyDAO;
+	}
+	
+	public IVacancyResponceDAO getVacancyResponceDAO() throws DAOException {
+		return vacancyResponceDAO;
 	}
 
 }

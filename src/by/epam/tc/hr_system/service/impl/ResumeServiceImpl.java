@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.dao.DAOFactory;
 import by.epam.tc.hr_system.dao.IResumeDAO;
+import by.epam.tc.hr_system.dao.IVacancyDAO;
 import by.epam.tc.hr_system.domain.Education;
 import by.epam.tc.hr_system.domain.PreviousPosition;
 import by.epam.tc.hr_system.domain.Resume;
@@ -81,50 +82,37 @@ public class ResumeServiceImpl implements IResumeService {
 			log.error("Error addiction resume (education): date to > date from");
 			throw new ServiceException("Error addiction resume (education): date to > date from");
 		}
-		
-		//from education
+
+		// from education
 
 		if (education.getFormEducation() == null || education.getFormEducation().isEmpty()) {
 			log.error("Error addiction resume (education): education form");
 			throw new ServiceException("Error addiction resume (education): education form ");
 		}
 
-		if (education.getFormEducation().equals("Дневное отделение")) {
-			education.setFormEducation(Education.FULL_TIME);
-		} else if (education.getFormEducation().equals("Заочное отделение")) {
-			education.setFormEducation(Education.PART_TIME);
-		} else if (education.getFormEducation().equals("Дистанционное отделение")) {
-			education.setFormEducation(Education.DISTANT);
-		} else {
-			log.error("Error addiction resume (education): education form");
-			throw new ServiceException("Error addiction resume (education): education form ");
-		}
-		
-		//kinf of education
+//		if (!education.getFormEducation().equals(Education.FULL_TIME)
+//				|| !education.getFormEducation().equals(Education.PART_TIME)
+//				|| !education.getFormEducation().equals(Education.DISTANT)) {
+//			log.error("Error addiction resume (education): education form");
+//			throw new ServiceException("Error addiction resume (education): education form ");
+//		}
+
+		// kinf of education
 
 		if (education.getKindEducation() == null || education.getKindEducation().isEmpty()) {
 			log.error("Error addiction resume (education): kind education");
 			throw new ServiceException("Error addiction resume (education): kind education");
 		}
 
-		if (education.getKindEducation().equals("Высшее")) {
-			education.setKindEducation(Education.HIGHER);
+//		if (!education.equals(Education.HIGHER) || !education.equals(Education.INCOMPLETE_HIGHER_EDUCATION)
+//				|| !education.equals(Education.SPECIALIZED_SECONDARY) || !education.equals(Education.AVERAGE)
+//				|| !education.equals(Education.VOCATIONAL_TECHNICAL)) {
+//			log.error("Error addiction resume (education):kind education ");
+//			throw new ServiceException("Error addiction resume (education): kind education");
+//		}
 
-		} else if (education.getKindEducation().equals("Неоконченное высшее")) {
-			education.setKindEducation(Education.INCOMPLETE_HIGHER_EDUCATION);
-		} else if (education.getKindEducation().equals("Средне-специальное")) {
-			education.setKindEducation(Education.SPECIALIZED_SECONDARY);
-		} else if (education.getKindEducation().equals("Среднее")) {
-			education.setKindEducation(Education.AVERAGE);
-		} else if (education.getKindEducation().equals("Профессионально-техническое")) {
-			education.setKindEducation(Education.VOCATIONAL_TECHNICAL);
-		} else {
-			log.error("Error addiction resume (education): education form");
-			throw new ServiceException("Error addiction resume (education): education form ");
-		}
-		
-		//other information
-		
+		// other information
+
 		if (resume.getSkill() == null || resume.getSkill().isEmpty()) {
 			log.error("Error addiction resume (resume info): skill ");
 			throw new ServiceException("Error addiction resume (resume info): skill ");
@@ -137,14 +125,14 @@ public class ResumeServiceImpl implements IResumeService {
 			log.error("Error addiction resume (resume info): prof information ");
 			throw new ServiceException("Error addiction resume (resume info): prof information ");
 		}
-		
-		if(userId < 0){
+
+		if (userId < 0) {
 			log.error("Error addiction resume: userId ");
 			throw new ServiceException("Error addiction resume: userId ");
 		}
-		
+
 		DAOFactory daoFactory = DAOFactory.getInstance();
-		
+
 		try {
 			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
 			resumeDAO.addResume(resume, userId);
@@ -152,6 +140,19 @@ public class ResumeServiceImpl implements IResumeService {
 			throw new ServiceException(e);
 		}
 
+	}
+
+	@Override
+	public int getCountResumes() throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		int countResumes = 0;
+		try {
+			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
+			countResumes = resumeDAO.getCountResumes();
+		} catch (DAOException e) {
+			// throw new ServiceException(e);
+		}
+		return countResumes;
 	}
 
 }

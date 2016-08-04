@@ -1,6 +1,8 @@
 package by.epam.tc.hr_system.service.impl;
 
 import java.sql.Date;
+import java.util.Calendar;
+import java.util.Formatter;
 
 import org.apache.log4j.Logger;
 
@@ -13,11 +15,6 @@ import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.util.MessageManager;
 
 public class UserServiceImpl implements IUserService {
-
-	private static final String HR_EN = "Employer";
-	private static final String APPLICANT_EN = "Applicant";
-	private static final String HR_RU = "Работадатель";
-	private static final String APPLICANT_RU = "Соискатель";
 	
 	private static final Logger log = Logger.getLogger(UserServiceImpl.class);
 
@@ -59,11 +56,7 @@ public class UserServiceImpl implements IUserService {
 			throw new ServiceException("Error registration: password");
 		}
 
-		if (role.equals(APPLICANT_RU) || role.equals(APPLICANT_EN)) {
-			role = Person.APPLICANT_ROLE;
-		} else if (role.equals(HR_RU) || role.equals(HR_EN)) {
-			role = Person.HR_ROLE;
-		} else {
+		if(!role.equals(Person.APPLICANT_ROLE) || !role.equals(Person.HR_ROLE)) {
 			log.error("Error registration: role");
 			throw new ServiceException("Error registration: role");
 		}
@@ -88,16 +81,27 @@ public class UserServiceImpl implements IUserService {
 			throw new ServiceException("Error registration: email");
 		}
 
-//		if (phoneNumber == null || phoneNumber.isEmpty()) {
-//			log.error("Error registration: phoneNumber");
-//			throw new ServiceException("Error registration: phoneNumber");
-//		}
+		if (dateOfBirthday == null || dateOfBirthday.isEmpty()) {
+			log.error("Error registration: phoneNumber");
+			throw new ServiceException("Error registration: dateOfBirthday = null");
+		}
 
 		Date birthdayDate = null;
+		
+		Formatter formatter = new Formatter();
+		
+		Calendar calendar = Calendar.getInstance();
+		formatter.format("%tF", calendar);
+		Date currentDate = Date.valueOf(formatter.toString());
 
 		try {
 			birthdayDate = Date.valueOf(dateOfBirthday);
 		} catch (IllegalArgumentException e) {
+			log.error("Error registration: dateOfBirthday");
+			throw new ServiceException("Error registration: dateOfBirthday");
+		}
+		
+		if(currentDate.after(birthdayDate)){
 			log.error("Error registration: dateOfBirthday");
 			throw new ServiceException("Error registration: dateOfBirthday");
 		}

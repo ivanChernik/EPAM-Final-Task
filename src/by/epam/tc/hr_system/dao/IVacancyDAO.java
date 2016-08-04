@@ -22,8 +22,6 @@ public interface IVacancyDAO {
 	
 	int getCountVacancies() throws DAOException;
 	
-	int getCountResumes() throws DAOException;
-	
 	int getCountCompanies() throws DAOException;
 
 }

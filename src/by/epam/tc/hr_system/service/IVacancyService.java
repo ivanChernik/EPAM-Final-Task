@@ -19,7 +19,5 @@ public interface IVacancyService {
 
 	int getCountVacancies() throws ServiceException;
 	
-	int getCountResumes() throws ServiceException;
-	
 	int getCountCompanies() throws ServiceException;
 }

@@ -2,6 +2,7 @@ package by.epam.tc.hr_system.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -20,6 +21,9 @@ public class ResumeDAOImpl implements IResumeDAO {
 	private static final String SQL_ADD_RESUME_INFO = "INSERT INTO `hr-system`.`resume_info` (`id_applicant`, `skill`, `position`, `professional_info`, `photo_path`, `google_plus_link`, `linkedin_link`, `twitter_link`, `facebook_link`, `phone`, `email`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String SQL_ADD_EDUCATION = "INSERT INTO `hr-system`.`education` (`id_candidate`, `institution`, `department`, `speciality`, `form_of_education`, `date_of_entry`, `date_of_graduation`, `description`) VALUES (?, ?, ?, ?, ?, ?, ? ,?);";
 	private static final String SQL_ADD_PREVIOUS_POSITION = "INSERT INTO `hr-system`.`experience` (`position`, `description`, `date_of_beginning`, `date_of_completion`, `id_applicant`) VALUES (?, ?, ?, ?, ?);";
+	
+	private static final String SQL_SELECT_COUNT_RESUMES = "SELECT COUNT(id_applicant) FROM `hr-system`.resume_info;";
+	
 	private static final Logger log = Logger.getLogger(ResumeDAOImpl.class);
 
 	@Override
@@ -112,6 +116,47 @@ public class ResumeDAOImpl implements IResumeDAO {
 			}
 		}
 
+	}
+	
+	@Override
+	public int getCountResumes() throws DAOException {
+		int countResumes = 0;
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+		Connection connection = null;
+		PreparedStatement countResunesPS = null;
+		try {
+			connection = connectionPool.takeConnection();
+			countResunesPS = connection.prepareStatement(SQL_SELECT_COUNT_RESUMES);
+			countResumes = getCountRows(countResunesPS.executeQuery());
+
+		} catch (SQLException | ConnectionPoolException e) {
+			log.error("Error computing count resumes", e);
+			throw new DAOException("Error computing count resumes", e);
+		}
+
+		finally {
+			try {
+				countResunesPS.close();
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException("Error closing connection or statements", e);
+			}
+		}
+
+		return countResumes;
+	}
+	
+	private int getCountRows(ResultSet rs) throws SQLException {
+		int countResumes = -1;
+		rs.next();
+		countResumes = rs.getInt(1);// number of column
+		return countResumes;
 	}
 
 }

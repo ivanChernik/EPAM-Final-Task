@@ -6,5 +6,7 @@ import by.epam.tc.hr_system.exception.DAOException;
 public interface IResumeDAO {
 	
 	void addResume(Resume resume, int idUser) throws DAOException;
+	
+	int getCountResumes() throws DAOException;
 
 }
