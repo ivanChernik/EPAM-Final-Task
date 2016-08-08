@@ -78,7 +78,7 @@ Latest compiled and minified JavaScript
 
 	<jsp:include page="navigation.jsp"></jsp:include>
 
-	<jsp:include page="${request.contextPath}/ControllerServlet">
+	<jsp:include page="${request.contextPath}/Controller">
 		<jsp:param name="command" value="show-top-vacancies" />
 	</jsp:include>
 
@@ -112,7 +112,7 @@ Latest compiled and minified JavaScript
 			<c:set var="countVacancies" value="${0}" scope="page" />
 			<c:forEach var="vacancy" items="${requestScope.vacancyList}">
 
-				<form action="ControllerServlet" method="post">
+				<form action="Controller" method="post">
 					<input name="command" value="show-vacancy" type="hidden"> <input
 						name="idVacancy" value="${vacancy.id}" type="hidden">
 					<div class="col-sm-6 col-md-4">
@@ -148,7 +148,7 @@ Latest compiled and minified JavaScript
 			<div class="regestration-window thumbnail">
 		</c:otherwise>
 	</c:choose>
-	<form role="form" action="ControllerServlet" method="post">
+	<form role="form" action="Controller" method="post">
 
 		<c:if test="${not empty requestScope.errorMessage}">
 

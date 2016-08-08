@@ -11,10 +11,12 @@ import by.epam.tc.hr_system.command.impl.AuthorizationCommand;
 import by.epam.tc.hr_system.command.impl.ChangeLocalCommand;
 import by.epam.tc.hr_system.command.impl.CreateResumeCommand;
 import by.epam.tc.hr_system.command.impl.CreateVacancyCommand;
+import by.epam.tc.hr_system.command.impl.LogOutCommand;
 import by.epam.tc.hr_system.command.impl.RegistrationCommand;
+import by.epam.tc.hr_system.command.impl.ShowApplicantResponceCommand;
 import by.epam.tc.hr_system.command.impl.ShowTopVacancies;
 import by.epam.tc.hr_system.command.impl.ShowVacancyCommand;
-import by.epam.tc.hr_system.controller.ControllerServlet;
+import by.epam.tc.hr_system.controller.Controller;
 import by.epam.tc.hr_system.exception.CommandException;
 
 public class CommandHelper {
@@ -31,6 +33,8 @@ public class CommandHelper {
 		commands.put(CommandName.SHOW_TOP_VACANCIES, new ShowTopVacancies());
 		commands.put(CommandName.SHOW_VACANCY, new ShowVacancyCommand());
 		commands.put(CommandName.RESPONCE_TO_VACANCY, new ApplyForJobCommand());
+		commands.put(CommandName.SHOW_RESPONCE, new ShowApplicantResponceCommand());
+		commands.put(CommandName.LOG_OUT, new LogOutCommand());
 	}
 	
 	public ICommand getCommand(String name) throws CommandException {

@@ -28,6 +28,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	private static final String SQL_DESCRIPTION = "description";
 	private static final String SQL_NAME = "name";
 	private static final String SQL_ID_VACANCY = "id_vacancy";
+	
 	private static final String SQL_SELECT_COUNT_COMPANIES = "SELECT COUNT(distinct company_name) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_COUNT_VACANCIES = "SELECT count(id_vacancy) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_HR_VACANCY = "SELECT `name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_hr` = ?;";
@@ -70,16 +71,21 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			addVacancyPS.executeUpdate();
 			result = true;
 		} catch (SQLException | ConnectionPoolException e) {
-			log.error("Error adding vacancy", e);
-			throw new DAOException("Error adding vacancy", e);
+			log.error("Error addiction vacancy", e);
+			throw new DAOException("Error addiction vacancy", e);
 		}
 
 		finally {
 			try {
 				addVacancyPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
+				log.error("Error closing connection or statements", e);
 			}
 		}
 		return result;
@@ -122,9 +128,14 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		finally {
 			try {
 				updateVacancyPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
+				log.error("Error closing connection", e);
 			}
 		}
 		return result;
@@ -159,9 +170,14 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		finally {
 			try {
 				deketeVacancyPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+			
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
+				log.error("Error closing connection", e);
 			}
 		}
 		return result;
@@ -192,9 +208,14 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		finally {
 			try {
 				searchTopVacancyPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+			
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
+				log.error("Error closing connection", e);
 			}
 		}
 
@@ -226,9 +247,14 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		finally {
 			try {
 				searchHRVacancyPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+			
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
+				log.error("Error closing connection", e);
 			}
 		}
 
@@ -282,9 +308,14 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		finally {
 			try {
 				countVacanciesPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing connection or statements", e);
+			}
+			
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
+				log.error("Error closing connection", e);
 			}
 		}
 
@@ -316,9 +347,14 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		finally {
 			try {
 				countCompaniesPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+			
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
+				log.error("Error closing connection", e);
 			}
 		}
 
@@ -358,9 +394,14 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		finally {
 			try {
 				searchVacancyByID.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+			
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
+				log.error("Error closing connection", e);
 			}
 		}
 
@@ -385,4 +426,5 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		return vacancy;
 
 	}
+
 }

@@ -18,7 +18,7 @@
 <body>
 	<jsp:include page="navigation.jsp"></jsp:include>
 	<section class="main-information">
-		<form action="ControllerServlet" method="post">
+		<form action="Controller" method="post">
 		
 			<input name="command" value="responce-to-vacancy" type="hidden">
 			 <input name="idVacancy" value="${requestScope.vacancy.id}" type="hidden">

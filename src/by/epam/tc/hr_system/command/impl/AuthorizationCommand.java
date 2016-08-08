@@ -45,7 +45,8 @@ public class AuthorizationCommand implements ICommand {
 			//	request.setAttribute("errorMessage", errorMessage);
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
-			} 			
+			} 	
+			
 			session.setAttribute("person", person);
 
 			if (person.getRole().equals(Person.APPLICANT_ROLE)) {

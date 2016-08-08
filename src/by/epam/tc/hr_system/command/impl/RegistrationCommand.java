@@ -69,9 +69,9 @@ public class RegistrationCommand implements ICommand {
 				request.setAttribute("errorMessage", ERROR_REGISTRATION);
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
-			} finally {
+			} /*finally {
 				session.setAttribute("person", person);
-			}
+			}*/
 
 			if (person.getRole().equals(Person.APPLICANT_ROLE)) {
 				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);

@@ -21,7 +21,7 @@ public class ShowTopVacancies implements ICommand {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-
+		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
 		try {

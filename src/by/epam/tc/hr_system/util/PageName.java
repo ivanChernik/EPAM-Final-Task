@@ -7,5 +7,6 @@ public class PageName {
 	 public static final String VACANCY_PAGE = "vacancy.jsp";
 	 public static final String CREATION_VACANCY_PAGE = "creationVacancy.jsp";
 	 public static final String CREATION_RESUME_PAGE = "creationResume.jsp";
-	 
+	 public static final String ERROR_505_PAGE = "500.html";
+	 public static final String ERROR_404_PAGE = "404.html";
 }

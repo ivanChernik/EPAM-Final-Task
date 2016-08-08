@@ -14,16 +14,17 @@ import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.command.impl.RegistrationCommand;
 import by.epam.tc.hr_system.controller.helper.CommandHelper;
 import by.epam.tc.hr_system.exception.CommandException;
+import by.epam.tc.hr_system.util.PageName;
 
 
-@WebServlet(asyncSupported = true, urlPatterns = { "/ControllerServlet" })
+@WebServlet(asyncSupported = true, urlPatterns = { "/Controller" })
 @MultipartConfig
-public class ControllerServlet extends HttpServlet {
+public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String COMMAND = "command";	
-	private static final Logger log = Logger.getLogger(ControllerServlet.class);
+	//private static final Logger log = Logger.getLogger(Controller.class);
 	
-    public ControllerServlet() {
+    public Controller() {
         super();
     }
 
@@ -38,19 +39,7 @@ public class ControllerServlet extends HttpServlet {
 			command = CommandHelper.getInstance().getCommand(commandName);
 			command.execute(request, response);
 		} catch (CommandException e) {
-			String url = request.getRequestURL().toString();
-			url = url.substring(0, url.lastIndexOf("/"));
-			
-			String queryString = ((HttpServletRequest) request).getQueryString();
-			if (queryString != null) {
-				url = url + "?" + queryString;
-			}
-			
-			 try {
-				response.sendRedirect(url);
-			} catch (IOException eIO) {
-				log.error("Failed send redirect", eIO);
-			}
+			response.sendRedirect(PageName.ERROR_505_PAGE);
 		}	
 	}
 

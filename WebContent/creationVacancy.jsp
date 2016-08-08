@@ -31,7 +31,7 @@
 <body>
 	<jsp:include page="navigation.jsp"></jsp:include>
 	<section class="section-information">
-		<form role="form" method="post" action="ControllerServlet">
+		<form role="form" method="post" action="Controller">
 
 		<input name="command" value="create-vacancy" type="hidden" />
 			<div class="thumbnail input-information">

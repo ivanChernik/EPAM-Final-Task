@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,16 +32,24 @@
 <fmt:message bundle="${loc}" key="local.company" var="company" />
 <fmt:message bundle="${loc}" key="local.status" var="status" />
 <fmt:message bundle="${loc}" key="local.date" var="date" />
-
+<fmt:message bundle="${loc}" key="local.not.responces"
+	var="notResponces" />
 
 <title>Account Applicant</title>
 </head>
 <body>
 
-<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="navigation.jsp"></jsp:include>
+
+	<jsp:include page="${request.contextPath}/Controller" flush="true">
+		<jsp:param name="command" value="show-responce" />
+	</jsp:include>
 
 	<section>
-		<div class="thumbnail table-information">
+	<div class="thumbnail table-information">
+		<c:if test="${empty requestScope.responceList}">
+			<p>${notResponces}</p>
+		</c:if>
 			<table class="table">
 				<caption>${tableStatusFeedback}</caption>
 				<thead>
@@ -51,25 +60,16 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>EPAM</td>
-						<td>Просмотрен</td>
-						<td>21.01.2016</td>
-					</tr>
-					<tr>
-						<td>Issoft</td>
-						<td>Отказ</td>
-						<td>22.02.2016</td>
-					</tr>
-					<tr>
-						<td>Эфтех</td>
-						<td>Не просмотрен</td>
-						<td>01.05.2016</td>
-					</tr>
+					<c:forEach var="responce" items="${requestScope.responceList}">
+						<tr>
+							<td>${responce.companyName}</td>
+							<td>${responce.status}</td>
+							<td>${responce.date}</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
-
 	</section>
 	<!-- FOOTER -->
 	<footer>
