@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.domain.Person;
+import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.service.ServiceFactory;
@@ -22,7 +23,7 @@ public class AuthorizationCommand implements ICommand {
 	private static final Logger log = Logger.getLogger(AuthorizationCommand.class);
 	
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
 			HttpSession session = request.getSession(true);
 
@@ -33,16 +34,12 @@ public class AuthorizationCommand implements ICommand {
 
 			Person person = null;
 			IUserService userService = null;
-			//String errorMessage = null;
+
 			try {
 				userService = serviceFactory.getUserService();
 				person = userService.authorizePerson(login, password);
 			} catch (ServiceException e) {
-
-//				if (person == null) {
-//					errorMessage = "failed";
-//				}
-			//	request.setAttribute("errorMessage", errorMessage);
+				
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
 			} 	
@@ -56,10 +53,9 @@ public class AuthorizationCommand implements ICommand {
 				request.getRequestDispatcher(PageName.INDEX_HR_PAGE).forward(request, response);
 			}
 
-		} catch (ServletException e) {
+		} catch (ServletException | IOException e) {
 			log.error(e);
-		} catch (IOException e) {
-			log.error(e);
+			throw new CommandException(e);
 		}
 
 	}

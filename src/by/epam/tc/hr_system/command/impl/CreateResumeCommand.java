@@ -20,6 +20,7 @@ import by.epam.tc.hr_system.domain.Education;
 import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.domain.PreviousPosition;
 import by.epam.tc.hr_system.domain.Resume;
+import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.ServiceFactory;
@@ -37,7 +38,7 @@ public class CreateResumeCommand implements ICommand {
 	private static final Logger log = Logger.getLogger(CreateResumeCommand.class);
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
 			HttpSession session = request.getSession(true);
 
@@ -110,7 +111,7 @@ public class CreateResumeCommand implements ICommand {
 						request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
 						return;
 					} catch (ServiceException e) {
-						request.getRequestDispatcher(PageName.CREATION_RESUME_PAGE).forward(request, response);
+						request.getRequestDispatcher(PageName.CREATE_VACANCY_PAGE).forward(request, response);
 						return;
 					}
 					
@@ -144,11 +145,9 @@ public class CreateResumeCommand implements ICommand {
 			// request.getRequestDispatcher(PageName.EDIT_PRODUCTS).forward(request,
 			// response);
 
-		} catch (ServletException e) {
+		} catch (ServletException | IOException e) {
 			log.error(e);
-
-		} catch (IOException e) {
-			log.error(e);
+			throw new CommandException(e);
 		}
 	}
 

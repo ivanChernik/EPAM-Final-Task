@@ -22,17 +22,22 @@
 
 <fmt:message bundle="${loc}" key="local.profile" var="profile" />
 <fmt:message bundle="${loc}" key="local.responces" var="responces" />
-<fmt:message bundle="${loc}" key="local.updateProfile" var="updateProfile" />
+<fmt:message bundle="${loc}" key="local.updateProfile"
+	var="updateProfile" />
 
 <fmt:message bundle="${loc}" key="local.createResume" var="createResume" />
-<fmt:message bundle="${loc}" key="local.createVacancy" var="createVacancy" />
+<fmt:message bundle="${loc}" key="local.createVacancy"
+	var="createVacancy" />
 <fmt:message bundle="${loc}" key="local.vacancy" var="vacancy" />
 
 <fmt:message bundle="${loc}" key="local.ru" var="ru" />
 <fmt:message bundle="${loc}" key="local.en" var="en" />
 
 <fmt:message bundle="${loc}" key="local.enterLogin" var="enterLogin" />
-<fmt:message bundle="${loc}" key="local.enterPassword" var="enterPassword" />
+<fmt:message bundle="${loc}" key="local.enterPassword"
+	var="enterPassword" />
+<fmt:message bundle="${loc}" key="local.look.resume" var="lookResume" />
+
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
@@ -58,9 +63,16 @@
 						<ul class="dropdown-menu dropdown-button-style">
 							<li><a href="creationResume.jsp"> ${createResume}</a></li>
 							<li><a href="#"> ${updateResume}</a></li>
+							<li>
+								<form action="Controller" method="post">
+									<input name="command" value="show-resume" type="hidden">
+									<input name="idResume" value="${sessionScope.person.id}" type="hidden">
+									<button type="submit" class="btn">${lookResume}</button>
+								</form>
+							</li>
 						</ul></li>
-						
-						<li role="presentation" class="dropdown"><a
+
+					<li role="presentation" class="dropdown"><a
 						class="dropdown-toggle dropdown-button-color"
 						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
 						aria-expanded="false"> ${profile} <span class="caret"></span>
@@ -70,7 +82,7 @@
 							<li><a href="#">${updateProfile}</a></li>
 						</ul></li>
 				</c:if>
-				
+
 				<c:if test="${sessionScope.person.role eq 'hr'}">
 					<li role="presentation" class="dropdown"><a
 						class="dropdown-toggle dropdown-button-color"
@@ -80,8 +92,8 @@
 						<ul class="dropdown-menu dropdown-button-style">
 							<li><a href="creationVacancy.jsp"> ${createVacancy}</a></li>
 						</ul></li>
-						
-						<li role="presentation" class="dropdown"><a
+
+					<li role="presentation" class="dropdown"><a
 						class="dropdown-toggle dropdown-button-color"
 						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
 						aria-expanded="false"> ${profile} <span class="caret"></span>
@@ -91,7 +103,7 @@
 							<li><a href="#">${updateProfile}</a></li>
 						</ul></li>
 				</c:if>
-				
+
 			</ul>
 		</div>
 
@@ -102,14 +114,15 @@
 						<form class="navbar-form" action="Controller" method="post">
 							<input name="command" value="authorization" type="hidden">
 							<div class="form-group">
-								<input type="text" placeholder="${enterLogin}" class="form-control"
-									name="login" value="">
+								<input type="text" placeholder="${enterLogin}"
+									class="form-control" name="login" value="">
 							</div>
 							<div class="form-group">
 								<input type="password" placeholder="${enterPassword}"
 									class="form-control" name="password" value="">
 							</div>
-							<button type="submit" class="btn btn-success"> ${singIn} </button>
+							<button type="submit" class="btn btn-success">${singIn}
+							</button>
 							<a href="#popup-registration" class="btn btn-success">
 								${singUp} </a>
 						</form>
@@ -117,7 +130,8 @@
 				</c:if>
 				<c:if test="${not empty sessionScope.person}">
 					<li>
-						<form class="navbar-form navbar-right" method="post">
+						<form action="Controller" class="navbar-form navbar-right"
+							method="post">
 							<input name="command" value="log_out" type="hidden">
 							<button type="submit" class="btn btn-success">${logOut}</button>
 						</form>

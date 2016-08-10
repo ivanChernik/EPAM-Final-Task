@@ -12,7 +12,7 @@ public class Resume implements Serializable{
 	private String skill;
 	private ApplicantContactInfo contactInfo;
 	private List<PreviousPosition> previousWorkList = new ArrayList<PreviousPosition>();
-	private List<Education> previousEducationList = new ArrayList<Education>();
+	private List<Education> educationList = new ArrayList<Education>();
 	
 	public Resume(){
 		
@@ -23,7 +23,7 @@ public class Resume implements Serializable{
 	}
 	
 	public void addEducation(Education education){
-		previousEducationList.add(education);
+		educationList.add(education);
 	}
 
 	public String getPathImage() {
@@ -66,12 +66,12 @@ public class Resume implements Serializable{
 		this.previousWorkList = previousWorkList;
 	}
 
-	public List<Education> getPreviousEducationList() {
-		return previousEducationList;
+	public List<Education> getEducationList() {
+		return educationList;
 	}
 
-	public void setPreviousEducationList(List<Education> previousEducationList) {
-		this.previousEducationList = previousEducationList;
+	public void setEducationList(List<Education> previousEducationList) {
+		this.educationList = previousEducationList;
 	}	
 	
 	public ApplicantContactInfo getContactInfo() {

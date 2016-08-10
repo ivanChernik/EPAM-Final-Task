@@ -46,7 +46,7 @@ public class ResumeServiceImpl implements IResumeService {
 			throw new ServiceException("Error addiction resume (prev work): date to < date from");
 		}
 
-		Education education = resume.getPreviousEducationList().get(0);
+		Education education = resume.getEducationList().get(0);
 
 		if (education.getEducationDescription() == null || education.getEducationDescription().isEmpty()) {
 			log.error("Error addiction resume (education): description");
@@ -150,9 +150,30 @@ public class ResumeServiceImpl implements IResumeService {
 			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
 			countResumes = resumeDAO.getCountResumes();
 		} catch (DAOException e) {
-			// throw new ServiceException(e);
+			 throw new ServiceException(e);
 		}
 		return countResumes;
+	}
+
+	@Override
+	public Resume getApplicantResume(String idResumeString) throws ServiceException {
+		
+		if(idResumeString == null || idResumeString.isEmpty()){
+			log.error("Error getting resume: idResume ");
+			throw new ServiceException("Error getting resume: idResume ");
+		}
+		
+		int idResume = Integer.parseInt(idResumeString);
+		
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		Resume resume = null;
+		try {
+			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
+			resume = resumeDAO.getApplicantResume(idResume);
+		} catch (DAOException e) {
+			 throw new ServiceException(e);
+		}
+		return resume;
 	}
 
 }

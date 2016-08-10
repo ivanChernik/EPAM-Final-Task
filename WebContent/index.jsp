@@ -74,14 +74,16 @@ Latest compiled and minified JavaScript
 <title>HR System</title>
 </head>
 <body>
-	<!-- NAVIGATION -->
-
+	<!-- NAVIGATION START-->
 	<jsp:include page="navigation.jsp"></jsp:include>
+	<!-- NAVIGATION END -->
+
 
 	<jsp:include page="${request.contextPath}/Controller">
 		<jsp:param name="command" value="show-top-vacancies" />
 	</jsp:include>
-
+	
+	
 	<!-- BACKGROUNG IMAGE -->
 	<div class="container jumbotron background-img">
 		<div class="topic-button-placing">

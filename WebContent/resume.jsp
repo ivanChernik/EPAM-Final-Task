@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,43 +13,25 @@
 <script src="jquery/jquery-3.0.0.min.js"></script>
 
 <meta charset="UTF-8">
-<title>Resume Ivan Chenikov</title>
+<title>Resume</title>
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<ul class="nav nav-tabs">
-					<li><a class="navbar-brand" href="index.html">HR System</a></li>
-					<li role="presentation" class="dropdown"><a
-						class="dropdown-toggle dropdown-button-color"
-						data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-						aria-expanded="false"> Поиск <span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu dropdown-button-style">
-							<li><a href="searchingVacancy.html">Поиск вакансий</a></li>
-							<li><a href="searchingResume.html">Поиск резюме</a></li>
-						</ul></li>
-				</ul>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<form class="navbar-form navbar-right">
-					<button type="submit" class="btn btn-success">Выйти</button>
-				</form>
-			</div>
-		</div>
-	</nav>
+	<!-- NAVIGATION START-->
+	<jsp:include page="navigation.jsp"></jsp:include>
+	
+	<c:set var="resume" value="${requestScope.resume}" scope="page" />
+	
 	<section>
 		<div class="thumbnail head-information">
 			<div class="placing-inline main-information">
 				<div class="position-head">Junior Java Developer</div>
-				<div class="name">Черников Иван</div>
+				<div class="name">${person.name} &nbsp; ${person.surname}</div>
 
-				<div class="location">г. Минск, ул. Якуба Коласа, 28-6.3</div>
+				<div class="location">${resume.contactInfo.address}</div>
 
 				<div class="contact-information">
-					<div>Email: chernik97@gmail.com</div>
-					<div>Телефон: +375295323514</div>
+					<div>Email: ${resume.contactInfo.email}</div>
+					<div>Телефон: ${resume.contactInfo.phone}</div>
 				</div>
 
 				<div class="social-network-placing">
@@ -62,7 +46,7 @@
 				</div>
 			</div>
 			<div class="placing-inline">
-				<img class="img-rounded profile-photo" src="myStyle/img/resume.jpg"
+				<img class="img-rounded profile-photo" src="${resume.pathImage}"
 					alt="photo for resume">
 			</div>
 		</div>
@@ -70,18 +54,7 @@
 		<div class="thumbnail section-information ">
 			<h4 class="page-header">Профессиональная информация</h4>
 
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-				eget justo pellentesque, tempor lectus eget, dictum urna. Praesent
-				vitae arcu risus. Donec eleifend tortor sapien, vel malesuada massa
-				faucibus sed. Aliquam nec dictum velit, ac hendrerit magna. Vivamus
-				pulvinar odio vitae orci auctor, eget consequat neque cursus. Nulla
-				volutpat tincidunt massa, id sodales eros aliquam tristique. Donec
-				magna urna, euismod sit amet nulla et, cursus maximus erat.
-				Phasellus aliquet enim in blandit cursus. Nunc non dolor eget nisi
-				pellentesque vehicula id vel est. Ut ex ligula, sollicitudin eu nisl
-				et, gravida vehicula felis. Quisque efficitur metus ac metus
-				pharetra bibendum. Vivamus scelerisque accumsan lorem non dignissim.
-				Nulla facilisi. Integer consectetur fringilla neque et mollis.</p>
+			<p>Lorem ipsum dolor sit amet</p>
 		</div>
 
 		<div class="thumbnail section-information">
@@ -123,8 +96,9 @@
 				изученного</p>
 		</div>
 	</section>
+	<!-- FOOTER -->
 	<footer>
-		<p class="text-footer">© 2016 EPAM Training Center, HR System.  <a href="siteMap.html"> Карта сайта</a></p>
+		<jsp:include page="footer.jsp" />
 	</footer>
 </body>
 </html>

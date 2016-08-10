@@ -2,6 +2,7 @@ package by.epam.tc.hr_system.util.parameter;
 
 public class ResumeParamater {
 
+	public static final String ID_RESUME = "idResume";
 	public static final String PROF_INFIRMATION = "prof-infirmation";
 	public static final String SKILL = "skill";
 	public static final String POSITION = "position";

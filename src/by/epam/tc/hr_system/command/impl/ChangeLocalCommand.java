@@ -2,6 +2,7 @@ package by.epam.tc.hr_system.command.impl;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +17,7 @@ public class ChangeLocalCommand implements ICommand {
 	private static final Logger log = Logger.getLogger(ChangeLocalCommand.class);
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		request.getSession(true).setAttribute(LOCAL, request.getParameter(LOCAL));
 		String url = request.getRequestURL().toString();
 		
@@ -31,6 +32,7 @@ public class ChangeLocalCommand implements ICommand {
 			response.sendRedirect(url);
 		} catch (IOException e) {
 			log.error("Failed send redirect", e);
+			throw new CommandException(e);
 		}
 		 
 	}

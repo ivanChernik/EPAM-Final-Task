@@ -28,7 +28,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	private static final String SQL_DESCRIPTION = "description";
 	private static final String SQL_NAME = "name";
 	private static final String SQL_ID_VACANCY = "id_vacancy";
-	
+
 	private static final String SQL_SELECT_COUNT_COMPANIES = "SELECT COUNT(distinct company_name) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_COUNT_VACANCIES = "SELECT count(id_vacancy) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_HR_VACANCY = "SELECT `name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_hr` = ?;";
@@ -173,7 +173,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			} catch (SQLException e) {
 				log.error("Error closing statements", e);
 			}
-			
+
 			try {
 				connection.close();
 			} catch (SQLException e) {
@@ -211,7 +211,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			} catch (SQLException e) {
 				log.error("Error closing statements", e);
 			}
-			
+
 			try {
 				connection.close();
 			} catch (SQLException e) {
@@ -250,7 +250,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			} catch (SQLException e) {
 				log.error("Error closing statements", e);
 			}
-			
+
 			try {
 				connection.close();
 			} catch (SQLException e) {
@@ -311,7 +311,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			} catch (SQLException e) {
 				log.error("Error closing connection or statements", e);
 			}
-			
+
 			try {
 				connection.close();
 			} catch (SQLException e) {
@@ -350,7 +350,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			} catch (SQLException e) {
 				log.error("Error closing statements", e);
 			}
-			
+
 			try {
 				connection.close();
 			} catch (SQLException e) {
@@ -363,7 +363,11 @@ public class VacancyDAOImpl implements IVacancyDAO {
 
 	private int getCountRows(ResultSet rs) throws SQLException {
 		int countResumes = -1;
-		rs.next();
+
+		if (!rs.next()) {
+			return 0;
+		}
+		
 		countResumes = rs.getInt(1);// number of column
 		return countResumes;
 	}
@@ -397,7 +401,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			} catch (SQLException e) {
 				log.error("Error closing statements", e);
 			}
-			
+
 			try {
 				connection.close();
 			} catch (SQLException e) {
@@ -409,8 +413,14 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	}
 
 	private Vacancy getVacancy(ResultSet rs) throws SQLException {
-		rs.next();
+		
+
 		Vacancy vacancy = new Vacancy();
+		
+		if (!rs.next()) {
+			return vacancy;
+		}
+		
 		vacancy.setId(rs.getInt(SQL_ID_VACANCY));
 		vacancy.setName(rs.getString(SQL_NAME));
 		vacancy.setDescrption(rs.getString(SQL_DESCRIPTION));

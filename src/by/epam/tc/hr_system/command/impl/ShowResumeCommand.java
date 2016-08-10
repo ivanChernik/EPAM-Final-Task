@@ -1,4 +1,3 @@
-
 package by.epam.tc.hr_system.command.impl;
 
 import java.io.IOException;
@@ -12,59 +11,49 @@ import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.domain.Person;
-import by.epam.tc.hr_system.domain.VacancyResponce;
+import by.epam.tc.hr_system.domain.Resume;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.service.IVacancyResponceService;
+import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.PageName;
-import by.epam.tc.hr_system.util.parameter.VacancyParameter;
+import by.epam.tc.hr_system.util.parameter.ResumeParamater;
 
-public class ApplyForJobCommand implements ICommand {
+public class ShowResumeCommand implements ICommand {
 
 	private static final String PERSON = "person";
-	private static final Logger log = Logger.getLogger(ApplyForJobCommand.class);
+	private static final String RESUME = "resume";
+	private static final Logger log = Logger.getLogger(ShowResumeCommand.class);
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
-			HttpSession session = request.getSession(true);
-			
+			HttpSession session = request.getSession(false);
 			Person person = (Person) session.getAttribute(PERSON);
 
 			if (person == null) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
 			}
-			
-			if (!person.getRole().equals(Person.APPLICANT_ROLE)) {
-				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
-				return;
-			}
 
-			VacancyResponce vacancyResponse = new VacancyResponce();
-			vacancyResponse.setIdResume(person.getId());
-
-			int idVacancy = Integer.parseInt(request.getParameter(VacancyParameter.ID));
-			vacancyResponse.setIdVacancy(idVacancy);
+			String idResumeString = request.getParameter(ResumeParamater.ID_RESUME);
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
 			try {
-				IVacancyResponceService vacancyResponceService = serviceFactory.getVacancyResponceService();
-				vacancyResponceService.addResponceToVacancy(vacancyResponse);
-
+				IResumeService responceService = serviceFactory.getResumeService();
+				Resume resume = responceService.getApplicantResume(idResumeString);
+				request.setAttribute(RESUME, resume);
 			} catch (ServiceException e) {
-
+				throw new CommandException(e);
 			}
 			
-			request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
+			request.getRequestDispatcher(PageName.RESUME_PAGE).forward(request, response);
 
 		} catch (ServletException | IOException e) {
 			log.error(e);
 			throw new CommandException(e);
 		}
-
 	}
 
 }

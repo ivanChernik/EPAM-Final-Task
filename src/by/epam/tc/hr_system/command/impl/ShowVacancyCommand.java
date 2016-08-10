@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.domain.Vacancy;
+import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
@@ -22,7 +23,7 @@ public class ShowVacancyCommand implements ICommand {
 	private static final Logger log = Logger.getLogger(ShowVacancyCommand.class);
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
 		try {
 			int vacancyID = Integer.parseInt(request.getParameter(VacancyParameter.ID));
@@ -38,10 +39,9 @@ public class ShowVacancyCommand implements ICommand {
 			}
 
 			request.getRequestDispatcher(PageName.VACANCY_PAGE).forward(request, response);
-		} catch (ServletException e) {
+		} catch (ServletException | IOException e) {
 			log.error(e);
-		} catch (IOException e) {
-			log.error(e);
+			throw new CommandException(e);
 		}
 
 	}

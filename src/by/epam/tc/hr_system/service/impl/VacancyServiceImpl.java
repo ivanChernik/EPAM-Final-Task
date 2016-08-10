@@ -139,7 +139,7 @@ public class VacancyServiceImpl implements IVacancyService {
 			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
 			countCompanies = vacancyDAO.getCountCompanies();
 		} catch (DAOException e) {
-			// throw new ServiceException(e);
+			 throw new ServiceException(e);
 		}
 		return countCompanies;
 	}
