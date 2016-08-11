@@ -71,6 +71,8 @@ Latest compiled and minified JavaScript
 <fmt:message bundle="${loc}" key="local.applicant" var="applicant" />
 <fmt:message bundle="${loc}" key="local.employer" var="employer" />
 
+
+
 <title>HR System</title>
 </head>
 <body>

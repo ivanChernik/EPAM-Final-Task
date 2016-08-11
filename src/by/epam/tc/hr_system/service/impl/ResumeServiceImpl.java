@@ -117,7 +117,7 @@ public class ResumeServiceImpl implements IResumeService {
 			log.error("Error addiction resume (resume info): skill ");
 			throw new ServiceException("Error addiction resume (resume info): skill ");
 		}
-		if (resume.getPostion() == null || resume.getPostion().isEmpty()) {
+		if (resume.getPosition() == null || resume.getPosition().isEmpty()) {
 			log.error("Error addiction resume (resume info): position ");
 			throw new ServiceException("Error addiction resume (resume info): position ");
 		}

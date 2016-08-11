@@ -46,7 +46,7 @@
 	</jsp:include>
 
 	<section>
-	<div class="thumbnail table-information">
+	<div class="thumbnail wrap-information">
 		<c:if test="${empty requestScope.responceList}">
 			<p>${notResponces}</p>
 		</c:if>

@@ -6,7 +6,7 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="localization.local" var="loc" />
 
-<fmt:message bundle="${loc}" key="local.singIn" var="singIn" />
+<fmt:message bundle="${loc}" key="local.sing.in" var="singIn" />
 <fmt:message bundle="${loc}" key="local.singUp" var="singUp" />
 <fmt:message bundle="${loc}" key="local.logOut" var="logOut" />
 

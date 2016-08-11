@@ -51,7 +51,7 @@ public class CreateResumeCommand implements ICommand {
 
 			Resume resume = new Resume();
 
-			resume.setPostion(request.getParameter(ResumeParamater.POSITION));
+			resume.setPosition(request.getParameter(ResumeParamater.POSITION));
 			resume.setProfInformation(request.getParameter(ResumeParamater.PROF_INFIRMATION));
 			resume.setSkill(request.getParameter(ResumeParamater.SKILL));
 

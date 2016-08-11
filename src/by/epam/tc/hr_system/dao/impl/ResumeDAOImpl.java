@@ -20,9 +20,9 @@ import by.epam.tc.hr_system.exception.ConnectionPoolException;
 import by.epam.tc.hr_system.exception.DAOException;
 
 public class ResumeDAOImpl implements IResumeDAO {
-
+	
 	private static final String SQL_EDUCATION_KIND = "kind_education";
-	private static final String SQL_EDUCATION_DESCRIPTION = "education.`description`";
+	private static final String SQL_EDUCATION_DESCRIPTION = "education.description";
 	private static final String SQL_EDUCATION_DATE_OF_GRADUATION = "date_of_graduation";
 	private static final String SQL_EDUCATION_DATE_OF_ENTRY = "date_of_entry";
 	private static final String SQL_EDUCATION_FORM_OF_EDUCATION = "form_of_education";
@@ -32,12 +32,14 @@ public class ResumeDAOImpl implements IResumeDAO {
 
 	private static final String SQL_PREVIOUS_POSITION_DATE_OF_COMPLETION = "date_of_completion";
 	private static final String SQL_PREVIOUS_POSITION_DATE_OF_BEGINNING = "date_of_beginning";
-	private static final String SQL_PREVIOUS_POSITION_DESCRIPTION = "experience.`description`";
-	private static final String SQL_PREVIOUS_POSITION_NAME = "experience.`position`";
+	private static final String SQL_PREVIOUS_POSITION_DESCRIPTION = "experience.description";
+	private static final String SQL_PREVIOUS_POSITION_NAME = "experience.position";
 
+	private static final String SQL_USER_SURNAME = "surname";
+	private static final String SQL_USER_NAME = "name";
 	private static final String SQL_USER_ADDRESS = "address";
-	private static final String SQL_USER_EMAIL = "email";
-	private static final String SQL_USER_PHONE = "phone";
+	private static final String SQL_USER_EMAIL = "resume_info.email";
+	private static final String SQL_USER_PHONE = "resume_info.phone";
 	private static final String SQL_USER_FACEBOOK_LINK = "facebook_link";
 	private static final String SQL_USER_TWITTER_LINK = "twitter_link";
 	private static final String SQL_USER_LINKEDIN_LINK = "linkedin_link";
@@ -51,8 +53,10 @@ public class ResumeDAOImpl implements IResumeDAO {
 	private static final String SQL_ADD_EDUCATION = "INSERT INTO `hr-system`.`education` (`id_candidate`, `institution`, `department`, `speciality`, `form_of_education`, `date_of_entry`, `date_of_graduation`, `description`) VALUES (?, ?, ?, ?, ?, ?, ? ,?);";
 	private static final String SQL_ADD_PREVIOUS_POSITION = "INSERT INTO `hr-system`.`experience` (`position`, `description`, `date_of_beginning`, `date_of_completion`, `id_applicant`) VALUES (?, ?, ?, ?, ?);";
 
-	private static final String SQL_SELECT_RESUME = "SELECT DISTINCT `skill`, resume_info.`position`, `professional_info`, `photo_path`, `google_plus_link`, `linkedin_link`, `twitter_link`, `facebook_link`, `phone`, `email`, `address` FROM `hr-system`.resume_info JOIN `hr-system`.education ON resume_info.id_applicant = education.id_candidate JOIN `hr-system`.experience ON  resume_info.id_applicant = experience.id_applicant WHERE resume_info.`id_applicant` = ?;";
 	private static final String SQL_SELECT_COUNT_RESUMES = "SELECT COUNT(id_applicant) FROM `hr-system`.resume_info;";
+	private static final String SQL_SELECT_EDUCATION_BY_RESUME_ID = "SELECT DISTINCT  kind_education, education.description, date_of_graduation , `date_of_entry`, form_of_education, speciality, department, institution FROM `hr-system`.resume_info JOIN `hr-system`.education ON resume_info.id_applicant = education.id_candidate WHERE resume_info.`id_applicant`= ?;";
+	private static final String SQL_SELECT_EXPERIENCE_BY_ID_RESUME = "SELECT DISTINCT experience.`position`, experience.`description`, date_of_beginning , date_of_completion FROM `hr-system`.resume_info  JOIN `hr-system`.experience ON resume_info.id_applicant = experience.id_applicant WHERE resume_info.`id_applicant`= ?;";
+	private static final String SQL_SELECT_CONTACT_INFORMATION_BY_ID_RESUME = "SELECT DISTINCT `name`, `surname`,`skill`, resume_info.`position`, `professional_info`,`photo_path`,`google_plus_link`, `linkedin_link`, `twitter_link`, `facebook_link`, resume_info.`phone`, resume_info.`email`, `address` FROM `hr-system`.resume_info JOIN `hr-system`.person ON resume_info.id_applicant = person.id_person WHERE id_person = ?;";
 
 	private static final Logger log = Logger.getLogger(ResumeDAOImpl.class);
 
@@ -106,7 +110,7 @@ public class ResumeDAOImpl implements IResumeDAO {
 
 			addResumeInfoPS.setInt(1, idUser);
 			addResumeInfoPS.setString(2, resume.getSkill());
-			addResumeInfoPS.setString(3, resume.getPostion());
+			addResumeInfoPS.setString(3, resume.getPosition());
 			addResumeInfoPS.setString(4, resume.getProfInformation());
 			addResumeInfoPS.setString(5, resume.getPathImage());
 
@@ -215,26 +219,67 @@ public class ResumeDAOImpl implements IResumeDAO {
 		}
 
 		Connection connection = null;
-		PreparedStatement getResumeUserPS = null;
+		PreparedStatement getContactInfoPS = null;
+		PreparedStatement getExperienceInfoPS = null;
+		PreparedStatement getEducaionPS = null;
+
 		Resume resume = null;
+
 		try {
 			connection = connectionPool.takeConnection();
+			connection.setAutoCommit(false);
 
-			getResumeUserPS = connection.prepareStatement(SQL_SELECT_RESUME);
+			// first
+			getContactInfoPS = connection.prepareStatement(SQL_SELECT_CONTACT_INFORMATION_BY_ID_RESUME);
+			getContactInfoPS.setInt(1, idResume);
+			resume = getContactInfo(getContactInfoPS.executeQuery());
 
-			getResumeUserPS.setInt(1, idResume);
-			resume = getResume(getResumeUserPS.executeQuery());
+			// second
+			getExperienceInfoPS = connection.prepareStatement(SQL_SELECT_EXPERIENCE_BY_ID_RESUME);
+			getExperienceInfoPS.setInt(1, idResume);
 
-		} catch (ConnectionPoolException | SQLException e) {
-			log.error("Error getting resume", e);
-			throw new DAOException("Error getting resume", e);
-		} finally {
+			resume.setPreviousWorkList(getPreviousPositionList(getExperienceInfoPS.executeQuery()));
 
+			// third
+			getEducaionPS = connection.prepareStatement(SQL_SELECT_EDUCATION_BY_RESUME_ID);
+			getEducaionPS.setInt(1, idResume);
+
+			resume.setEducationList(getEducationList(getEducaionPS.executeQuery()));
+
+			connection.commit();
+		}
+
+		catch (ConnectionPoolException | SQLException e) {
+			log.error("Error getting resume person", e);
+			
 			try {
-				getResumeUserPS.close();
+				connection.rollback();
+			} catch (SQLException eSQL) {
+				log.fatal("Error rollback", eSQL);
+				throw new DAOException("Fatal error rollback", e);
+			}
+			
+			throw new DAOException("Error addiction resume", e);
+
+		} finally {
+			try {
+				getContactInfoPS.close();
 			} catch (SQLException e) {
 				log.error("Error closing statements", e);
 			}
+
+			try {
+				getExperienceInfoPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
+				getEducaionPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
 			try {
 				connection.close();
 			} catch (SQLException e) {
@@ -245,7 +290,7 @@ public class ResumeDAOImpl implements IResumeDAO {
 		return resume;
 	}
 
-	private Resume getResume(ResultSet rs) throws SQLException {
+	private Resume getContactInfo(ResultSet rs) throws SQLException {
 		Resume resume = new Resume();
 		ApplicantContactInfo contactinfo = new ApplicantContactInfo();
 
@@ -253,8 +298,11 @@ public class ResumeDAOImpl implements IResumeDAO {
 			return resume;
 		}
 
+		resume.getPerson().setName(rs.getString(SQL_USER_NAME));
+		resume.getPerson().setSurname(rs.getString(SQL_USER_SURNAME));
+
 		resume.setSkill(rs.getString(SQL_USER_SKILL));
-		resume.setPostion(rs.getString(SQL_USER_PREFER_POSITION));
+		resume.setPosition(rs.getString(SQL_USER_PREFER_POSITION));
 		resume.setProfInformation(rs.getString(SQL_USER_PROFESSIONAL_INFO));
 		resume.setPathImage(rs.getString(SQL_USER_PHOTO_PATH));
 
@@ -267,8 +315,6 @@ public class ResumeDAOImpl implements IResumeDAO {
 		contactinfo.setAddress(rs.getString(SQL_USER_ADDRESS));
 
 		resume.setContactInfo(contactinfo);
-		resume.setPreviousWorkList(getPreviousPositionList(rs));
-		resume.setEducationList(getEducationList(rs));
 
 		return resume;
 	}

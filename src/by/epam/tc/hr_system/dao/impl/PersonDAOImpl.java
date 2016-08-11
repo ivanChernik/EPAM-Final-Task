@@ -274,9 +274,9 @@ public class PersonDAOImpl implements IPersonDAO {
 
 	private Person getPerson(ResultSet rs) throws SQLException {
 		Person person = new Person();
-
+		
 		if (!rs.next()) {
-			return person;
+			return null;
 		}
 
 		person.setId(rs.getInt(SQL_ID_USER));
@@ -372,12 +372,22 @@ public class PersonDAOImpl implements IPersonDAO {
 
 			try {
 				rs.close();
+			} catch (SQLException e) {
+				log.fatal("Error closing resultSet", e);
+			}
+			
+			try {
 				searchPersonPS.close();
+			} catch (SQLException e) {
+				log.fatal("Error closing statement", e);
+			}
+			
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.fatal("Error closing resultSer or statement or connection", e);
-				throw new DAOException("Error closing resultSer or statement or connection", e);
+				log.fatal("Error closing connection", e);
 			}
+	
 		}
 		return person;
 	}

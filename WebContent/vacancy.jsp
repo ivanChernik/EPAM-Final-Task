@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,18 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <meta charset="UTF-8">
+
+
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="localization.local" var="loc" />
+
+<fmt:message bundle="${loc}" key="local.description" var="description" />
+<fmt:message bundle="${loc}" key="local.requirement" var="requirement" />
+<fmt:message bundle="${loc}" key="local.contact.data" var="contactData" />	
+<fmt:message bundle="${loc}" key="local.salary" var="salary" />	
+<fmt:message bundle="${loc}" key="local.send.resume" var="sendResume" />
+<fmt:message bundle="${loc}" key="local.employment" var="employment" />
+
 <title>Vacancy</title>
 </head>
 <body>
@@ -26,26 +39,26 @@
 			<div class="thumbnail section-information ">
 				<h1>${requestScope.vacancy.name}</h1>
 				<h4>${requestScope.vacancy.companyName}</h4>
-				<h4 class="page-header">Описание</h4>
+				<h4 class="page-header"> ${description}</h4>
 				<p>${requestScope.vacancy.descrption}</p>
 			</div>
 			<div class="thumbnail section-information ">
-				<h4 class="page-header">Требования</h4>
+				<h4 class="page-header"> ${requirement}</h4>
 				<p>${requestScope.vacancy.requirement}</p>
 			</div>
 			<div class="thumbnail section-information ">
-				<h4 class="page-header">Контактная информация</h4>
+				<h4 class="page-header"> ${contactData}</h4>
 				<p>${requestScope.vacancy.contactInformation}</p>
 			</div>
 			<div class="thumbnail section-information ">
-				<h4 class="page-header">Тип занятости</h4>
+				<h4 class="page-header"> ${employment}</h4>
 				<p>${requestScope.vacancy.employment}</p>
 			</div>
 			<div class="thumbnail section-information ">
-				<h4 class="page-header">Заработная плата</h4>
-				<p>${requestScope.vacancy.salary}y.e.</p>
+				<h4 class="page-header"> ${salary}</h4>
+				<p>${requestScope.vacancy.salary} &nbsp; y.e.</p>
 			</div>
-			<button type="submit" class="btn btn-success">Откликнуться</button>
+			<button type="submit" class="btn btn-success"> ${sendResume}</button>
 		</form>
 	</section>
 	<!-- FOOTER -->

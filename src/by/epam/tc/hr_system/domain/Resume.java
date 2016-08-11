@@ -6,8 +6,9 @@ import java.util.List;
 
 public class Resume implements Serializable{
 	
+	private Person person = new Person();;
 	private String pathImage;
-	private String postion;
+	private String position;
 	private String profInformation;
 	private String skill;
 	private ApplicantContactInfo contactInfo;
@@ -15,7 +16,7 @@ public class Resume implements Serializable{
 	private List<Education> educationList = new ArrayList<Education>();
 	
 	public Resume(){
-		
+
 	}
 	
 	public void addPreviousWork(PreviousPosition previousWork){
@@ -34,12 +35,12 @@ public class Resume implements Serializable{
 		this.pathImage = pathImage;
 	}
 
-	public String getPostion() {
-		return postion;
+	public String getPosition() {
+		return position;
 	}
 
-	public void setPostion(String postion) {
-		this.postion = postion;
+	public void setPosition(String postion) {
+		this.position = postion;
 	}
 
 	public String getProfInformation() {
@@ -80,6 +81,14 @@ public class Resume implements Serializable{
 
 	public void setContactInfo(ApplicantContactInfo contactInfo) {
 		this.contactInfo = contactInfo;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 	
 }

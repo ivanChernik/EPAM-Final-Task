@@ -17,7 +17,7 @@
 <fmt:setBundle basename="localization.local" var="loc" />
 <fmt:message bundle="${loc}" key="local.titleVacancy" var="titleVacancy" />
 <fmt:message bundle="${loc}" key="local.companyName" var="companyName" />
-<fmt:message bundle="${loc}" key="local.contactData" var="contactData" />
+<fmt:message bundle="${loc}" key="local.contact.data" var="contactData" />
 <fmt:message bundle="${loc}" key="local.fullEmployment" var="fullEmployment" />
 <fmt:message bundle="${loc}" key="local.partEmployment" var="partEmployment" />
 <fmt:message bundle="${loc}" key="local.shortDescription" var="shortDescription" />

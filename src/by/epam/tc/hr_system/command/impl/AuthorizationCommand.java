@@ -21,7 +21,7 @@ import by.epam.tc.hr_system.util.parameter.UserParameter;
 public class AuthorizationCommand implements ICommand {
 
 	private static final Logger log = Logger.getLogger(AuthorizationCommand.class);
-	
+
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
@@ -39,17 +39,21 @@ public class AuthorizationCommand implements ICommand {
 				userService = serviceFactory.getUserService();
 				person = userService.authorizePerson(login, password);
 			} catch (ServiceException e) {
-				
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
-			} 	
-			
+			}
+
+			if (person == null) {
+				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+				return;
+			}
+
 			session.setAttribute("person", person);
 
-			if (person.getRole().equals(Person.APPLICANT_ROLE)) {
+			if (Person.APPLICANT_ROLE.equals(person.getRole())) {
 				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
 			}
-			if (person.getRole().equals(Person.HR_ROLE)) {
+			if (Person.HR_ROLE.equals(person.getRole())) {
 				request.getRequestDispatcher(PageName.INDEX_HR_PAGE).forward(request, response);
 			}
 
