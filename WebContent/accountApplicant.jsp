@@ -22,12 +22,12 @@
 <fmt:message bundle="${loc}" key="local.logOut" var="logOut" />
 <fmt:message bundle="${loc}" key="local.createResume" var="createResume" />
 
-<fmt:message bundle="${loc}" key="local.searchVacancies"
+<fmt:message bundle="${loc}" key="local.search.vacancies"
 	var="searchVacancies" />
-<fmt:message bundle="${loc}" key="local.searchResumes"
+<fmt:message bundle="${loc}" key="local.search.resumes"
 	var="searchResumes" />
 <fmt:message bundle="${loc}" key="local.search" var="search" />
-<fmt:message bundle="${loc}" key="local.tableStatusFeedback"
+<fmt:message bundle="${loc}" key="local.table.status.feedback"
 	var="tableStatusFeedback" />
 <fmt:message bundle="${loc}" key="local.company" var="company" />
 <fmt:message bundle="${loc}" key="local.status" var="status" />
@@ -62,7 +62,7 @@
 				<tbody>
 					<c:forEach var="responce" items="${requestScope.responceList}">
 						<tr>
-							<td>${responce.companyName}</td>
+							<td>${responce.vacancy.companyName}</td>
 							<td>${responce.status}</td>
 							<td>${responce.date}</td>
 						</tr>
@@ -72,8 +72,6 @@
 		</div>
 	</section>
 	<!-- FOOTER -->
-	<footer>
-		<jsp:include page="footer.jsp" />
-	</footer>
+	<jsp:include page="footer.jsp" />
 </body>
 </html>

@@ -10,9 +10,9 @@ public class VacancyResponce implements Serializable{
 	public static final String REJECTION_STATUS = "rejection";
 	public static final String INVITATION_FOR_INTERVIEW_STATUS = "invitation-for-interview";
 	
-	private int idResume;
-	private int idVacancy;
-	private String сompanyName;
+	private int id;
+	private Resume resume = new Resume();
+	private Vacancy vacancy = new Vacancy();
 	private String status;
 	private Date date;
 	
@@ -20,32 +20,6 @@ public class VacancyResponce implements Serializable{
 		
 	}
 	
-
-	public VacancyResponce(int idResume, int idVacancy, String status, Date date) {
-		super();
-		this.idResume = idResume;
-		this.idVacancy = idVacancy;
-		this.status = status;
-		this.date = date;
-	}
-
-
-
-	public int getIdResume() {
-		return idResume;
-	}
-
-	public void setIdResume(int idResume) {
-		this.idResume = idResume;
-	}
-
-	public int getIdVacancy() {
-		return idVacancy;
-	}
-
-	public void setIdVacancy(int idVacancy) {
-		this.idVacancy = idVacancy;
-	}
 
 	public String getStatus() {
 		return status;
@@ -64,13 +38,33 @@ public class VacancyResponce implements Serializable{
 	}
 
 
-	public String getCompanyName() {
-		return сompanyName;
+	public Resume getResume() {
+		return resume;
 	}
 
 
-	public void setCompanyName(String companyName) {
-		сompanyName = companyName;
+	public void setResume(Resume resume) {
+		this.resume = resume;
 	}
-	
+
+
+	public Vacancy getVacancy() {
+		return vacancy;
+	}
+
+
+	public void setVacancy(Vacancy vacancy) {
+		this.vacancy = vacancy;
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 }

@@ -17,11 +17,11 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 	@Override
 	public void addResponceToVacancy(VacancyResponce vacancyResponce) throws ServiceException {
 
-		if (vacancyResponce.getIdResume() < 0) {
+		if (vacancyResponce.getResume().getId() < 0) {
 			throw new ServiceException("Error addiction responce to Vacancy: idResume");
 		}
 
-		if (vacancyResponce.getIdVacancy() < 0) {
+		if (vacancyResponce.getVacancy().getId() < 0) {
 			throw new ServiceException("Error addiction responce to Vacancy: idVacancy");
 		}
 

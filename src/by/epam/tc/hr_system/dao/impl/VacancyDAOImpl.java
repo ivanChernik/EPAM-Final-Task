@@ -31,7 +31,8 @@ public class VacancyDAOImpl implements IVacancyDAO {
 
 	private static final String SQL_SELECT_COUNT_COMPANIES = "SELECT COUNT(distinct company_name) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_COUNT_VACANCIES = "SELECT count(id_vacancy) FROM `hr-system`.vacancy;";
-	private static final String SQL_SELECT_HR_VACANCY = "SELECT `name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_hr` = ?;";
+	private static final String SQL_SELECT_HR_VACANCY = "SELECT `id_vacancy`,`name`,`company_name`, `date_of_submission`,`status` FROM `hr-system`.`vacancy` WHERE `id_hr` = ?;";
+	//лишние параметры !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	private static final String SQL_SELECT_TOP_VACANCY = "SELECT `id_vacancy`,`name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_vacancy` in (1,2,3,4);";
 	private static final String SQL_SELECT_VACANCY_BY_ID = "SELECT `id_vacancy`,`name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_vacancy` = ?;";
 
@@ -221,6 +222,28 @@ public class VacancyDAOImpl implements IVacancyDAO {
 
 		return vacancyList;
 	}
+	
+	private List<Vacancy> getVacancyList(ResultSet rs) throws SQLException {
+		List<Vacancy> vacancyList = new ArrayList<Vacancy>();
+
+		while (rs.next()) {
+			Vacancy vacancy = new Vacancy();
+			vacancy.setId(rs.getInt(SQL_ID_VACANCY));
+			vacancy.setName(rs.getString(SQL_NAME));
+			vacancy.setDescrption(rs.getString(SQL_DESCRIPTION));
+			vacancy.setShortDescription(rs.getString(SQL_SHORT_DESCRIPTION));
+			vacancy.setRequirement(rs.getString(SQL_REQUIREMENT));
+			vacancy.setSalary(rs.getInt(SQL_SALARY));
+			vacancy.setDateSubmission(rs.getDate(SQL_DATE_OF_SUBMISSION));
+			vacancy.setStatus(rs.getString(SQL_STATUS));
+			vacancy.setCompanyName(rs.getString(SQL_COMPANY_NAME));
+			vacancy.setContactInformation(rs.getString(SQL_CONTACT_INFORMATION));
+			vacancy.setEmployment(rs.getString(SQL_TYPE_EMPLOYMENT));
+			vacancyList.add(vacancy);
+		}
+		return vacancyList;
+
+	}
 
 	@Override
 	public List<Vacancy> getHRVacancies(int idHR) throws DAOException {
@@ -237,7 +260,8 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		try {
 			connection = connectionPool.takeConnection();
 			searchHRVacancyPS = connection.prepareStatement(SQL_SELECT_HR_VACANCY);
-			vacancyList = getVacancyList(searchHRVacancyPS.executeQuery());
+			searchHRVacancyPS.setInt(1, idHR);
+			vacancyList = getHRVacancyList(searchHRVacancyPS.executeQuery());
 
 		} catch (SQLException | ConnectionPoolException e) {
 			log.error("Error get HR vacancies", e);
@@ -260,28 +284,24 @@ public class VacancyDAOImpl implements IVacancyDAO {
 
 		return vacancyList;
 	}
-
-	private List<Vacancy> getVacancyList(ResultSet rs) throws SQLException {
+	
+	
+	private List<Vacancy> getHRVacancyList(ResultSet rs) throws SQLException {
 		List<Vacancy> vacancyList = new ArrayList<Vacancy>();
 
 		while (rs.next()) {
 			Vacancy vacancy = new Vacancy();
 			vacancy.setId(rs.getInt(SQL_ID_VACANCY));
 			vacancy.setName(rs.getString(SQL_NAME));
-			vacancy.setDescrption(rs.getString(SQL_DESCRIPTION));
-			vacancy.setShortDescription(rs.getString(SQL_SHORT_DESCRIPTION));
-			vacancy.setRequirement(rs.getString(SQL_REQUIREMENT));
-			vacancy.setSalary(rs.getInt(SQL_SALARY));
 			vacancy.setDateSubmission(rs.getDate(SQL_DATE_OF_SUBMISSION));
 			vacancy.setStatus(rs.getString(SQL_STATUS));
 			vacancy.setCompanyName(rs.getString(SQL_COMPANY_NAME));
-			vacancy.setContactInformation(rs.getString(SQL_CONTACT_INFORMATION));
-			vacancy.setEmployment(rs.getString(SQL_TYPE_EMPLOYMENT));
 			vacancyList.add(vacancy);
 		}
 		return vacancyList;
 
 	}
+	
 
 	@Override
 	public int getCountVacancies() throws DAOException {
@@ -436,5 +456,6 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		return vacancy;
 
 	}
+
 
 }

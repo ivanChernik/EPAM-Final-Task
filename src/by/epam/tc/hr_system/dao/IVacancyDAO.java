@@ -20,6 +20,7 @@ public interface IVacancyDAO {
 	
 	Vacancy getVacancyByID(int vacancyId) throws DAOException;
 	
+	
 	int getCountVacancies() throws DAOException;
 	
 	int getCountCompanies() throws DAOException;

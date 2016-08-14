@@ -39,7 +39,7 @@ public class AuthorizationCommand implements ICommand {
 				userService = serviceFactory.getUserService();
 				person = userService.authorizePerson(login, password);
 			} catch (ServiceException e) {
-				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+				request.getRequestDispatcher(PageName.ERROR_505_PAGE).forward(request, response);
 				return;
 			}
 

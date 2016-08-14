@@ -4,9 +4,10 @@
 
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="localization.local" var="loc" />
-<fmt:message bundle="${loc}" key="local.siteMap" var="siteMap" />
+<fmt:message bundle="${loc}" key="local.site.map" var="siteMap" />
 
-
-<p class="text-footer">
-	&#169; 2016 EPAM Training Center, HR System. <a href="siteMap.html">${siteMap}</a>
-</p>
+<footer>
+	<p class="text-footer">
+		&#169; 2016 EPAM Training Center, HR System. <a href="siteMap.html">${siteMap}</a>
+	</p>
+</footer>

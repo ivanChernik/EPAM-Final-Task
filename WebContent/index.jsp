@@ -30,42 +30,42 @@ Latest compiled and minified JavaScript
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="localization.local" var="loc" />
 
-<fmt:message bundle="${loc}" key="local.singUpIndex" var="singUpIndex" />
-<fmt:message bundle="${loc}" key="local.createResumeIndex" var="createResumeIndex" />
-<fmt:message bundle="${loc}" key="local.createVacancyIndex" var="createVacancyIndex" />	
+<fmt:message bundle="${loc}" key="local.sing.up.index" var="singUpIndex" />
+<fmt:message bundle="${loc}" key="local.create.resume.index" var="createResumeIndex" />
+<fmt:message bundle="${loc}" key="local.create.vacancy.index" var="createVacancyIndex" />	
 
-<fmt:message bundle="${loc}" key="local.updateResume"
+<fmt:message bundle="${loc}" key="local.update.resume"
 	var="updateResume" />
 
-<fmt:message bundle="${loc}" key="local.searchVacancies"
+<fmt:message bundle="${loc}" key="local.search.vacancies"
 	var="searchVacancies" />
-<fmt:message bundle="${loc}" key="local.searchResumes"
+<fmt:message bundle="${loc}" key="local.search.resumes"
 	var="searchResumes" />
 <fmt:message bundle="${loc}" key="local.search" var="search" />
 
-<fmt:message bundle="${loc}" key="local.welcomeToHR" var="welcomeToHR" />
-<fmt:message bundle="${loc}" key="local.countResumes" var="countResumes" />
-<fmt:message bundle="${loc}" key="local.countVacancies"
+<fmt:message bundle="${loc}" key="local.welcome.to.hr.system" var="welcomeToHR" />
+<fmt:message bundle="${loc}" key="local.count.resumes" var="countResumes" />
+<fmt:message bundle="${loc}" key="local.count.vacancies"
 	var="countVacancies" />
-<fmt:message bundle="${loc}" key="local.countCompanies"
+<fmt:message bundle="${loc}" key="local.count.companies"
 	var="countCompanies" />
 
 <fmt:message bundle="${loc}" key="local.look" var="look" />
 <fmt:message bundle="${loc}" key="local.ru" var="ru" />
 <fmt:message bundle="${loc}" key="local.en" var="en" />
 
-<fmt:message bundle="${loc}" key="local.enterName" var="enterName" />
-<fmt:message bundle="${loc}" key="local.enterSurname" var="enterSurname" />
-<fmt:message bundle="${loc}" key="local.enterPatronymic"
+<fmt:message bundle="${loc}" key="local.enter.name" var="enterName" />
+<fmt:message bundle="${loc}" key="local.enter.surname" var="enterSurname" />
+<fmt:message bundle="${loc}" key="local.enter.patronymic"
 	var="enterPatronymic" />
-<fmt:message bundle="${loc}" key="local.enterDateOfBirthday"
+<fmt:message bundle="${loc}" key="local.enter.date.of.birthday"
 	var="enterDateOfBirthday" />
-<fmt:message bundle="${loc}" key="local.enterEmail" var="enterEmail" />
-<fmt:message bundle="${loc}" key="local.enterPhone" var="enterPhone" />
-<fmt:message bundle="${loc}" key="local.enterLogin" var="enterLogin" />
-<fmt:message bundle="${loc}" key="local.enterPassword"
+<fmt:message bundle="${loc}" key="local.enter.email" var="enterEmail" />
+<fmt:message bundle="${loc}" key="local.enter.phone" var="enterPhone" />
+<fmt:message bundle="${loc}" key="local.enter.login" var="enterLogin" />
+<fmt:message bundle="${loc}" key="local.enter.password"
 	var="enterPassword" />
-<fmt:message bundle="${loc}" key="local.repeatPassword"
+<fmt:message bundle="${loc}" key="local.repeat.password"
 	var="repeatPassword" />
 <fmt:message bundle="${loc}" key="local.cancel" var="cancel" />
 <fmt:message bundle="${loc}" key="local.applicant" var="applicant" />
@@ -231,8 +231,7 @@ Latest compiled and minified JavaScript
 	</div>
 
 	<!-- FOOTER -->
-	<footer>
-		<jsp:include page="footer.jsp" />
-	</footer>
+	<jsp:include page="footer.jsp" />
+	
 </body>
 </html>

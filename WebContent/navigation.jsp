@@ -7,34 +7,32 @@
 <fmt:setBundle basename="localization.local" var="loc" />
 
 <fmt:message bundle="${loc}" key="local.sing.in" var="singIn" />
-<fmt:message bundle="${loc}" key="local.singUp" var="singUp" />
-<fmt:message bundle="${loc}" key="local.logOut" var="logOut" />
+<fmt:message bundle="${loc}" key="local.sing.up" var="singUp" />
+<fmt:message bundle="${loc}" key="local.log.out" var="logOut" />
 
 <fmt:message bundle="${loc}" key="local.search" var="search" />
-<fmt:message bundle="${loc}" key="local.searchVacancies"
+<fmt:message bundle="${loc}" key="local.search.vacancies"
 	var="searchVacancies" />
-<fmt:message bundle="${loc}" key="local.searchResumes"
+<fmt:message bundle="${loc}" key="local.search.resumes"
 	var="searchResumes" />
 
 <fmt:message bundle="${loc}" key="local.resume" var="resume" />
-<fmt:message bundle="${loc}" key="local.createResume" var="createResume" />
-<fmt:message bundle="${loc}" key="local.updateResume" var="updateResume" />
+<fmt:message bundle="${loc}" key="local.create.resume" var="createResume" />
+<fmt:message bundle="${loc}" key="local.update.resume" var="updateResume" />
 
 <fmt:message bundle="${loc}" key="local.profile" var="profile" />
 <fmt:message bundle="${loc}" key="local.responces" var="responces" />
-<fmt:message bundle="${loc}" key="local.updateProfile"
+<fmt:message bundle="${loc}" key="local.update.profile"
 	var="updateProfile" />
 
-<fmt:message bundle="${loc}" key="local.createResume" var="createResume" />
-<fmt:message bundle="${loc}" key="local.createVacancy"
-	var="createVacancy" />
+<fmt:message bundle="${loc}" key="local.create.vacancy" var="createVacancy" />
 <fmt:message bundle="${loc}" key="local.vacancy" var="vacancy" />
 
 <fmt:message bundle="${loc}" key="local.ru" var="ru" />
 <fmt:message bundle="${loc}" key="local.en" var="en" />
 
-<fmt:message bundle="${loc}" key="local.enterLogin" var="enterLogin" />
-<fmt:message bundle="${loc}" key="local.enterPassword"
+<fmt:message bundle="${loc}" key="local.enter.login" var="enterLogin" />
+<fmt:message bundle="${loc}" key="local.enter.password"
 	var="enterPassword" />
 <fmt:message bundle="${loc}" key="local.look.resume" var="lookResume" />
 
@@ -99,7 +97,7 @@
 						aria-expanded="false"> ${profile} <span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu dropdown-button-style">
-							<li><a href="accountApplicant.jsp">${responces}</a></li>
+							<li><a href="accountHR.jsp">${responces}</a></li>
 							<li><a href="#">${updateProfile}</a></li>
 						</ul></li>
 				</c:if>

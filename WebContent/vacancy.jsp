@@ -62,8 +62,6 @@
 		</form>
 	</section>
 	<!-- FOOTER -->
-	<footer>
-		<jsp:include page="footer.jsp" />
-	</footer>
+	<jsp:include page="footer.jsp" />
 </body>
 </html>

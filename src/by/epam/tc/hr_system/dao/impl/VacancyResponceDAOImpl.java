@@ -44,8 +44,8 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 		try {
 			connection = connectionPool.takeConnection();
 			addVacancyResponcePS = connection.prepareStatement(SQL_ADD_RESPONCE_TO_VACANCY);
-			addVacancyResponcePS.setInt(1, vacancyResponce.getIdResume());
-			addVacancyResponcePS.setInt(2, vacancyResponce.getIdVacancy());
+			addVacancyResponcePS.setInt(1, vacancyResponce.getResume().getId());
+			addVacancyResponcePS.setInt(2, vacancyResponce.getVacancy().getId());
 			addVacancyResponcePS.setString(3, vacancyResponce.getStatus());	
 			addVacancyResponcePS.setDate(4, vacancyResponce.getDate());	
 			addVacancyResponcePS.executeUpdate();
@@ -111,7 +111,7 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 			VacancyResponce responce = new VacancyResponce();
 			responce.setStatus(rs.getString(SQL_STATUS));
 			responce.setDate((rs.getDate(SQL_DATE)));
-			responce.setCompanyName((rs.getString(SQL_COMPANY_NAME)));
+			responce.getVacancy().setCompanyName((rs.getString(SQL_COMPANY_NAME)));
 			responceList.add(responce);
 		}
 		return responceList;

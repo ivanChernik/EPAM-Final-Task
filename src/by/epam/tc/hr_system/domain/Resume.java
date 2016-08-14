@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Resume implements Serializable{
 	
+	private int id;
 	private Person person = new Person();;
 	private String pathImage;
 	private String position;
@@ -90,5 +91,13 @@ public class Resume implements Serializable{
 	public void setPerson(Person person) {
 		this.person = person;
 	}
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 }

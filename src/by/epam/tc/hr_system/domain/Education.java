@@ -5,15 +5,15 @@ import java.sql.Date;
 
 public class Education implements Serializable  {
 
-	public static final String FULL_TIME = "Full-Time";
-	public static final String PART_TIME = "Part-Time";
-	public static final String DISTANT = "Distant";
+	public static final String FULL_TIME = "Full-form";
+	public static final String PART_TIME = "Part-form";
+	public static final String DISTANT = "Distant-form";
  
 	public static final String HIGHER = "Higher";
 	public static final String AVERAGE = "Average";
 	public static final String SPECIALIZED_SECONDARY = "Specialized-secondary";
 	public static final String VOCATIONAL_TECHNICAL = "Vocational-technical";
-	public static final String INCOMPLETE_HIGHER_EDUCATION = "Incomplete-higher-education";
+	public static final String INCOMPLETE_HIGHER_EDUCATION = "Incomplete-higher";
 	
 	private String kindEducation;
 	private String university;

@@ -41,7 +41,6 @@ public class PersonDAOImpl implements IPersonDAO {
 	private final static String SQL_PHONE = "phone";
 
 	private static final Logger log = Logger.getLogger(PersonDAOImpl.class);
-	// private ConnectionPool connectionPool;
 
 	@Override
 	public void registerPerson(String login, String password, Person person) throws DAOException {
@@ -55,7 +54,7 @@ public class PersonDAOImpl implements IPersonDAO {
 
 		Connection connection = null;
 		PreparedStatement addUserDataPS = null;
-		PreparedStatement addPersonalDataPS = null;
+		PreparedStatement addProfileDataPS = null;
 		try {
 			connection = connectionPool.takeConnection();
 			connection.setAutoCommit(false);
@@ -78,37 +77,49 @@ public class PersonDAOImpl implements IPersonDAO {
 			}
 
 			// second
-			addPersonalDataPS = connection.prepareStatement(SQL_ADD_PERSONS_DATA);
-			addPersonalDataPS.setString(1, person.getName());
-			addPersonalDataPS.setString(2, person.getSurname());
-			addPersonalDataPS.setString(3, person.getMiddleName());
-			addPersonalDataPS.setDate(4, person.getDateOfBirthday());
-			addPersonalDataPS.setString(5, person.getEmail());
-			addPersonalDataPS.setString(6, person.getPhone());
-			addPersonalDataPS.setInt(7, person.getId());
-			addPersonalDataPS.executeUpdate();
+			addProfileDataPS = connection.prepareStatement(SQL_ADD_PERSONS_DATA);
+			addProfileDataPS.setString(1, person.getName());
+			addProfileDataPS.setString(2, person.getSurname());
+			addProfileDataPS.setString(3, person.getMiddleName());
+			addProfileDataPS.setDate(4, person.getDateOfBirthday());
+			addProfileDataPS.setString(5, person.getEmail());
+			addProfileDataPS.setString(6, person.getPhone());
+			addProfileDataPS.setInt(7, person.getId());
+			addProfileDataPS.executeUpdate();
 
 			connection.commit();
 		}
 
 		catch (ConnectionPoolException | SQLException e) {
-			log.error("Error addiction person", e);
+			
 			try {
 				connection.rollback();
 			} catch (SQLException eSQL) {
 				log.fatal("Error rollback", eSQL);
 				throw new DAOException("Fatal error rollback", e);
 			}
-			throw new DAOException("Error addiction person", e);
+			log.error("Error registration person", e);
+			throw new DAOException("Error registration person", e);
 
 		} finally {
 			try {
 				addUserDataPS.close();
-				addPersonalDataPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
+				addProfileDataPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
+				log.error("Error closing connection", e);
 			}
+
 		}
 
 	}
@@ -137,10 +148,20 @@ public class PersonDAOImpl implements IPersonDAO {
 		} finally {
 			try {
 				rs.close();
+			} catch (SQLException e) {
+				log.error("Error closing resultSet", e);
+			}
+
+			try {
 				searchLoginPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statement", e);
+			}
+
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.error("Error closing connection or statements", e);
+				log.error("Error closing connection", e);
 			}
 		}
 	}
@@ -156,15 +177,15 @@ public class PersonDAOImpl implements IPersonDAO {
 		}
 		Connection connection = null;
 		PreparedStatement removeUserPS = null;
-		PreparedStatement removePersonalInformationPS = null;
+		PreparedStatement removeProfileDataPS = null;
 		boolean result = false;
 		try {
 			connection = connectionPool.takeConnection();
 			connection.setAutoCommit(false);
 
-			removePersonalInformationPS = connection.prepareStatement(SQL_DELETE_PERSONAL_INFORMATION_BY_ID);
-			removePersonalInformationPS.setInt(1, idUser);
-			removePersonalInformationPS.executeUpdate();
+			removeProfileDataPS = connection.prepareStatement(SQL_DELETE_PERSONAL_INFORMATION_BY_ID);
+			removeProfileDataPS.setInt(1, idUser);
+			removeProfileDataPS.executeUpdate();
 
 			removeUserPS = connection.prepareStatement(SQL_DELETE_UDER_BY_ID);
 			removeUserPS.setInt(1, idUser);
@@ -183,11 +204,21 @@ public class PersonDAOImpl implements IPersonDAO {
 
 		} finally {
 			try {
-				removePersonalInformationPS.close();
+				removeProfileDataPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statement", e);
+			}
+
+			try {
 				removeUserPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statement", e);
+			}
+
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new DAOException("Error closing connection or statements", e);
+				log.error("Error closing connection", e);
 			}
 
 		}
@@ -221,15 +252,14 @@ public class PersonDAOImpl implements IPersonDAO {
 			updatePersonalDataPS.executeUpdate();
 			result = true;
 		} catch (ConnectionPoolException | SQLException e) {
-			log.error("Error updating personal data", e);
-			throw new DAOException("Error updating personal data", e);
+			log.error("Error updating profile data", e);
+			throw new DAOException("Error updating profile data", e);
 
 		} finally {
 			try {
 				updatePersonalDataPS.close();
 			} catch (SQLException e) {
-				log.fatal("Erorr closing statement", e);
-				throw new DAOException("Erorr closing statement", e);
+				log.error("Erorr closing statement", e);
 			}
 		}
 		return result;
@@ -262,11 +292,20 @@ public class PersonDAOImpl implements IPersonDAO {
 		} finally {
 			try {
 				rs.close();
+			} catch (SQLException e) {
+				log.error("Error closing resultSet", e);
+			}
+
+			try {
 				preparedStatement.close();
+			} catch (SQLException e) {
+				log.error("Error closing statement", e);
+			}
+
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.fatal("Error closing resultSer or statement or connection", e);
-				throw new DAOException("Error closing resultSer or statement or connection", e);
+				log.error("Error closing connection", e);
 			}
 		}
 		return searchedPerson;
@@ -274,7 +313,7 @@ public class PersonDAOImpl implements IPersonDAO {
 
 	private Person getPerson(ResultSet rs) throws SQLException {
 		Person person = new Person();
-		
+
 		if (!rs.next()) {
 			return null;
 		}
@@ -319,11 +358,20 @@ public class PersonDAOImpl implements IPersonDAO {
 
 			try {
 				rs.close();
+			} catch (SQLException e) {
+				log.error("Error closing resultSet", e);
+			}
+
+			try {
 				preparedStatement.close();
+			} catch (SQLException e) {
+				log.error("Error closing statement", e);
+			}
+
+			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.fatal("Error closing resultSer or statement or connection", e);
-				throw new DAOException("Error closing resultSer or statement or connection", e);
+				log.error("Error closing connection", e);
 			}
 		}
 		return searchedPersonList;
@@ -373,21 +421,21 @@ public class PersonDAOImpl implements IPersonDAO {
 			try {
 				rs.close();
 			} catch (SQLException e) {
-				log.fatal("Error closing resultSet", e);
+				log.error("Error closing resultSet", e);
 			}
-			
+
 			try {
 				searchPersonPS.close();
 			} catch (SQLException e) {
-				log.fatal("Error closing statement", e);
+				log.error("Error closing statement", e);
 			}
-			
+
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.fatal("Error closing connection", e);
+				log.error("Error closing connection", e);
 			}
-	
+
 		}
 		return person;
 	}

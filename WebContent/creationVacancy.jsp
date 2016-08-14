@@ -15,16 +15,20 @@
 
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="localization.local" var="loc" />
-<fmt:message bundle="${loc}" key="local.titleVacancy" var="titleVacancy" />
-<fmt:message bundle="${loc}" key="local.companyName" var="companyName" />
+<fmt:message bundle="${loc}" key="local.title.vacancy" var="titleVacancy" />
+<fmt:message bundle="${loc}" key="local.company.name" var="companyName" />
 <fmt:message bundle="${loc}" key="local.contact.data" var="contactData" />
-<fmt:message bundle="${loc}" key="local.fullEmployment" var="fullEmployment" />
-<fmt:message bundle="${loc}" key="local.partEmployment" var="partEmployment" />
-<fmt:message bundle="${loc}" key="local.shortDescription" var="shortDescription" />
+<fmt:message bundle="${loc}" key="local.full.employment"
+	var="fullEmployment" />
+<fmt:message bundle="${loc}" key="local.part.employment"
+	var="partEmployment" />
+<fmt:message bundle="${loc}" key="local.short.description"
+	var="shortDescription" />
 <fmt:message bundle="${loc}" key="local.description" var="description" />
 <fmt:message bundle="${loc}" key="local.requirement" var="requirement" />
 <fmt:message bundle="${loc}" key="local.salary" var="salary" />
-<fmt:message bundle="${loc}" key="local.createVacancyIndex" var="createVacancyIndex" />	
+<fmt:message bundle="${loc}" key="local.create.vacancy.index"
+	var="createVacancyIndex" />
 
 <title>Create vacancy</title>
 </head>
@@ -33,7 +37,7 @@
 	<section class="section-information">
 		<form role="form" method="post" action="Controller">
 
-		<input name="command" value="create-vacancy" type="hidden" />
+			<input name="command" value="create-vacancy" type="hidden" />
 			<div class="thumbnail input-information">
 				<div class="form-group">
 					<label for="titleVacancy">*${titleVacancy}:</label> <input
@@ -43,7 +47,7 @@
 				<div class="form-group">
 					<label for="companyName">*${companyName}:</label> <input
 						type="text" placeholder="${companyName}" class="form-control"
-						id="companyName"  name="companyName">
+						id="companyName" name="companyName">
 				</div>
 
 				<div class="form-group">
@@ -54,26 +58,26 @@
 
 				<div class="form-group">
 					<select class="selectpicker" name="employment">
-						<option value ="full-time">${fullEmployment}</option>
-						<option value ="part-time">${partEmployment}</option>
+						<option value="full-time">${fullEmployment}</option>
+						<option value="part-time">${partEmployment}</option>
 					</select>
 				</div>
 
 				<div class="form-group">
 					<label for="shortDescription">*${shortDescription}:</label>
-					<textarea class="form-control" placeholder="${shortDescription}" rows="5"
-						id="shortDescription" name="shortDescription"></textarea>
+					<textarea class="form-control" placeholder="${shortDescription}"
+						rows="5" id="shortDescription" name="shortDescription"></textarea>
 				</div>
 
 				<div class="form-group">
 					<label for="description">*${description}:</label>
-					<textarea class="form-control" placeholder="${description}" rows="5"
-						id="description" name="description"></textarea>
+					<textarea class="form-control" placeholder="${description}"
+						rows="5" id="description" name="description"></textarea>
 				</div>
 				<div class="form-group">
 					<label for="requirement">*${requirement}:</label>
-					<textarea class="form-control" placeholder="${requirement}" rows="5"
-						id="requirement" name="requirement"></textarea>
+					<textarea class="form-control" placeholder="${requirement}"
+						rows="5" id="requirement" name="requirement"></textarea>
 				</div>
 
 				<div class="form-group">
@@ -83,12 +87,12 @@
 				</div>
 			</div>
 
-			<button type="submit" name="createVacancy" class="btn btn-success"> ${createVacancyIndex} </button>
+			<button type="submit" name="createVacancy" class="btn btn-success">
+				${createVacancyIndex}</button>
 		</form>
 	</section>
 	<!-- FOOTER -->
-	<footer>
-		<jsp:include page="footer.jsp" />
-	</footer>
+	<jsp:include page="footer.jsp" />
+
 </body>
 </html>

@@ -25,7 +25,7 @@ public class ResumeDAOImpl implements IResumeDAO {
 	private static final String SQL_EDUCATION_DESCRIPTION = "education.description";
 	private static final String SQL_EDUCATION_DATE_OF_GRADUATION = "date_of_graduation";
 	private static final String SQL_EDUCATION_DATE_OF_ENTRY = "date_of_entry";
-	private static final String SQL_EDUCATION_FORM_OF_EDUCATION = "form_of_education";
+	private static final String SQL_EDUCATION_FORM_OF_EDUCATION = "form_education";
 	private static final String SQL_EDUCATION_SPECIALITY = "speciality";
 	private static final String SQL_EDUCATION_DEPARTMENT = "department";
 	private static final String SQL_EDUCATION_INSTITUTION = "institution";
@@ -50,11 +50,11 @@ public class ResumeDAOImpl implements IResumeDAO {
 	private static final String SQL_USER_SKILL = "skill";
 
 	private static final String SQL_ADD_RESUME_INFO = "INSERT INTO `hr-system`.`resume_info` (`id_applicant`, `skill`, `position`, `professional_info`, `photo_path`, `google_plus_link`, `linkedin_link`, `twitter_link`, `facebook_link`, `phone`, `email`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-	private static final String SQL_ADD_EDUCATION = "INSERT INTO `hr-system`.`education` (`id_candidate`, `institution`, `department`, `speciality`, `form_of_education`, `date_of_entry`, `date_of_graduation`, `description`) VALUES (?, ?, ?, ?, ?, ?, ? ,?);";
+	private static final String SQL_ADD_EDUCATION = "INSERT INTO `hr-system`.`education` (`id_candidate`, `institution`, `department`, `speciality`, `form_education`, `date_of_entry`, `date_of_graduation`, `description`) VALUES (?, ?, ?, ?, ?, ?, ? ,?);";
 	private static final String SQL_ADD_PREVIOUS_POSITION = "INSERT INTO `hr-system`.`experience` (`position`, `description`, `date_of_beginning`, `date_of_completion`, `id_applicant`) VALUES (?, ?, ?, ?, ?);";
 
 	private static final String SQL_SELECT_COUNT_RESUMES = "SELECT COUNT(id_applicant) FROM `hr-system`.resume_info;";
-	private static final String SQL_SELECT_EDUCATION_BY_RESUME_ID = "SELECT DISTINCT  kind_education, education.description, date_of_graduation , `date_of_entry`, form_of_education, speciality, department, institution FROM `hr-system`.resume_info JOIN `hr-system`.education ON resume_info.id_applicant = education.id_candidate WHERE resume_info.`id_applicant`= ?;";
+	private static final String SQL_SELECT_EDUCATION_BY_RESUME_ID = "SELECT DISTINCT  kind_education, education.description, date_of_graduation , `date_of_entry`, form_education, speciality, department, institution FROM `hr-system`.resume_info JOIN `hr-system`.education ON resume_info.id_applicant = education.id_candidate WHERE resume_info.`id_applicant`= ?;";
 	private static final String SQL_SELECT_EXPERIENCE_BY_ID_RESUME = "SELECT DISTINCT experience.`position`, experience.`description`, date_of_beginning , date_of_completion FROM `hr-system`.resume_info  JOIN `hr-system`.experience ON resume_info.id_applicant = experience.id_applicant WHERE resume_info.`id_applicant`= ?;";
 	private static final String SQL_SELECT_CONTACT_INFORMATION_BY_ID_RESUME = "SELECT DISTINCT `name`, `surname`,`skill`, resume_info.`position`, `professional_info`,`photo_path`,`google_plus_link`, `linkedin_link`, `twitter_link`, `facebook_link`, resume_info.`phone`, resume_info.`email`, `address` FROM `hr-system`.resume_info JOIN `hr-system`.person ON resume_info.id_applicant = person.id_person WHERE id_person = ?;";
 
@@ -129,13 +129,15 @@ public class ResumeDAOImpl implements IResumeDAO {
 		}
 
 		catch (ConnectionPoolException | SQLException e) {
-			log.error("Error resume person", e);
+			
 			try {
 				connection.rollback();
 			} catch (SQLException eSQL) {
 				log.fatal("Error rollback", eSQL);
 				throw new DAOException("Fatal error rollback", e);
 			}
+			
+			log.error("Error resume person", e);
 			throw new DAOException("Error addiction resume", e);
 
 		} finally {
@@ -250,7 +252,6 @@ public class ResumeDAOImpl implements IResumeDAO {
 		}
 
 		catch (ConnectionPoolException | SQLException e) {
-			log.error("Error getting resume person", e);
 			
 			try {
 				connection.rollback();
@@ -259,6 +260,7 @@ public class ResumeDAOImpl implements IResumeDAO {
 				throw new DAOException("Fatal error rollback", e);
 			}
 			
+			log.error("Error getting resume person", e);
 			throw new DAOException("Error addiction resume", e);
 
 		} finally {
