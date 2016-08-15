@@ -9,6 +9,10 @@ public interface IVacancyResponceDAO {
 	
 	void addResponceToVacancy(VacancyResponce vacancyResponce) throws DAOException;
 	
-	List<VacancyResponce> getApplicantResponce(int idApplicant) throws DAOException;
+	List<VacancyResponce> getResponcesForApplicant(int idApplicant) throws DAOException;
+	
+	List<VacancyResponce> getResponcesForVacancy(int idVacancy) throws DAOException;
+	
+	//void changeStatus(String status) throws DAOException;
 
 }

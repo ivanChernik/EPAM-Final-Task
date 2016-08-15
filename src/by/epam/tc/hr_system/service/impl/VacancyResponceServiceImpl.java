@@ -10,9 +10,13 @@ import by.epam.tc.hr_system.dao.IVacancyResponceDAO;
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.ValidationExeception;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
+import by.epam.tc.hr_system.util.validation.Validator;
 
 public class VacancyResponceServiceImpl implements IVacancyResponceService {
+
+	private static final String ID_VACANCY_STRING = "idVacancyString";
 
 	@Override
 	public void addResponceToVacancy(VacancyResponce vacancyResponce) throws ServiceException {
@@ -44,18 +48,42 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 
 	@Override
 	public List<VacancyResponce> getApplicantReponces(int idApplicant) throws ServiceException {
-		
+
 		DAOFactory daoFactory = DAOFactory.getInstance();
-		
+
 		List<VacancyResponce> responceList = null;
-		
+
 		try {
 			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
-			responceList = vacancyResponceDAO.getApplicantResponce(idApplicant);
+			responceList = vacancyResponceDAO.getResponcesForApplicant(idApplicant);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
+
+		return responceList;
+	}
+
+	@Override
+	public List<VacancyResponce> getReponcesForVacancy(String idVacancyString) throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+
+		int idVacancy = 0;
 		
+		try {
+			idVacancy = Validator.validateAndParseIntToString(idVacancyString, ID_VACANCY_STRING);
+		} catch (ValidationExeception eValidation) {
+			throw new ServiceException(eValidation);
+		}
+
+		List<VacancyResponce> responceList = null;
+
+		try {
+			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
+			responceList = vacancyResponceDAO.getResponcesForVacancy(idVacancy);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+
 		return responceList;
 	}
 

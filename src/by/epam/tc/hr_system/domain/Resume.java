@@ -12,7 +12,7 @@ public class Resume implements Serializable{
 	private String position;
 	private String profInformation;
 	private String skill;
-	private ApplicantContactInfo contactInfo;
+	private ApplicantContactInfo contactInfo = new ApplicantContactInfo();
 	private List<PreviousPosition> previousWorkList = new ArrayList<PreviousPosition>();
 	private List<Education> educationList = new ArrayList<Education>();
 	

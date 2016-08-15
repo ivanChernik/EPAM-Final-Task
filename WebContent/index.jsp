@@ -34,15 +34,6 @@ Latest compiled and minified JavaScript
 <fmt:message bundle="${loc}" key="local.create.resume.index" var="createResumeIndex" />
 <fmt:message bundle="${loc}" key="local.create.vacancy.index" var="createVacancyIndex" />	
 
-<fmt:message bundle="${loc}" key="local.update.resume"
-	var="updateResume" />
-
-<fmt:message bundle="${loc}" key="local.search.vacancies"
-	var="searchVacancies" />
-<fmt:message bundle="${loc}" key="local.search.resumes"
-	var="searchResumes" />
-<fmt:message bundle="${loc}" key="local.search" var="search" />
-
 <fmt:message bundle="${loc}" key="local.welcome.to.hr.system" var="welcomeToHR" />
 <fmt:message bundle="${loc}" key="local.count.resumes" var="countResumes" />
 <fmt:message bundle="${loc}" key="local.count.vacancies"
@@ -90,10 +81,10 @@ Latest compiled and minified JavaScript
 	<div class="container jumbotron background-img">
 		<div class="topic-button-placing">
 			<h2 class="page-header">${welcomeToHR}</h2>
-			<a href="creationResume.jsp"
+			<%-- <a href="creationResume.jsp"
 				class="btn btn-success button-img-placing"> ${createResumeIndex} </a> <a
 				class="btn btn-success button-img-placing"
-				href="creationVacancy.jsp"> ${createVacancyIndex} </a>
+				href="creationVacancy.jsp"> ${createVacancyIndex} </a> --%>
 		</div>
 		<div class="vertical-line"></div>
 

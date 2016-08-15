@@ -11,6 +11,7 @@ import by.epam.tc.hr_system.dao.IPersonDAO;
 import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.ValidationExeception;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.validation.Validator;
@@ -24,84 +25,50 @@ public class UserServiceImpl implements IUserService {
 			String surname, String patronymic, String email, String phoneNumber, String dateOfBirthday)
 			throws ServiceException {
 
-		Validator.validateString(login,"registerUser","login");
-		/*
-		 * if (login == null || login.isEmpty()) { log.error(
-		 * "Error registration: login"); throw new ServiceException(
-		 * "Error registration: login"); }
-		 */
+		Person person = null;
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		IPersonDAO personDAO = null;
+
 		try {
-			personDAO = daoFactory.getPersonDAO();
-			if (personDAO.searchSimilarLogin(login)) {
-				log.error(MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS);
-				throw new ServiceException(MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS);
+			Validator.validateString(login, "login");
+
+			try {
+				personDAO = daoFactory.getPersonDAO();
+				if (personDAO.searchSimilarLogin(login)) {
+					log.error(MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS);
+					throw new ServiceException(MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS);
+				}
+			} catch (DAOException e) {
+				log.error("Error searching similar login");
+				throw new ServiceException("Error searching similar login", e);
 			}
-		} catch (DAOException e) {
-			log.error("Error searching similar login");
-			throw new ServiceException("Error searching similar login", e);
+
+			Validator.validateString(password, "password");
+
+			if (!password.equals(repeatedPassword)) {
+				log.error(MessageManager.MESSAGE_INVALID_PASSWORD);
+				throw new ServiceException(MessageManager.MESSAGE_INVALID_PASSWORD);
+			}
+
+			Validator.validateString(role, "role");
+
+			if (!role.equals(Person.APPLICANT_ROLE) || !role.equals(Person.HR_ROLE)) {
+				log.error("Error registration: role");
+				throw new ServiceException("Error registration: role");
+			}
+
+			Validator.validateString(name, "name");
+
+			Validator.validateString(surname, "surname");
+
+			Validator.validateString(email, "email");
+
+			Validator.validateString(dateOfBirthday, "dateOfBirthday");
+
+		} catch (ValidationExeception eValidation) {
+			throw new ServiceException(eValidation);
 		}
-		
-		Validator.validateString(password,"registerUser","password");
-
-		// if (password == null || password.isEmpty() || repeatedPassword ==
-		// null || repeatedPassword.isEmpty()) {
-		// log.error("Error registration: password");
-		// throw new ServiceException("Error registration: password");
-		// }
-
-		if (!password.equals(repeatedPassword)) {
-			log.error(MessageManager.MESSAGE_INVALID_PASSWORD);
-			throw new ServiceException(MessageManager.MESSAGE_INVALID_PASSWORD);
-		}
-		
-		Validator.validateString(role,"registerUser","role");
-
-		// if (role == null || role.isEmpty()) {
-		// log.error("Error registration: password");
-		// throw new ServiceException("Error registration: password");
-		// }
-
-		if (!role.equals(Person.APPLICANT_ROLE) || !role.equals(Person.HR_ROLE)) {
-			log.error("Error registration: role");
-			throw new ServiceException("Error registration: role");
-		}
-		
-		Validator.validateString(name,"registerUser","name");
-		
-		Validator.validateString(surname,"registerUser","surname");
-		
-		Validator.validateString(email,"registerUser","email");
-		
-		Validator.validateString(dateOfBirthday,"registerUser","dateOfBirthday");
-		
-
-		// if (name == null || name.isEmpty()) {
-		// log.error("Error registration: name");
-		// throw new ServiceException("Error registration: name");
-		// }
-		//
-		// if (surname == null || surname.isEmpty()) {
-		// log.error("Error registration: surname");
-		// throw new ServiceException("Error registration: surname");
-		// }
-
-		// if (patronymic == null || patronymic.isEmpty()) {
-		// log.error("Error registration: patronymic");
-		// throw new ServiceException("Error registration: patronymic");
-		// }
-
-		/*
-		 * if (email == null || email.isEmpty()) { log.error(
-		 * "Error registration: email"); throw new ServiceException(
-		 * "Error registration: email"); }
-		 * 
-		 * if (dateOfBirthday == null || dateOfBirthday.isEmpty()) { log.error(
-		 * "Error registration: phoneNumber"); throw new ServiceException(
-		 * "Error registration: dateOfBirthday = null"); }
-		 */
 
 		Date birthdayDate = null;
 
@@ -123,7 +90,7 @@ public class UserServiceImpl implements IUserService {
 			throw new ServiceException("Error registration: dateOfBirthday");
 		}
 
-		Person person = new Person(name, surname, patronymic, birthdayDate, email, phoneNumber, role);
+		person = new Person(name, surname, patronymic, birthdayDate, email, phoneNumber, role);
 
 		try {
 			personDAO.registerPerson(login, password, person);
@@ -137,19 +104,12 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public Person authorizePerson(String login, String password) throws ServiceException {
 
-		Validator.validateString(login,"authorizePerson","login");
-		
-		Validator.validateString(password,"authorizePerson","password");
-
-		// if (login == null || login.isEmpty()) {
-		// log.error("Error authorization: login");
-		// throw new ServiceException("Error authorization: login");
-		// }
-		//
-		// if (password == null || password.isEmpty()) {
-		// log.error("Error registration: password");
-		// throw new ServiceException("Error authorization: password");
-		// }
+		try {
+			Validator.validateString(login, "login");
+			Validator.validateString(password, "password");
+		} catch (ValidationExeception eValidation) {
+			throw new ServiceException(eValidation);
+		}
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		Person person = null;

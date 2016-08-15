@@ -10,5 +10,7 @@ public interface IVacancyResponceService {
 	void addResponceToVacancy(VacancyResponce vacancyResponce) throws ServiceException;
 	
 	List<VacancyResponce> getApplicantReponces(int idApplicant) throws ServiceException; 
+	
+	List<VacancyResponce> getReponcesForVacancy(String idVacancyString) throws ServiceException;
 
 }

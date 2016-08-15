@@ -34,6 +34,11 @@
 	<!-- NAVIGATION START-->
 	<jsp:include page="navigation.jsp"></jsp:include>
 
+	<jsp:include page="${request.contextPath}/Controller" flush="true">
+		<jsp:param name="command" value="show-resume" />
+		<jsp:param name="idResume" value="${param.idResume}" />
+	</jsp:include>
+
 	<c:set var="resume" value="${requestScope.resume}" scope="page" />
 
 	<section>

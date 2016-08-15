@@ -61,13 +61,14 @@
 						<ul class="dropdown-menu dropdown-button-style">
 							<li><a href="creationResume.jsp"> ${createResume}</a></li>
 							<li><a href="#"> ${updateResume}</a></li>
-							<li>
+							<li><a href="./resume.jsp?idResume=${sessionScope.person.id}"> ${lookResume}</a></li>
+							<%-- <li>
 								<form action="Controller" method="post">
 									<input name="command" value="show-resume" type="hidden">
 									<input name="idResume" value="${sessionScope.person.id}" type="hidden">
 									<button type="submit" class="btn">${lookResume}</button>
 								</form>
-							</li>
+							</li> --%>
 						</ul></li>
 
 					<li role="presentation" class="dropdown"><a

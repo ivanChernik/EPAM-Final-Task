@@ -70,7 +70,7 @@
 
 						<tr>
 							<td><a
-								href="./Controller?command=ShowResponcesCommand&idVacancy=${vacancy.id}">${vacancy.name}</a></td>
+								href="./Controller?command=show-responce-to-vacancy&idVacancy=${vacancy.id}&vacancyName=${vacancy.name}">${vacancy.name}</a></td>
 							<td>${vacancy.companyName}</td>
 							<td>${vacancy.dateSubmission}</td>
 							<td>${vacancy.status}</td>
