@@ -13,6 +13,7 @@ public interface IVacancyResponceDAO {
 	
 	List<VacancyResponce> getResponcesForVacancy(int idVacancy) throws DAOException;
 	
-	//void changeStatus(String status) throws DAOException;
+	void changeStatus(String status, int[] idResponceArray) throws DAOException;
+	
 
 }

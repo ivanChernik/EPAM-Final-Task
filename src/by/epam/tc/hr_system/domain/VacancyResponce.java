@@ -10,7 +10,7 @@ public class VacancyResponce implements Serializable{
 	public static final String REJECTION_STATUS = "rejection";
 	public static final String INVITATION_FOR_INTERVIEW_STATUS = "invitation-for-interview";
 	
-	//private int id;
+	private int id;
 	private Person person = new Person();
 	private Resume resume = new Resume();
 	private Vacancy vacancy = new Vacancy();
@@ -69,13 +69,13 @@ public class VacancyResponce implements Serializable{
 	}
 
 
-/*	public int getId() {
+	public int getId() {
 		return id;
 	}
 
 
 	public void setId(int id) {
 		this.id = id;
-	}*/
+	}
 
 }

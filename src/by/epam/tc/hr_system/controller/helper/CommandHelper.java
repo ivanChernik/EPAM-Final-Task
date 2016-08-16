@@ -9,6 +9,7 @@ import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.command.impl.ApplyForJobCommand;
 import by.epam.tc.hr_system.command.impl.AuthorizationCommand;
 import by.epam.tc.hr_system.command.impl.ChangeLocalCommand;
+import by.epam.tc.hr_system.command.impl.ChangeResponceStatusCommand;
 import by.epam.tc.hr_system.command.impl.CreateResumeCommand;
 import by.epam.tc.hr_system.command.impl.CreateVacancyCommand;
 import by.epam.tc.hr_system.command.impl.LogOutCommand;
@@ -41,6 +42,8 @@ public class CommandHelper {
 		commands.put(CommandName.SHOW_RESUME, new ShowResumeCommand());
 		commands.put(CommandName.SHOW_HR_VACANCIES, new ShowHRVacancyCommand());
 		commands.put(CommandName.SHOW_RESPONCE_TO_VACANCY, new ShowResponceForVacancy());
+		commands.put(CommandName.SHOW_RESPONCE_TO_VACANCY, new ShowResponceForVacancy());
+		commands.put(CommandName.CHANGE_RESPONCE_STATUS, new ChangeResponceStatusCommand());
 	}
 	
 	public ICommand getCommand(String name) throws CommandException {

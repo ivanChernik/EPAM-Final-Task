@@ -16,6 +16,8 @@ import by.epam.tc.hr_system.util.validation.Validator;
 
 public class VacancyResponceServiceImpl implements IVacancyResponceService {
 
+	private static final String ID_VACANCY = "idVacancy";
+	private static final String STATUS = "status";
 	private static final String ID_VACANCY_STRING = "idVacancyString";
 
 	@Override
@@ -65,20 +67,45 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 
 	@Override
 	public List<VacancyResponce> getReponcesForVacancy(String idVacancyString) throws ServiceException {
-		DAOFactory daoFactory = DAOFactory.getInstance();
 
 		int idVacancy = 0;
-		
+
 		try {
-			idVacancy = Validator.validateAndParseIntToString(idVacancyString, ID_VACANCY_STRING);
+			idVacancy = Validator.parseStringToInt(idVacancyString, ID_VACANCY_STRING);
 		} catch (ValidationExeception eValidation) {
 			throw new ServiceException(eValidation);
 		}
 
+		DAOFactory daoFactory = DAOFactory.getInstance();
 		List<VacancyResponce> responceList = null;
 
 		try {
 			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
+			responceList = vacancyResponceDAO.getResponcesForVacancy(idVacancy);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+
+		return responceList;
+	}
+
+	@Override
+	public List<VacancyResponce> changeResponceStatus(String[] idResponceArrayString, String status,
+			String idVacancyString) throws ServiceException, ValidationExeception {
+
+		int[] idResponceArray;
+		int idVacancy = 0;
+
+		idResponceArray = Validator.parseArrayStringToInt(idResponceArrayString);
+		Validator.validateString(status, STATUS);
+		idVacancy = Validator.parseStringToInt(idVacancyString, ID_VACANCY);
+
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		List<VacancyResponce> responceList = null;
+
+		try {
+			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
+			vacancyResponceDAO.changeStatus(status, idResponceArray);
 			responceList = vacancyResponceDAO.getResponcesForVacancy(idVacancy);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
