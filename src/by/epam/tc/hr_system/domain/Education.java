@@ -41,6 +41,14 @@ public class Education implements Serializable  {
 		this.educationTo = educationTo;
 	}
 
+	public Education(String university, String faculty, String specialty,
+			String educationDescription) {
+		super();
+		this.university = university;
+		this.faculty = faculty;
+		this.specialty = specialty;
+		this.educationDescription = educationDescription;
+	}
 
 
 	public String getKindEducation() {

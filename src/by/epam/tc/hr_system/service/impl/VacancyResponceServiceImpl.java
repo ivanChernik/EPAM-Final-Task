@@ -10,15 +10,11 @@ import by.epam.tc.hr_system.dao.IVacancyResponceDAO;
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.exception.ValidationExeception;
+import by.epam.tc.hr_system.exception.validation.ValidationExeception;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
 import by.epam.tc.hr_system.util.validation.Validator;
 
 public class VacancyResponceServiceImpl implements IVacancyResponceService {
-
-	private static final String ID_VACANCY = "idVacancy";
-	private static final String STATUS = "status";
-	private static final String ID_VACANCY_STRING = "idVacancyString";
 
 	@Override
 	public void addResponceToVacancy(VacancyResponce vacancyResponce) throws ServiceException {
@@ -71,7 +67,7 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 		int idVacancy = 0;
 
 		try {
-			idVacancy = Validator.parseStringToInt(idVacancyString, ID_VACANCY_STRING);
+			idVacancy = Validator.parseStringToInt(idVacancyString);
 		} catch (ValidationExeception eValidation) {
 			throw new ServiceException(eValidation);
 		}
@@ -91,14 +87,14 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 
 	@Override
 	public List<VacancyResponce> changeResponceStatus(String[] idResponceArrayString, String status,
-			String idVacancyString) throws ServiceException, ValidationExeception {
+			String idVacancyString) throws ServiceException {
 
 		int[] idResponceArray;
 		int idVacancy = 0;
 
 		idResponceArray = Validator.parseArrayStringToInt(idResponceArrayString);
-		Validator.validateString(status, STATUS);
-		idVacancy = Validator.parseStringToInt(idVacancyString, ID_VACANCY);
+		Validator.validateString(status);
+		idVacancy = Validator.parseStringToInt(idVacancyString);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		List<VacancyResponce> responceList = null;

@@ -21,7 +21,11 @@ public class PreviousPosition implements Serializable{
 		this.workTo = workTo;
 	}
 
-
+	public PreviousPosition(String previousPosition, String workDescription) {
+		super();
+		this.previousPosition = previousPosition;
+		this.workDescription = workDescription;
+	}
 
 
 	public String getPreviousPosition() {

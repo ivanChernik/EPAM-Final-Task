@@ -7,11 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import javax.xml.bind.ValidationException;
 
 import org.apache.log4j.Logger;
 
@@ -22,17 +24,26 @@ import by.epam.tc.hr_system.domain.PreviousPosition;
 import by.epam.tc.hr_system.domain.Resume;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.InvalidFormatImageException;
+import by.epam.tc.hr_system.exception.validation.PhotoNotChosenException;
+import by.epam.tc.hr_system.exception.validation.ValidationExeception;
 import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.domain.ApplicantContactInfo;
+import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.ResumeParamater;
 
 public class CreateResumeCommand implements ICommand {
 
+	private static final String WORK_TO = "workTo";
+	private static final String WORK_FROM = "workFrom";
+	private static final String EDUCATION_TO = "educationTo";
+	private static final String EDUCATION_FROM = "educationFrom";
+	private static final String RESUME = "resume";
+
+	private static final String ERRORMESSAGES = "errormessages";
 	private static final String FILE = "photo";
-	private static final String PICTURE_UPLOAD_PATH = "/img/";
-	private static final String IMAGE_MIME_TYPE = "image/";
 	private static final String PERSON = "person";
 
 	private static final Logger log = Logger.getLogger(CreateResumeCommand.class);
@@ -49,34 +60,33 @@ public class CreateResumeCommand implements ICommand {
 				return;
 			}
 
-			Resume resume = new Resume();
+			String position = request.getParameter(ResumeParamater.POSITION);
+			String profInformation = request.getParameter(ResumeParamater.PROF_INFIRMATION);
+			String skill = request.getParameter(ResumeParamater.SKILL);
 
-			resume.setPosition(request.getParameter(ResumeParamater.POSITION));
-			resume.setProfInformation(request.getParameter(ResumeParamater.PROF_INFIRMATION));
-			resume.setSkill(request.getParameter(ResumeParamater.SKILL));
+			Resume resume = new Resume(position, profInformation, skill);
 
-			Education education = new Education();
+			String kindEducation = request.getParameter(ResumeParamater.KIND_EDUCATION);
+			String university = request.getParameter(ResumeParamater.UNIVERSITY);
+			String faculty = request.getParameter(ResumeParamater.FACULTY);
+			String specialty = request.getParameter(ResumeParamater.SPECIALTY);
+			String formEducation = request.getParameter(ResumeParamater.FORM_EDUCATION);
+			String educationFrom = request.getParameter(ResumeParamater.EDUCATION_FROM);
+			String educationTo = request.getParameter(ResumeParamater.EDUCATION_TO);
+			String description = request.getParameter(ResumeParamater.EDUCATION_DESCRIPTION);
 
-			education.setKindEducation(request.getParameter(ResumeParamater.KIND_EDUCATION));
-			education.setUniversity(request.getParameter(ResumeParamater.UNIVERSITY));
-			education.setFaculty(request.getParameter(ResumeParamater.FACULTY));
-			education.setSpecialty(request.getParameter(ResumeParamater.SPECIALTY));
-			education.setFormEducation(request.getParameter(ResumeParamater.FORM_EDUCATION));
-			education.setEducationFrom(Date.valueOf(request.getParameter(ResumeParamater.EDUCATION_FROM)));
-			education.setEducationTo(Date.valueOf(request.getParameter(ResumeParamater.EDUCATION_TO)));
-			education.setEducationDescription(request.getParameter(ResumeParamater.EDUCATION_DESCRIPTION));
-
+			Education education = new Education(university, faculty, specialty, description);
 			resume.addEducation(education);
 
-			PreviousPosition prevPosition = new PreviousPosition();
-			prevPosition.setPreviousPosition(request.getParameter(ResumeParamater.PREVIOS_POSITION));
-			prevPosition.setWorkFrom(Date.valueOf(request.getParameter(ResumeParamater.WORK_FROM)));
-			prevPosition.setWorkTo(Date.valueOf(request.getParameter(ResumeParamater.WORK_TO)));
-			prevPosition.setWorkDescription(request.getParameter(ResumeParamater.WORK_DESCRIPTION));
+			String prevpositionName = request.getParameter(ResumeParamater.PREVIOS_POSITION);
+			String workFrom = request.getParameter(ResumeParamater.WORK_FROM);
+			String workTo = request.getParameter(ResumeParamater.WORK_TO);
+			String workDescription = request.getParameter(ResumeParamater.WORK_DESCRIPTION);
 
+			PreviousPosition prevPosition = new PreviousPosition(prevpositionName, workDescription);
 			resume.addPreviousWork(prevPosition);
 
-			ApplicantContactInfo contactInfo = new ApplicantContactInfo();
+			ApplicantContactInfo contactInfo = resume.getContactInfo();
 
 			contactInfo.setPhone(request.getParameter(ResumeParamater.PHONE));
 			contactInfo.setEmail(request.getParameter(ResumeParamater.EMAIL));
@@ -87,63 +97,38 @@ public class CreateResumeCommand implements ICommand {
 			contactInfo.setLinkTwitter(request.getParameter(ResumeParamater.LINK_TWITTER));
 			contactInfo.setLinkFacebook(request.getParameter(ResumeParamater.LINK_FACEBOOK));
 
-			resume.setContactInfo(contactInfo);
-
 			Part filePart = request.getPart(FILE);
 			String filename = filePart.getSubmittedFileName();
-			if (!filename.isEmpty()) {
-				String mimeType = request.getServletContext().getMimeType(filename);
-				if (mimeType.startsWith(IMAGE_MIME_TYPE)) {
-					File uploads = new File(request.getServletContext()
-							.getRealPath("")/* + PICTURE_UPLOAD_PATH */);
-					File file = new File(uploads, filename);
-					try (InputStream input = filePart.getInputStream()) {
-						Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-					}
+			String mimeType = request.getServletContext().getMimeType(filename);
+			String realpath = request.getServletContext().getRealPath("");
 
-					resume.setPathImage(/* PICTURE_UPLOAD_PATH + */filename);
+			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
-					ServiceFactory serviceFactory = ServiceFactory.getInstance();
-
-					try {
-						IResumeService resumeService = serviceFactory.getResumeService();
-						resumeService.addResume(resume, 9);
-						request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
-						return;
-					} catch (ServiceException e) {
-						request.getRequestDispatcher(PageName.CREATE_VACANCY_PAGE).forward(request, response);
-						return;
-					}
-					
-					// product.setImgPath(PICTURE_UPLOAD_PATH + filename);
-					// ProductService productService =
-					// ProductServiceImpl.getInstance();
-					// boolean success = productService.addProduct(product);
-					// if (!success) {
-					// request.setAttribute(MessageManager.MESSAGE,
-					// MessageManager.ADDING_ERROR);
-					// request.getRequestDispatcher(PageName.EDIT_PRODUCTS).forward(request,
-					// response);
-					// return;
-					// }
-				} else {
-					// request.setAttribute(MessageManager.MESSAGE,
-					// MessageManager.NOT_JPG_IMAGE);
-				}
-			} else {
-				// request.setAttribute(MessageManager.MESSAGE,
-				// MessageManager.ADDING_ERROR);
-				// request.getRequestDispatcher(PageName.EDIT_PRODUCTS).forward(request,
-				// response);
+			try {
+				IResumeService resumeService = serviceFactory.getResumeService();
+				resumeService.addResume(resume, person.getId(), educationFrom, educationTo, workFrom, workTo, filePart,
+						filename, mimeType, realpath);
+				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
 				return;
+			} catch (ServiceException e) {
+				request.getRequestDispatcher(PageName.CREATE_RESUME_PAGE).forward(request, response);
+				return;
+			} catch (ValidationExeception e) {
+				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
+			} catch (PhotoNotChosenException e) {
+				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_PHOTO_NOT_UPLOADED);
+
+			} catch (InvalidFormatImageException e) {
+				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_PHOTO_HAS_WRONG_FORMAT);
 			}
-			// response.sendRedirect(PageName.EDIT_PRODUCTS);
-			// } catch (ServiceException e) {
-			// LOGGER.error("Error add product", e);
-			// request.setAttribute(MessageManager.MESSAGE,
-			// MessageManager.DATABASE_ERROR);
-			// request.getRequestDispatcher(PageName.EDIT_PRODUCTS).forward(request,
-			// response);
+
+			request.setAttribute(RESUME, resume);
+			request.setAttribute(EDUCATION_FROM, educationFrom);
+			request.setAttribute(EDUCATION_TO, educationTo);
+			request.setAttribute(WORK_FROM, workFrom);
+			request.setAttribute(WORK_TO, workTo);
+
+			request.getRequestDispatcher(PageName.CREATE_RESUME_PAGE).forward(request, response);
 
 		} catch (ServletException | IOException e) {
 			log.error(e);

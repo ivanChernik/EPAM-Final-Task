@@ -53,15 +53,15 @@ public class RegistrationCommand implements ICommand {
 						email, phoneNumber, dateOfBirthday);
 			} catch (ServiceException e) {
 
-				if (e.getMessage().equals(MessageManager.MESSAGE_INVALID_PASSWORD)) {
-					errorMessage = MessageManager.MESSAGE_INVALID_PASSWORD;
+				if (e.getMessage().equals(MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD)) {
+					errorMessage = MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD;
 					request.setAttribute("errorMessage", errorMessage);
 					request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 					return;
 				}
 
-				if (e.getMessage().equals(MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS)) {
-					errorMessage = MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS;
+				if (e.getMessage().equals(MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS)) {
+					errorMessage = MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS;
 					request.setAttribute("errorMessage", errorMessage);
 					request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 					return;

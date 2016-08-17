@@ -11,7 +11,7 @@ import by.epam.tc.hr_system.dao.IPersonDAO;
 import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.exception.ValidationExeception;
+import by.epam.tc.hr_system.exception.validation.ValidationExeception;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.validation.Validator;
@@ -31,40 +31,40 @@ public class UserServiceImpl implements IUserService {
 		IPersonDAO personDAO = null;
 
 		try {
-			Validator.validateString(login, "login");
+			Validator.validateString(login);
 
 			try {
 				personDAO = daoFactory.getPersonDAO();
 				if (personDAO.searchSimilarLogin(login)) {
-					log.error(MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS);
-					throw new ServiceException(MessageManager.MESSAGE_LOGIN_ALREADY_EXISTS);
+					log.error(MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS);
+					throw new ServiceException(MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS);
 				}
 			} catch (DAOException e) {
 				log.error("Error searching similar login");
 				throw new ServiceException("Error searching similar login", e);
 			}
 
-			Validator.validateString(password, "password");
+			Validator.validateString(password);
 
 			if (!password.equals(repeatedPassword)) {
-				log.error(MessageManager.MESSAGE_INVALID_PASSWORD);
-				throw new ServiceException(MessageManager.MESSAGE_INVALID_PASSWORD);
+				log.error(MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD);
+				throw new ServiceException(MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD);
 			}
 
-			Validator.validateString(role, "role");
+			Validator.validateString(role);
 
 			if (!role.equals(Person.APPLICANT_ROLE) || !role.equals(Person.HR_ROLE)) {
 				log.error("Error registration: role");
 				throw new ServiceException("Error registration: role");
 			}
 
-			Validator.validateString(name, "name");
+			Validator.validateString(name);
 
-			Validator.validateString(surname, "surname");
+			Validator.validateString(surname);
 
-			Validator.validateString(email, "email");
+			Validator.validateString(email);
 
-			Validator.validateString(dateOfBirthday, "dateOfBirthday");
+			Validator.validateString(dateOfBirthday);
 
 		} catch (ValidationExeception eValidation) {
 			throw new ServiceException(eValidation);
@@ -105,8 +105,8 @@ public class UserServiceImpl implements IUserService {
 	public Person authorizePerson(String login, String password) throws ServiceException {
 
 		try {
-			Validator.validateString(login, "login");
-			Validator.validateString(password, "password");
+			Validator.validateString(login);
+			Validator.validateString(password);
 		} catch (ValidationExeception eValidation) {
 			throw new ServiceException(eValidation);
 		}

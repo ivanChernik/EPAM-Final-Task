@@ -4,7 +4,7 @@ import java.util.List;
 
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.exception.ValidationExeception;
+import by.epam.tc.hr_system.exception.validation.ValidationExeception;
 
 public interface IVacancyResponceService {
 	
@@ -14,6 +14,6 @@ public interface IVacancyResponceService {
 	
 	List<VacancyResponce> getReponcesForVacancy(String idVacancyString) throws ServiceException;
 	
-	List<VacancyResponce> changeResponceStatus(String[] idResponceArrayString, String status, String idVacancy) throws ServiceException, ValidationExeception ;
+	List<VacancyResponce> changeResponceStatus(String[] idResponceArrayString, String status, String idVacancy) throws ServiceException;
 
 }

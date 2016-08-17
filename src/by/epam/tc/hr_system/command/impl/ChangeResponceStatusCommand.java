@@ -15,7 +15,7 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.exception.ValidationExeception;
+import by.epam.tc.hr_system.exception.validation.ValidationExeception;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;

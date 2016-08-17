@@ -20,6 +20,17 @@ public class Resume implements Serializable{
 
 	}
 	
+	
+	
+	public Resume(String position, String profInformation, String skill) {
+		super();
+		this.position = position;
+		this.profInformation = profInformation;
+		this.skill = skill;
+	}
+
+
+
 	public void addPreviousWork(PreviousPosition previousWork){
 		previousWorkList.add(previousWork);
 	}

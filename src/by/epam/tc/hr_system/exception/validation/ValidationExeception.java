@@ -1,6 +1,6 @@
-package by.epam.tc.hr_system.exception;
+package by.epam.tc.hr_system.exception.validation;
 
-public class ValidationExeception extends Exception {
+public class ValidationExeception extends RuntimeException {
 	
 	public ValidationExeception(String message) {
 		super(message);
