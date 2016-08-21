@@ -71,9 +71,9 @@
 <body>
 	<jsp:include page="navigation.jsp"></jsp:include>
 	<section class="section-information">
-	
-	<c:set var="resume" value="${requestScope.resume}" scope="page" />
-	
+
+		<c:set var="resume" value="${requestScope.resume}" scope="page" />
+
 		<form action="Controller" role="form" method="post"
 			enctype="multipart/form-data">
 
@@ -132,7 +132,8 @@
 				<div class="form-group">
 					<label for="university"> ${nameEducationInstitution}:</label> <input
 						type="text" placeholder="${nameEducationInstitution}"
-						class="form-control" id="university" name="university" value="${resume.educationList.get(0).university}">
+						class="form-control" id="university" name="university"
+						value="${resume.educationList.get(0).university}">
 				</div>
 
 				<div class="form-group">
@@ -144,7 +145,8 @@
 				<div class="form-group">
 					<label for="specialty"> ${nameSpecialty}:</label> <input
 						type="text" placeholder="${nameSpecialty}" class="form-control"
-						id="specialty" name="specialty" value="${resume.educationList.get(0).specialty}">
+						id="specialty" name="specialty"
+						value="${resume.educationList.get(0).specialty}">
 				</div>
 
 
@@ -159,12 +161,14 @@
 				<div class="form-group">
 					<label for="period-education">${periodEducation}:</label> <input
 						type="date" placeholder="From" class="form-control"
-						id="period-education" name="educationFrom" value="${requestScope.educationFrom}">
+						id="period-education" name="educationFrom"
+						value="${requestScope.educationFrom}">
 				</div>
 
 				<div class="form-group">
 					<input type="date" placeholder="From" class="form-control"
-						id="period-education" name="educationTo" value="${requestScope.educationTo}">
+						id="period-education" name="educationTo"
+						value="${requestScope.educationTo}">
 				</div>
 
 				<div class="form-group">
@@ -179,7 +183,8 @@
 				<div class="form-group">
 					<label for="previos-position">${previousPosition}:</label> <input
 						type="text" placeholder="${previousPosition}" class="form-control"
-						id="previos-position" name="previos-position" value="${resume.previousWorkList.get(0).previousPosition}">
+						id="previos-position" name="previos-position"
+						value="${resume.previousWorkList.get(0).previousPosition}">
 				</div>
 
 				<div class="form-group">
@@ -224,25 +229,29 @@
 				<div class="form-group">
 					<label for="google-plus">${linkGooglePlus}:</label> <input
 						type="text" class="form-control" id="google-plus"
-						name="link-google-plus" placeholder="${linkGooglePlus}" value="${resume.contactInfo.linkGooglePlus}">
+						name="link-google-plus" placeholder="${linkGooglePlus}"
+						value="${resume.contactInfo.linkGooglePlus}">
 				</div>
 
 
 				<div class="form-group">
 					<label for="link-linkedin"> ${linkLinkedin}:</label> <input
 						type="text" class="form-control" id="link-linkedin"
-						name="link-linkedin" placeholder="${linkLinkedin}" value="${resume.contactInfo.linkLinkedIn}">
+						name="link-linkedin" placeholder="${linkLinkedin}"
+						value="${resume.contactInfo.linkLinkedIn}">
 				</div>
 
 				<div class="form-group">
 					<label for="link-twitter"> ${linkTwitter}:</label> <input
 						type="text" class="form-control" id="link-twitter"
-						name="link-twitter" placeholder="${linkTwitter}" value="${resume.contactInfo.linkTwitter}">
+						name="link-twitter" placeholder="${linkTwitter}"
+						value="${resume.contactInfo.linkTwitter}">
 				</div>
 				<div class="form-group">
 					<label for="link-facebook">${linkFacebook}:</label> <input
 						type="text" class="form-control" id="link-facebook"
-						name="link-facebook" placeholder="${linkFacebook}" value="${resume.contactInfo.linkFacebook}">
+						name="link-facebook" placeholder="${linkFacebook}"
+						value="${resume.contactInfo.linkFacebook}">
 				</div>
 			</div>
 			<button type="submit" name="createResume" class="btn btn-success">

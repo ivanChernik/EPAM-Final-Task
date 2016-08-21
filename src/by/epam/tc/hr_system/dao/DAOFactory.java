@@ -17,19 +17,19 @@ public class DAOFactory {
 		return instance;
 	}
 
-	public IPersonDAO getPersonDAO() throws DAOException {
+	public IPersonDAO getPersonDAO() {
 		return personDAO;
 	}
 
-	public IResumeDAO getResumeDAO() throws DAOException {
+	public IResumeDAO getResumeDAO() {
 		return resumeDAO;
 	}
 
-	public IVacancyDAO getVacancyDAO() throws DAOException {
+	public IVacancyDAO getVacancyDAO() {
 		return vacancyDAO;
 	}
-	
-	public IVacancyResponceDAO getVacancyResponceDAO() throws DAOException {
+
+	public IVacancyResponceDAO getVacancyResponceDAO() {
 		return vacancyResponceDAO;
 	}
 

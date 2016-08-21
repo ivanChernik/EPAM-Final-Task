@@ -14,13 +14,16 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.domain.Resume;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.ServiceFactory;
+import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.ResumeParamater;
 
 public class ShowResumeCommand implements ICommand {
 
+	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String PERSON = "person";
 	private static final String RESUME = "resume";
 	private static final Logger log = Logger.getLogger(ShowResumeCommand.class);
@@ -46,7 +49,10 @@ public class ShowResumeCommand implements ICommand {
 				request.setAttribute(RESUME, resume);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
+			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_IMPOSSIBLE_ACTION);
 			}
+
 
 		} catch (ServletException | IOException e) {
 			log.error(e);

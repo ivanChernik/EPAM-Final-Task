@@ -13,6 +13,9 @@ import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
+import by.epam.tc.hr_system.exception.validation.IllegalStringLengtnException;
+import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.MessageManager;
@@ -21,7 +24,7 @@ import by.epam.tc.hr_system.util.parameter.UserParameter;
 
 public class RegistrationCommand implements ICommand {
 
-	private static final String ERROR_REGISTRATION = "Error registration";
+	private static final String ERROR_MESSAGES = "errormessages";
 	private static final Logger log = Logger.getLogger(RegistrationCommand.class);
 
 	@Override
@@ -46,33 +49,25 @@ public class RegistrationCommand implements ICommand {
 
 			Person person = null;
 			IUserService userService = null;
-			String errorMessage = null;
 			try {
 				userService = serviceFactory.getUserService();
 				person = userService.registerUser(login, password, repeatedPassword, role, name, surname, patronymic,
 						email, phoneNumber, dateOfBirthday);
 			} catch (ServiceException e) {
-
-				if (e.getMessage().equals(MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD)) {
-					errorMessage = MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD;
-					request.setAttribute("errorMessage", errorMessage);
-					request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
-					return;
-				}
-
-				if (e.getMessage().equals(MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS)) {
-					errorMessage = MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS;
-					request.setAttribute("errorMessage", errorMessage);
-					request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
-					return;
-				}
-
-				request.setAttribute("errorMessage", ERROR_REGISTRATION);
+				throw new CommandException(e);
+			} catch (IllegalStringLengtnException e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
-			} /*finally {
-				session.setAttribute("person", person);
-			}*/
+			} catch (IllegalDatesPeriodException e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_INVALID_DATE_VALUE);
+				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+				return;
+			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
+				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+				return;
+			}
 
 			if (person.getRole().equals(Person.APPLICANT_ROLE)) {
 				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);

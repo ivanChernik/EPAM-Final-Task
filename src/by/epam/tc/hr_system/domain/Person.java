@@ -2,12 +2,15 @@ package by.epam.tc.hr_system.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 public class Person implements Serializable {
 	public static final String APPLICANT_ROLE = "applicant";
 	public static final String HR_ROLE = "hr";
 	public static final String ADMINISTRATOR_ROLE = "admin";
-
+	
+	private static List<String> roleList = Arrays.asList(APPLICANT_ROLE,HR_ROLE, ADMINISTRATOR_ROLE);
 	private int id;
 	private String name;
 	private String surname;
@@ -94,6 +97,10 @@ public class Person implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public static List<String> getRoleList() {
+		return roleList;
 	}
 
 	@Override

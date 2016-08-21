@@ -2,6 +2,8 @@ package by.epam.tc.hr_system.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 public class Vacancy implements Serializable {
 	
@@ -10,6 +12,9 @@ public class Vacancy implements Serializable {
 	
 	public static final String FULL_TIME = "full-time";
 	public static final String PART_TIME = "part-time";
+	
+	private static List<String> statusList = Arrays.asList(OPEN_STATUS,CLOSE_STATUS);
+	private static List<String> timeList = Arrays.asList(FULL_TIME,PART_TIME);
 
 	private int id;
 	private String name;
@@ -127,6 +132,14 @@ public class Vacancy implements Serializable {
 
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
+	}
+
+	public static List<String> getStatusList() {
+		return statusList;
+	}
+
+	public static List<String> getTimeList() {
+		return timeList;
 	}
 
 }

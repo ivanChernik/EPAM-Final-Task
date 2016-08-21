@@ -141,10 +141,10 @@ public class PersonDAOImpl implements IPersonDAO {
 			searchLoginPS.setString(1, login);
 			rs = searchLoginPS.executeQuery();
 			return rs.next();
-
+			
 		} catch (ConnectionPoolException | SQLException e) {
 			log.error("Error searching similar login", e);
-			return false;
+			throw new DAOException("Error searching similar login", e);
 		} finally {
 			try {
 				rs.close();

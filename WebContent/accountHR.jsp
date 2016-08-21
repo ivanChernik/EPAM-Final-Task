@@ -51,6 +51,13 @@
 
 	<section>
 		<div class="thumbnail wrap-information">
+
+			<c:if test="${not empty requestScope.errormessages}">
+				<div class="form-group alert alert-danger">
+					<strong>${requestScope.errormessages}</strong>
+				</div>
+			</c:if>
+
 			<c:if test="${empty requestScope.vacancyList}">
 				<p>${notResponces}</p>
 			</c:if>

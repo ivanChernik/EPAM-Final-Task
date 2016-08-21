@@ -2,6 +2,8 @@ package by.epam.tc.hr_system.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 public class VacancyResponce implements Serializable{
 
@@ -10,6 +12,7 @@ public class VacancyResponce implements Serializable{
 	public static final String REJECTION_STATUS = "rejection";
 	public static final String INVITATION_FOR_INTERVIEW_STATUS = "invitation-for-interview";
 	
+	private List<String> statusList = Arrays.asList(VIEWED_STATUS,NOT_VIEWED_STATUS,REJECTION_STATUS,INVITATION_FOR_INTERVIEW_STATUS);
 	private int id;
 	private Person person = new Person();
 	private Resume resume = new Resume();
@@ -76,6 +79,11 @@ public class VacancyResponce implements Serializable{
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+
+	public List<String> getStatusList() {
+		return statusList;
 	}
 
 }

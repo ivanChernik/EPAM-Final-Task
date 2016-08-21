@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.domain.Vacancy;
+import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.IVacancyService;
@@ -14,13 +15,14 @@ import by.epam.tc.hr_system.service.ServiceFactory;
 
 public class ShowTopVacancies implements ICommand {
 
+	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String COUNT_COMPANIES = "countCompanies";
 	private static final String COUNT_VACANCIES = "countVacancies";
 	private static final String COUNT_RESUMES = "countResumes";
 	private static final String VACANCY_LIST = "vacancyList";
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
@@ -35,10 +37,7 @@ public class ShowTopVacancies implements ICommand {
 			request.setAttribute(COUNT_RESUMES, resumeService.getCountResumes());
 		
 		} catch (ServiceException e) {
-			request.setAttribute(VACANCY_LIST, null);
-			request.setAttribute(COUNT_RESUMES, 0);
-			request.setAttribute(COUNT_VACANCIES, 0);
-			request.setAttribute(COUNT_COMPANIES, 0);
+			throw new CommandException(e);
 		}
 
 	}

@@ -12,13 +12,16 @@ import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.domain.Vacancy;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
+import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.VacancyParameter;
 
 public class ShowVacancyCommand implements ICommand {
 
+	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String VACANCY = "vacancy";
 	private static final Logger log = Logger.getLogger(ShowVacancyCommand.class);
 
@@ -35,7 +38,9 @@ public class ShowVacancyCommand implements ICommand {
 				Vacancy vacancy = vacancyService.getVacancyByID(vacancyID);
 				request.setAttribute(VACANCY, vacancy);
 			} catch (ServiceException e) {
-
+				throw new CommandException(e);
+			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_IMPOSSIBLE_ACTION);
 			}
 
 			request.getRequestDispatcher(PageName.VACANCY_PAGE).forward(request, response);

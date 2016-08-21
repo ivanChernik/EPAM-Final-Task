@@ -78,10 +78,6 @@
 	<div class="container jumbotron background-img">
 		<div class="topic-button-placing">
 			<h2 class="page-header">${welcomeToHR}</h2>
-			<%-- <a href="creationResume.jsp"
-				class="btn btn-success button-img-placing"> ${createResumeIndex} </a> <a
-				class="btn btn-success button-img-placing"
-				href="creationVacancy.jsp"> ${createVacancyIndex} </a> --%>
 		</div>
 		<div class="vertical-line"></div>
 

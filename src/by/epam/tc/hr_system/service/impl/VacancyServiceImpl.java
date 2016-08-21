@@ -13,6 +13,7 @@ import by.epam.tc.hr_system.domain.Vacancy;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IVacancyService;
+import by.epam.tc.hr_system.util.validation.Validator;
 
 public class VacancyServiceImpl implements IVacancyService {
 
@@ -23,55 +24,16 @@ public class VacancyServiceImpl implements IVacancyService {
 			String salaryString, String companyName, String contactInformation, String employment, int userID)
 			throws ServiceException {
 
-		if (name == null || name.isEmpty()) {
-			log.error("Error creation vacancy: name");
-			throw new ServiceException("Error creation vacancy: name");
-		}
+		Validator.validateInputString(name);
+		Validator.validateTextAreaString(descrption);
+		Validator.validateTextAreaString(requirement);
+		int salary = Validator.parseStringToInt(salaryString);
+		Validator.validateInputString(companyName);
+		Validator.validateInputString(contactInformation);
+		Validator.validateOption(Vacancy.getTimeList(), employment);
+		Validator.validateInt(userID);
 
-		if (descrption == null || descrption.isEmpty()) {
-			log.error("Error creation vacancy: descrption");
-			throw new ServiceException("Error creation vacancy: descrption");
-		}
-
-		if (requirement == null || requirement.isEmpty()) {
-			log.error("Error creation vacancy: requirement");
-			throw new ServiceException("Error creation vacancy: requirement");
-		}
-
-		int salary = 0;
-
-		if (salaryString == null || salaryString.isEmpty()) {
-			log.error("Error creation vacancy: salary");
-			throw new ServiceException("Error creation vacancy: salary");
-		} else {
-			try {
-				salary = Integer.parseInt(salaryString);
-			} catch (NumberFormatException e) {
-				log.error("Error creation vacancy: salary");
-				throw new ServiceException("Error creation vacancy: salary");
-			}
-		}
-
-		if (companyName == null || companyName.isEmpty()) {
-			log.error("Error creation vacancy: companyName");
-			throw new ServiceException("Error creation vacancy: companyName");
-		}
-
-		if (contactInformation == null || contactInformation.isEmpty()) {
-			log.error("Error creation vacancy: contactInformation");
-			throw new ServiceException("Error creation vacancy: contactInformation");
-		}
-//
-//		if (!employment.equals(Vacancy.FULL_TIME) || !employment.equals(Vacancy.PART_TIME)) {
-//			throw new ServiceException("Error creation vacancy: employment");
-//		}
-
-		Formatter formatter = new Formatter();
-		Calendar calendar = Calendar.getInstance();
-		formatter.format("%tF", calendar);
-
-		Date dateSubmission = Date.valueOf(formatter.toString());
-
+		Date dateSubmission = new Date(new java.util.Date().getTime());
 		Vacancy vacancy = new Vacancy(name, descrption, shortDescription, requirement, salary, dateSubmission,
 				Vacancy.OPEN_STATUS, companyName, contactInformation, employment);
 
@@ -87,9 +49,7 @@ public class VacancyServiceImpl implements IVacancyService {
 
 	@Override
 	public List<Vacancy> getHRVacancies(int userID) throws ServiceException {
-		if (userID < 0) {
-			throw new ServiceException("Error getting HR vacancies: userID");
-		}
+		Validator.validateInt(userID);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 
@@ -125,11 +85,10 @@ public class VacancyServiceImpl implements IVacancyService {
 			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
 			countVacancies = vacancyDAO.getCountVacancies();
 		} catch (DAOException e) {
-			// throw new ServiceException(e);
+			throw new ServiceException(e);
 		}
 		return countVacancies;
 	}
-
 
 	@Override
 	public int getCountCompanies() throws ServiceException {
@@ -139,7 +98,7 @@ public class VacancyServiceImpl implements IVacancyService {
 			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
 			countCompanies = vacancyDAO.getCountCompanies();
 		} catch (DAOException e) {
-			 throw new ServiceException(e);
+			throw new ServiceException(e);
 		}
 		return countCompanies;
 	}
@@ -147,11 +106,7 @@ public class VacancyServiceImpl implements IVacancyService {
 	@Override
 	public Vacancy getVacancyByID(int vacancyId) throws ServiceException {
 
-		if (vacancyId < 0) {
-			log.error("Error getting vacancy ID");
-			throw new ServiceException("Error getting vacancy ID");
-		}
-
+		Validator.validateInt(vacancyId);
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		Vacancy vacancy = null;
 		try {

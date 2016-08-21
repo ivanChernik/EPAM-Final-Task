@@ -15,14 +15,16 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.exception.validation.ValidationExeception;
+import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
+import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.VacancyParameter;
 
 public class ChangeResponceStatusCommand implements ICommand {
+	private static final String ERRORMESSAGES = "errormessages";
 	private static final String VACANCY_NAME = "vacancyName";
 	private static final String STATUS = "status";
 	private static final String RESPONCE_LIST = "responceList";
@@ -35,9 +37,7 @@ public class ChangeResponceStatusCommand implements ICommand {
 
 		try {
 			HttpSession session = request.getSession(true);
-
 			Person person = (Person) session.getAttribute(PERSON);
-
 			if (person == null) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
@@ -54,15 +54,12 @@ public class ChangeResponceStatusCommand implements ICommand {
 				List<VacancyResponce> responceList = null;
 
 				IVacancyResponceService responceService = serviceFactory.getVacancyResponceService();
-
-					responceService.changeResponceStatus(idResponceArrayString, status, idVacancy);
-				
+				responceService.changeResponceStatus(idResponceArrayString, status, idVacancy);
 				request.setAttribute(RESPONCE_LIST, responceList);
 			} catch (ServiceException e) {
-				request.getRequestDispatcher(PageName.ERROR_505_PAGE).forward(request, response);
-				return;
-			} catch (ValidationExeception e) {
-				//непридумал
+				throw new CommandException(e);
+			} catch (ValidationException e) {
+				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_SELECTION_IS_EMPTY);
 			}
 
 			request.getRequestDispatcher("./Controller?command=show-responce-to-vacancy&idVacancy=" + idVacancy

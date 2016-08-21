@@ -29,7 +29,7 @@ public class Education implements Serializable  {
 	}	
 
 	public Education(String kindEducation, String university, String faculty, String specialty, String formEducation,
-			String educationDescription, Date educationFrom, Date educationTo) {
+			String educationDescription) {
 		super();
 		this.kindEducation = kindEducation;
 		this.university = university;
@@ -37,8 +37,6 @@ public class Education implements Serializable  {
 		this.specialty = specialty;
 		this.formEducation = formEducation;
 		this.educationDescription = educationDescription;
-		this.educationFrom = educationFrom;
-		this.educationTo = educationTo;
 	}
 
 	public Education(String university, String faculty, String specialty,
@@ -49,6 +47,8 @@ public class Education implements Serializable  {
 		this.specialty = specialty;
 		this.educationDescription = educationDescription;
 	}
+	
+	
 
 
 	public String getKindEducation() {

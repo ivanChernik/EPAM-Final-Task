@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,10 +32,17 @@
 <body>
 	<jsp:include page="navigation.jsp"></jsp:include>
 	<section class="main-information">
+	
+		<c:if test="${not empty requestScope.errormessages}">
+					<div class="form-group alert alert-danger">
+						<strong>${requestScope.errormessages}</strong>
+					</div>
+		</c:if>
+				
 		<form action="Controller" method="post">
 		
 			<input name="command" value="responce-to-vacancy" type="hidden">
-			 <input name="idVacancy" value="${requestScope.vacancy.id}" type="hidden">
+			<input name="idVacancy" value="${requestScope.vacancy.id}" type="hidden">
 			 
 			<div class="thumbnail section-information ">
 				<h1>${requestScope.vacancy.name}</h1>

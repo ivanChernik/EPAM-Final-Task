@@ -20,12 +20,13 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="localization.local" var="loc" />
 
-<fmt:message bundle="${loc}" key="local.professional.information" var="professionalInformation" />
+<fmt:message bundle="${loc}" key="local.professional.information"
+	var="professionalInformation" />
 <fmt:message bundle="${loc}" key="local.phone.number" var="phoneNumber" />
 <fmt:message bundle="${loc}" key="local.email" var="email" />
 <fmt:message bundle="${loc}" key="local.skills" var="skills" />
-<fmt:message bundle="${loc}" key="local.experience" var="experience" /> 
-<fmt:message bundle="${loc}" key="local.education" var="education" /> 
+<fmt:message bundle="${loc}" key="local.experience" var="experience" />
+<fmt:message bundle="${loc}" key="local.education" var="education" />
 
 
 <title>Resume</title>
@@ -43,6 +44,11 @@
 
 	<section>
 		<div class="thumbnail head-information">
+			<c:if test="${not empty requestScope.errormessages}">
+				<div class="form-group alert alert-danger">
+					<strong>${requestScope.errormessages}</strong>
+				</div>
+			</c:if>
 			<div class="placing-inline main-information">
 				<div class="position-head">${resume.position}</div>
 				<div class="name">${resume.person.name}&nbsp;
@@ -51,8 +57,8 @@
 				<div class="location">${resume.contactInfo.address}</div>
 
 				<div class="contact-information">
-					<div>${email}: &nbsp; ${resume.contactInfo.email}</div>
-					<div>${phoneNumber}: &nbsp; ${resume.contactInfo.phone}</div>
+					<div>${email}:&nbsp; ${resume.contactInfo.email}</div>
+					<div>${phoneNumber}:&nbsp; ${resume.contactInfo.phone}</div>
 				</div>
 
 				<div class="social-network-placing">
@@ -91,7 +97,7 @@
 
 		<c:if test="${not empty resume.profInformation}">
 			<div class="thumbnail section-information ">
-				<h4 class="page-header"> ${professionalInformation}</h4>
+				<h4 class="page-header">${professionalInformation}</h4>
 
 				<p>${resume.profInformation}</p>
 			</div>
@@ -99,7 +105,7 @@
 
 		<c:if test="${not empty resume.skill}">
 			<div class="thumbnail section-information">
-				<h4 class="page-header"> ${skills}</h4>
+				<h4 class="page-header">${skills}</h4>
 
 				<p>${resume.skill}</p>
 			</div>
@@ -115,8 +121,7 @@
 
 					<div>
 						<div class="subtitle">${position.previousPosition}</div>
-						<p>${position.workFrom} &nbsp; - &nbsp;
-							${position.workTo}</p>
+						<p>${position.workFrom}&nbsp; - &nbsp; ${position.workTo}</p>
 						<p>${position.workDescription}</p>
 					</div>
 
@@ -128,12 +133,12 @@
 		<c:if test="${not empty resume.educationList}">
 
 			<div class="thumbnail section-information">
-				<h4 class="page-header"> ${education}</h4>
+				<h4 class="page-header">${education}</h4>
 
 				<c:forEach var="education" items="${resume.educationList}">
 					<div>
 						<div class="subtitle">${education.university}</div>
-						<p>${education.educationFrom} &nbsp; - &nbsp;
+						<p>${education.educationFrom}&nbsp; - &nbsp;
 							${education.educationTo}</p>
 						<p>${education.faculty}.${education.specialty}.${education.formEducation}.${education.educationDescription}.</p>
 					</div>

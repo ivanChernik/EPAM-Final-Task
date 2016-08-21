@@ -15,12 +15,15 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
 import by.epam.tc.hr_system.service.ServiceFactory;
+import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 
 public class ShowApplicantResponceCommand implements ICommand {
 
+	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String RESPONCE_LIST = "responceList";
 	private static final String PERSON = "person";
 	private static final Logger log = Logger.getLogger(ShowApplicantResponceCommand.class);
@@ -45,6 +48,8 @@ public class ShowApplicantResponceCommand implements ICommand {
 				request.setAttribute(RESPONCE_LIST, responceList);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
+			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_IMPOSSIBLE_ACTION);
 			}
 			
 		} catch (ServletException | IOException e) {

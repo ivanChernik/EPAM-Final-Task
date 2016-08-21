@@ -20,7 +20,6 @@ import by.epam.tc.hr_system.command.impl.ShowResponceForVacancy;
 import by.epam.tc.hr_system.command.impl.ShowResumeCommand;
 import by.epam.tc.hr_system.command.impl.ShowTopVacancies;
 import by.epam.tc.hr_system.command.impl.ShowVacancyCommand;
-import by.epam.tc.hr_system.controller.Controller;
 import by.epam.tc.hr_system.exception.CommandException;
 
 public class CommandHelper {

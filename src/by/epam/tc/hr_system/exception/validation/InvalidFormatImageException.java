@@ -1,29 +1,19 @@
 package by.epam.tc.hr_system.exception.validation;
 
-public class InvalidFormatImageException extends RuntimeException {
+public class InvalidFormatImageException extends ValidationException {
 
-	public InvalidFormatImageException() {
+	public InvalidFormatImageException(Exception e) {
+		super(e);
+		// TODO Auto-generated constructor stub
+	}
+
+	public InvalidFormatImageException(String message, Exception e) {
+		super(message, e);
 		// TODO Auto-generated constructor stub
 	}
 
 	public InvalidFormatImageException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
-	}
-
-	public InvalidFormatImageException(Throwable cause) {
-		super(cause);
-		// TODO Auto-generated constructor stub
-	}
-
-	public InvalidFormatImageException(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
-	}
-
-	public InvalidFormatImageException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -15,12 +15,15 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
 import by.epam.tc.hr_system.service.ServiceFactory;
+import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 
 public class ShowResponceForVacancy implements ICommand {
 
+	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String RESPONCE_LIST = "responceList";
 	private static final String ID_VACANCY = "idVacancy";
 	private static final String PERSON = "person";
@@ -49,10 +52,11 @@ public class ShowResponceForVacancy implements ICommand {
 				 responceList = responceService.getReponcesForVacancy(idVacancyString);
 			} catch (ServiceException e) {	
 				throw new CommandException(e);
+			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_IMPOSSIBLE_ACTION);
 			}
 
 			request.setAttribute(RESPONCE_LIST,responceList);
-			
 			request.getRequestDispatcher(PageName.VACANCY_RESPONCE_PAGE).forward(request, response);
 
 		} catch (ServletException | IOException e) {

@@ -11,7 +11,8 @@ import by.epam.tc.hr_system.dao.IPersonDAO;
 import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.exception.validation.ValidationExeception;
+import by.epam.tc.hr_system.exception.validation.LoginAlreadyExistsExeption;
+import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.validation.Validator;
@@ -25,72 +26,41 @@ public class UserServiceImpl implements IUserService {
 			String surname, String patronymic, String email, String phoneNumber, String dateOfBirthday)
 			throws ServiceException {
 
-		Person person = null;
-
 		DAOFactory daoFactory = DAOFactory.getInstance();
-		IPersonDAO personDAO = null;
+		IPersonDAO personDAO = daoFactory.getPersonDAO();
+		
+		login = Validator.validateInputString(login);
 
 		try {
-			Validator.validateString(login);
-
-			try {
-				personDAO = daoFactory.getPersonDAO();
-				if (personDAO.searchSimilarLogin(login)) {
-					log.error(MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS);
-					throw new ServiceException(MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS);
-				}
-			} catch (DAOException e) {
-				log.error("Error searching similar login");
-				throw new ServiceException("Error searching similar login", e);
+			if (personDAO.searchSimilarLogin(login)) {
+				log.warn("Warning the login already exists");
+				throw new LoginAlreadyExistsExeption("Warning the login already exists");
 			}
-
-			Validator.validateString(password);
-
-			if (!password.equals(repeatedPassword)) {
-				log.error(MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD);
-				throw new ServiceException(MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD);
-			}
-
-			Validator.validateString(role);
-
-			if (!role.equals(Person.APPLICANT_ROLE) || !role.equals(Person.HR_ROLE)) {
-				log.error("Error registration: role");
-				throw new ServiceException("Error registration: role");
-			}
-
-			Validator.validateString(name);
-
-			Validator.validateString(surname);
-
-			Validator.validateString(email);
-
-			Validator.validateString(dateOfBirthday);
-
-		} catch (ValidationExeception eValidation) {
-			throw new ServiceException(eValidation);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
 		}
 
-		Date birthdayDate = null;
+		password = Validator.validateInputString(password);
+		repeatedPassword = Validator.validateInputString(repeatedPassword);
 
-		Formatter formatter = new Formatter();
-
-		Calendar calendar = Calendar.getInstance();
-		formatter.format("%tF", calendar);
-		Date currentDate = Date.valueOf(formatter.toString());
-
-		try {
-			birthdayDate = Date.valueOf(dateOfBirthday);
-		} catch (IllegalArgumentException e) {
-			log.error("Error registration: dateOfBirthday");
-			throw new ServiceException("Error registration: dateOfBirthday");
+		if (!password.equals(repeatedPassword)) {
+			log.warn("Warning the password and repeated password already are not equal");
+			throw new ServiceException("Warning the password and repeated password already are not equal");
 		}
 
-		if (currentDate.after(birthdayDate)) {
-			log.error("Error registration: dateOfBirthday");
-			throw new ServiceException("Error registration: dateOfBirthday");
-		}
+		Validator.validateInputString(role);
+		Validator.validateOption(Person.getRoleList(), role);
 
-		person = new Person(name, surname, patronymic, birthdayDate, email, phoneNumber, role);
+		name = Validator.validateInputString(name);
+		surname = Validator.validateInputString(surname);
+		email = Validator.validateInputString(email);
+
+		Date birthdayDate = Validator.parseStringToDate(dateOfBirthday);
+		java.util.Date utilDate = new java.util.Date();
+		Date currentDate = new Date(utilDate.getTime());
+		Validator.validateDatesPeriod(currentDate, birthdayDate);
+		
+		Person person = new Person(name, surname, patronymic, birthdayDate, email, phoneNumber, role);
 
 		try {
 			personDAO.registerPerson(login, password, person);
@@ -104,12 +74,8 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public Person authorizePerson(String login, String password) throws ServiceException {
 
-		try {
-			Validator.validateString(login);
-			Validator.validateString(password);
-		} catch (ValidationExeception eValidation) {
-			throw new ServiceException(eValidation);
-		}
+		Validator.validateInputString(login);
+		Validator.validateInputString(password);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		Person person = null;

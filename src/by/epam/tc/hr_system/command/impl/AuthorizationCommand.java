@@ -13,6 +13,7 @@ import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.PageName;
@@ -20,6 +21,7 @@ import by.epam.tc.hr_system.util.parameter.UserParameter;
 
 public class AuthorizationCommand implements ICommand {
 
+	private static final String PERSON = "person";
 	private static final Logger log = Logger.getLogger(AuthorizationCommand.class);
 
 	@Override
@@ -41,14 +43,18 @@ public class AuthorizationCommand implements ICommand {
 			} catch (ServiceException e) {
 				request.getRequestDispatcher(PageName.ERROR_505_PAGE).forward(request, response);
 				return;
+			}	catch (ValidationException e) {
+				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+				return;
 			}
+			
 
 			if (person == null) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
 			}
 
-			session.setAttribute("person", person);
+			session.setAttribute(PERSON, person);
 
 			if (Person.APPLICANT_ROLE.equals(person.getRole())) {
 				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);

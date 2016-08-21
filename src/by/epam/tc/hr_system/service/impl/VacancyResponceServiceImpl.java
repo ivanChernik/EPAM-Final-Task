@@ -10,7 +10,7 @@ import by.epam.tc.hr_system.dao.IVacancyResponceDAO;
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.exception.validation.ValidationExeception;
+import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
 import by.epam.tc.hr_system.util.validation.Validator;
 
@@ -19,20 +19,13 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 	@Override
 	public void addResponceToVacancy(VacancyResponce vacancyResponce) throws ServiceException {
 
-		if (vacancyResponce.getResume().getId() < 0) {
-			throw new ServiceException("Error addiction responce to Vacancy: idResume");
-		}
-
-		if (vacancyResponce.getVacancy().getId() < 0) {
-			throw new ServiceException("Error addiction responce to Vacancy: idVacancy");
-		}
-
+		Validator.validateInt(vacancyResponce.getResume().getId());
+		Validator.validateInt(vacancyResponce.getVacancy().getId());
 		vacancyResponce.setStatus(VacancyResponce.NOT_VIEWED_STATUS);
 
-		Formatter formatter = new Formatter();
-		Calendar calendar = Calendar.getInstance();
-		formatter.format("%tF", calendar);
-		vacancyResponce.setDate(Date.valueOf(formatter.toString()));
+		java.util.Date currentDate = new java.util.Date();
+		
+		vacancyResponce.setDate(new Date(currentDate.getTime()));
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 
@@ -48,9 +41,10 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 	public List<VacancyResponce> getApplicantReponces(int idApplicant) throws ServiceException {
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
-
+		
+		Validator.validateInt(idApplicant);		
+		
 		List<VacancyResponce> responceList = null;
-
 		try {
 			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
 			responceList = vacancyResponceDAO.getResponcesForApplicant(idApplicant);
@@ -64,14 +58,8 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 	@Override
 	public List<VacancyResponce> getReponcesForVacancy(String idVacancyString) throws ServiceException {
 
-		int idVacancy = 0;
-
-		try {
-			idVacancy = Validator.parseStringToInt(idVacancyString);
-		} catch (ValidationExeception eValidation) {
-			throw new ServiceException(eValidation);
-		}
-
+		int idVacancy = Validator.parseStringToInt(idVacancyString);
+		
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		List<VacancyResponce> responceList = null;
 
@@ -89,12 +77,9 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 	public List<VacancyResponce> changeResponceStatus(String[] idResponceArrayString, String status,
 			String idVacancyString) throws ServiceException {
 
-		int[] idResponceArray;
-		int idVacancy = 0;
-
-		idResponceArray = Validator.parseArrayStringToInt(idResponceArrayString);
-		Validator.validateString(status);
-		idVacancy = Validator.parseStringToInt(idVacancyString);
+		int[] idResponceArray = Validator.parseArrayStringToInt(idResponceArrayString);
+		Validator.validateInputString(status);
+		int idVacancy = Validator.parseStringToInt(idVacancyString);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		List<VacancyResponce> responceList = null;

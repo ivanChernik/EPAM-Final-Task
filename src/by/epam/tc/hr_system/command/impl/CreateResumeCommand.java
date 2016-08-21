@@ -1,19 +1,11 @@
 package by.epam.tc.hr_system.command.impl;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.sql.Date;
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import javax.xml.bind.ValidationException;
 
 import org.apache.log4j.Logger;
 
@@ -24,9 +16,11 @@ import by.epam.tc.hr_system.domain.PreviousPosition;
 import by.epam.tc.hr_system.domain.Resume;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
+import by.epam.tc.hr_system.exception.validation.IllegalStringLengtnException;
 import by.epam.tc.hr_system.exception.validation.InvalidFormatImageException;
 import by.epam.tc.hr_system.exception.validation.PhotoNotChosenException;
-import by.epam.tc.hr_system.exception.validation.ValidationExeception;
+import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.domain.ApplicantContactInfo;
@@ -75,7 +69,8 @@ public class CreateResumeCommand implements ICommand {
 			String educationTo = request.getParameter(ResumeParamater.EDUCATION_TO);
 			String description = request.getParameter(ResumeParamater.EDUCATION_DESCRIPTION);
 
-			Education education = new Education(university, faculty, specialty, description);
+			Education education = new Education(kindEducation, university, faculty, specialty, formEducation,
+					description);
 			resume.addEducation(education);
 
 			String prevpositionName = request.getParameter(ResumeParamater.PREVIOS_POSITION);
@@ -110,16 +105,23 @@ public class CreateResumeCommand implements ICommand {
 						filename, mimeType, realpath);
 				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
 				return;
-			} catch (ServiceException e) {
-				request.getRequestDispatcher(PageName.CREATE_RESUME_PAGE).forward(request, response);
-				return;
-			} catch (ValidationExeception e) {
-				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
 			} catch (PhotoNotChosenException e) {
 				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_PHOTO_NOT_UPLOADED);
 
 			} catch (InvalidFormatImageException e) {
 				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_PHOTO_HAS_WRONG_FORMAT);
+
+			} catch (IllegalStringLengtnException e) {
+				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
+
+			} catch (IllegalDatesPeriodException e) {
+				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_INVALID_DATE_VALUE);
+
+			} catch (ValidationException e) {
+				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
+			} catch (ServiceException e) {
+				request.getRequestDispatcher(PageName.CREATE_RESUME_PAGE).forward(request, response);
+				return;
 			}
 
 			request.setAttribute(RESUME, resume);
@@ -130,7 +132,9 @@ public class CreateResumeCommand implements ICommand {
 
 			request.getRequestDispatcher(PageName.CREATE_RESUME_PAGE).forward(request, response);
 
-		} catch (ServletException | IOException e) {
+		} catch (ServletException |
+
+				IOException e) {
 			log.error(e);
 			throw new CommandException(e);
 		}

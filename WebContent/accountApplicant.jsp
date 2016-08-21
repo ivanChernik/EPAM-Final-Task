@@ -46,10 +46,16 @@
 	</jsp:include>
 
 	<section>
-	<div class="thumbnail wrap-information">
-		<c:if test="${empty requestScope.responceList}">
-			<p>${notResponces}</p>
-		</c:if>
+		<div class="thumbnail wrap-information">
+			<c:if test="${not empty requestScope.errormessages}">
+				<div class="form-group alert alert-danger">
+					<strong>${requestScope.errormessages}</strong>
+				</div>
+			</c:if>
+			
+			<c:if test="${empty requestScope.responceList}">
+				<p>${notResponces}</p>
+			</c:if>
 			<table class="table">
 				<caption>${tableStatusFeedback}</caption>
 				<thead>

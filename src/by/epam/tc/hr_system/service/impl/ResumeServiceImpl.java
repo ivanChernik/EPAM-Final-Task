@@ -36,105 +36,48 @@ public class ResumeServiceImpl implements IResumeService {
 	public void addResume(Resume resume, int userId, String educationFrom, String educationTo, String workFrom,
 			String workTo, Part filePart, String filename, String mimeType, String realpath) throws ServiceException {
 
-		if (!filename.isEmpty()) {
-
-			if (mimeType.startsWith(IMAGE_MIME_TYPE)) {
-				File uploads = new File(realpath);
-				File file = new File(uploads, filename);
-				try (InputStream input = filePart.getInputStream()) {
-					Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-				} catch (IOException e) {
-					throw new ServiceException(e);
-				}
-			} else {
-				throw new InvalidFormatImageException();
-			}
-		} else {
-			throw new PhotoNotChosenException();
-		}
-
+		filename = validateAndLoadImage(filePart, realpath, realpath, realpath);
+		
 		PreviousPosition prevPosition = resume.getPreviousWorkList().get(0);
 
-		Validator.validateString(prevPosition.getPreviousPosition());
-		Validator.validateString(prevPosition.getWorkDescription());
-		
+		prevPosition.setPreviousPosition(Validator.validateInputString(prevPosition.getPreviousPosition()));
+		prevPosition.setWorkDescription(Validator.validateTextAreaString(prevPosition.getWorkDescription()));
+
 		Date workFromDate = Validator.parseStringToDate(workFrom);
 		Date workToDate = Validator.parseStringToDate(workTo);
 
-		Validator.validateDates(workFromDate, workToDate);
-		
+		Validator.validateDatesPeriod(workFromDate, workToDate);
+
 		prevPosition.setWorkFrom(workFromDate);
 		prevPosition.setWorkTo(workToDate);
 
 		Education education = resume.getEducationList().get(0);
 
-		if (education.getEducationDescription() == null || education.getEducationDescription().isEmpty()) {
-			log.error("Error addiction resume (education): description");
-			throw new ServiceException("Error addiction resume (education): description ");
-		}
+		education.setEducationDescription(Validator.validateTextAreaString(education.getEducationDescription()));
+		education.setUniversity(Validator.validateInputString(education.getUniversity()));
+		education.setFaculty(Validator.validateInputString(education.getFaculty()));
+		education.setSpecialty(Validator.validateInputString(education.getSpecialty()));
 
-		if (education.getUniversity() == null || education.getUniversity().isEmpty()) {
-			log.error("Error addiction resume (education): university ");
-			throw new ServiceException("Error addiction resume (education): university ");
-		}
+		Date educationFromDate = Validator.parseStringToDate(educationFrom);
+		Date educationToDate = Validator.parseStringToDate(educationTo);
 
-		if (education.getFaculty() == null || education.getFaculty().isEmpty()) {
-			log.error("Error addiction resume (education): faculty ");
-			throw new ServiceException("Error addiction resume (education): faculty ");
-		}
+		Validator.validateDatesPeriod(educationFromDate, educationToDate);
 
-		if (education.getSpecialty() == null || education.getSpecialty().isEmpty()) {
-			log.error("Error addiction resume (education): specialty ");
-			throw new ServiceException("Error addiction resume (education): specialty ");
-		}
+		education.setEducationFrom(educationFromDate);
+		education.setEducationTo(educationToDate);
 
-		if (education.getEducationFrom() == null) {
-			log.error("Error addiction resume (education): date from ");
-			throw new ServiceException("Error addiction resume (education): date from ");
-		}
-
-		if (education.getEducationTo() == null) {
-			log.error("Error addiction resume (education): date to ");
-			throw new ServiceException("Error addiction resume (education): date to ");
-		}
-
-		if (education.getEducationFrom().after(education.getEducationTo())) {
-			log.error("Error addiction resume (education): date to > date from");
-			throw new ServiceException("Error addiction resume (education): date to > date from");
-		}
-
-		// from education
-
-		if (education.getFormEducation() == null || education.getFormEducation().isEmpty()) {
-			log.error("Error addiction resume (education): education form");
-			throw new ServiceException("Error addiction resume (education): education form ");
-		}
-
-		if (education.getKindEducation() == null || education.getKindEducation().isEmpty()) {
-			log.error("Error addiction resume (education): kind education");
-			throw new ServiceException("Error addiction resume (education): kind education");
-		}
+		education.setFormEducation(Validator.validateInputString(education.getFormEducation()));
+		education.setKindEducation(Validator.validateInputString(education.getKindEducation()));
 
 		// other information
+		
+		resume.setSkill(Validator.validateInputString(resume.getSkill()));
+		resume.setPosition(Validator.validateInputString(resume.getSkill()));
+		resume.setProfInformation(Validator.validateTextAreaString(resume.getProfInformation()));
 
-		if (resume.getSkill() == null || resume.getSkill().isEmpty()) {
-			log.error("Error addiction resume (resume info): skill ");
-			throw new ServiceException("Error addiction resume (resume info): skill ");
-		}
-		if (resume.getPosition() == null || resume.getPosition().isEmpty()) {
-			log.error("Error addiction resume (resume info): position ");
-			throw new ServiceException("Error addiction resume (resume info): position ");
-		}
-		if (resume.getProfInformation() == null || resume.getProfInformation().isEmpty()) {
-			log.error("Error addiction resume (resume info): prof information ");
-			throw new ServiceException("Error addiction resume (resume info): prof information ");
-		}
-
-		if (userId < 0) {
-			log.error("Error addiction resume: userId ");
-			throw new ServiceException("Error addiction resume: userId ");
-		}
-
+		Validator.validateInt(userId);
+	
+		
 		DAOFactory daoFactory = DAOFactory.getInstance();
 
 		try {
@@ -144,6 +87,29 @@ public class ResumeServiceImpl implements IResumeService {
 			throw new ServiceException(e);
 		}
 
+	}
+	
+	private String validateAndLoadImage(Part filePart, String filename, String mimeType, String realpath) throws ServiceException{
+		if (!filename.isEmpty()) {
+
+			if (mimeType.startsWith(IMAGE_MIME_TYPE)) {
+				File uploads = new File(realpath);
+				File file = new File(uploads, filename);
+				try (InputStream input = filePart.getInputStream()) {
+					Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					log.error("Error reading user photo",e);
+					throw new ServiceException(e);
+				}
+			} else {
+				log.warn("Warning: format photo");
+				throw new InvalidFormatImageException("Error format photo");
+			}
+		} else {
+			log.warn("Warning: photo was not picked");
+			throw new PhotoNotChosenException("Warning: photo was not picked");
+		}
+		return filename;
 	}
 
 	@Override
@@ -162,13 +128,8 @@ public class ResumeServiceImpl implements IResumeService {
 	@Override
 	public Resume getApplicantResume(String idResumeString) throws ServiceException {
 
-		if (idResumeString == null || idResumeString.isEmpty()) {
-			log.error("Error getting resume: idResume ");
-			throw new ServiceException("Error getting resume: idResume ");
-		}
-
-		int idResume = Integer.parseInt(idResumeString);
-
+		int idResume = Validator.parseStringToInt(idResumeString);
+		
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		Resume resume = null;
 		try {
