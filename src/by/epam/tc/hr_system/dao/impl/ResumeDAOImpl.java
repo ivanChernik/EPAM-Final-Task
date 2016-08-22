@@ -53,6 +53,7 @@ public class ResumeDAOImpl implements IResumeDAO {
 	private static final String SQL_ADD_EDUCATION = "INSERT INTO `hr-system`.`education` (`id_candidate`, `institution`, `department`, `speciality`, `form_education`, `date_of_entry`, `date_of_graduation`, `description`) VALUES (?, ?, ?, ?, ?, ?, ? ,?);";
 	private static final String SQL_ADD_PREVIOUS_POSITION = "INSERT INTO `hr-system`.`experience` (`position`, `description`, `date_of_beginning`, `date_of_completion`, `id_applicant`) VALUES (?, ?, ?, ?, ?);";
 
+	private static final String SQL_SELECT_RESUME_ID = "SELECT id_applicant FROM `hr-system`.resume_info WHERE id_applicant = ?;";
 	private static final String SQL_SELECT_COUNT_RESUMES = "SELECT COUNT(id_applicant) FROM `hr-system`.resume_info;";
 	private static final String SQL_SELECT_EDUCATION_BY_RESUME_ID = "SELECT DISTINCT  kind_education, education.description, date_of_graduation , `date_of_entry`, form_education, speciality, department, institution FROM `hr-system`.resume_info JOIN `hr-system`.education ON resume_info.id_applicant = education.id_candidate WHERE resume_info.`id_applicant`= ?;";
 	private static final String SQL_SELECT_EXPERIENCE_BY_ID_RESUME = "SELECT DISTINCT experience.`position`, experience.`description`, date_of_beginning , date_of_completion FROM `hr-system`.resume_info  JOIN `hr-system`.experience ON resume_info.id_applicant = experience.id_applicant WHERE resume_info.`id_applicant`= ?;";
@@ -71,6 +72,7 @@ public class ResumeDAOImpl implements IResumeDAO {
 		}
 
 		Connection connection = null;
+		
 		PreparedStatement addExperiencePS = null;
 		PreparedStatement addEducationPS = null;
 		PreparedStatement addResumeInfoPS = null;
@@ -221,6 +223,7 @@ public class ResumeDAOImpl implements IResumeDAO {
 		}
 
 		Connection connection = null;
+		PreparedStatement checkResumePS = null;
 		PreparedStatement getContactInfoPS = null;
 		PreparedStatement getExperienceInfoPS = null;
 		PreparedStatement getEducaionPS = null;
@@ -229,8 +232,15 @@ public class ResumeDAOImpl implements IResumeDAO {
 
 		try {
 			connection = connectionPool.takeConnection();
+			
+			checkResumePS = connection.prepareStatement(SQL_SELECT_RESUME_ID);
+			checkResumePS.setInt(1, idResume);
+			if(!checkResumePS.executeQuery().next()){
+				return null;
+			}
+			
 			connection.setAutoCommit(false);
-
+			
 			// first
 			getContactInfoPS = connection.prepareStatement(SQL_SELECT_CONTACT_INFORMATION_BY_ID_RESUME);
 			getContactInfoPS.setInt(1, idResume);
@@ -264,6 +274,13 @@ public class ResumeDAOImpl implements IResumeDAO {
 			throw new DAOException("Error addiction resume", e);
 
 		} finally {
+			
+			try {
+				checkResumePS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+			
 			try {
 				getContactInfoPS.close();
 			} catch (SQLException e) {
@@ -360,6 +377,44 @@ public class ResumeDAOImpl implements IResumeDAO {
 		}
 
 		return educationList;
+	}
+
+	@Override
+	public boolean checkApplicantResume(int idResume) throws DAOException {
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+
+		Connection connection = null;
+		PreparedStatement checkResumePS = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			
+			checkResumePS = connection.prepareStatement(SQL_SELECT_RESUME_ID);
+			checkResumePS.setInt(1, idResume);
+			return checkResumePS.executeQuery().next();
+		}catch (ConnectionPoolException | SQLException e) {
+			log.error("Error checking resume of applicant", e);
+			throw new DAOException("Error checking resume of applicant", e);
+		} finally {
+			
+			try {
+				checkResumePS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+	
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				log.error("Error closing connection", e);
+			}
+		}
 	}
 
 }

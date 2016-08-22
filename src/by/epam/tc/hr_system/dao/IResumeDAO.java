@@ -10,4 +10,6 @@ public interface IResumeDAO {
 	int getCountResumes() throws DAOException;
 
 	Resume getApplicantResume(int idResume) throws DAOException;
+	
+	boolean checkApplicantResume(int idResume) throws DAOException;
 }

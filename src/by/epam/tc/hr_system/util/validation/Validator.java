@@ -71,16 +71,16 @@ public class Validator {
 	public static void validateDatesPeriod(Date eirlyDate, Date laterDate) throws IllegalDatesPeriodException {
 		validateDate(eirlyDate);
 		validateDate(laterDate);
-
-		if (laterDate.before(eirlyDate)) {
+ 
+		if (!eirlyDate.after(laterDate)) {
 			throw new IllegalDatesPeriodException("Error validation: eirly date after later date");
 		}
 	}
 
-	public static void validateOption(List<?> options, Object value) {
+	public static void validateSelectedItem(List<String> options, String value) {
 
 		if (options != null) {
-			if(options.contains(value)){
+			if(!options.contains(value)){
 				throw new ValidationException("Error searching value in options");
 			}
 		}

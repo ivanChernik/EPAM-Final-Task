@@ -37,7 +37,7 @@ public class ResumeServiceImpl implements IResumeService {
 			String workTo, Part filePart, String filename, String mimeType, String realpath) throws ServiceException {
 
 		filename = validateAndLoadImage(filePart, realpath, realpath, realpath);
-		
+
 		PreviousPosition prevPosition = resume.getPreviousWorkList().get(0);
 
 		prevPosition.setPreviousPosition(Validator.validateInputString(prevPosition.getPreviousPosition()));
@@ -70,14 +70,13 @@ public class ResumeServiceImpl implements IResumeService {
 		education.setKindEducation(Validator.validateInputString(education.getKindEducation()));
 
 		// other information
-		
+
 		resume.setSkill(Validator.validateInputString(resume.getSkill()));
 		resume.setPosition(Validator.validateInputString(resume.getSkill()));
 		resume.setProfInformation(Validator.validateTextAreaString(resume.getProfInformation()));
 
 		Validator.validateInt(userId);
-	
-		
+
 		DAOFactory daoFactory = DAOFactory.getInstance();
 
 		try {
@@ -88,8 +87,9 @@ public class ResumeServiceImpl implements IResumeService {
 		}
 
 	}
-	
-	private String validateAndLoadImage(Part filePart, String filename, String mimeType, String realpath) throws ServiceException{
+
+	private String validateAndLoadImage(Part filePart, String filename, String mimeType, String realpath)
+			throws ServiceException {
 		if (!filename.isEmpty()) {
 
 			if (mimeType.startsWith(IMAGE_MIME_TYPE)) {
@@ -98,7 +98,7 @@ public class ResumeServiceImpl implements IResumeService {
 				try (InputStream input = filePart.getInputStream()) {
 					Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 				} catch (IOException e) {
-					log.error("Error reading user photo",e);
+					log.error("Error reading user photo", e);
 					throw new ServiceException(e);
 				}
 			} else {
@@ -129,12 +129,14 @@ public class ResumeServiceImpl implements IResumeService {
 	public Resume getApplicantResume(String idResumeString) throws ServiceException {
 
 		int idResume = Validator.parseStringToInt(idResumeString);
-		
+
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		Resume resume = null;
 		try {
 			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
-			resume = resumeDAO.getApplicantResume(idResume);
+			if (resumeDAO.checkApplicantResume(idResume)) {
+				resume = resumeDAO.getApplicantResume(idResume);
+			}
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}

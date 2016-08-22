@@ -15,16 +15,20 @@ import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
 import by.epam.tc.hr_system.exception.validation.IllegalStringLengtnException;
+import by.epam.tc.hr_system.exception.validation.LoginAlreadyExistsExeption;
+import by.epam.tc.hr_system.exception.validation.PasswordsNotEqualException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.service.ServiceFactory;
+import by.epam.tc.hr_system.util.RoleDispatcher;
 import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.UserParameter;
 
 public class RegistrationCommand implements ICommand {
 
-	private static final String ERROR_MESSAGES = "errormessages";
+	private static final String PERSON = "person";
+	private static final String ERROR_MESSAGES = "errorMessage";
 	private static final Logger log = Logger.getLogger(RegistrationCommand.class);
 
 	@Override
@@ -48,33 +52,43 @@ public class RegistrationCommand implements ICommand {
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
 			Person person = null;
-			IUserService userService = null;
+
 			try {
-				userService = serviceFactory.getUserService();
+				IUserService userService = serviceFactory.getUserService();
 				person = userService.registerUser(login, password, repeatedPassword, role, name, surname, patronymic,
 						email, phoneNumber, dateOfBirthday);
+				RoleDispatcher roleDispatcher = RoleDispatcher.getInstance();
+				session.setAttribute(PERSON, person);
+				roleDispatcher.forwardToIndexByRole(request, response, role);
+				return;
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			} catch (IllegalStringLengtnException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
-				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
-				return;
 			} catch (IllegalDatesPeriodException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_INVALID_DATE_VALUE);
-				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
-				return;
+			} catch (PasswordsNotEqualException e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD);
+			} catch (LoginAlreadyExistsExeption e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS);
 			} catch (ValidationException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
-				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
-				return;
 			}
-
-			if (person.getRole().equals(Person.APPLICANT_ROLE)) {
-				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
-			} else if (person.getRole().equals(Person.HR_ROLE)) {
-				request.getRequestDispatcher(PageName.INDEX_HR_PAGE).forward(request, response);
-			}
-
+			
+			//exception forwarding
+			request.setAttribute(UserParameter.LOGIN,login);
+			request.setAttribute(UserParameter.PASSWORD,password);
+			request.setAttribute(UserParameter.REPEATED_PASSWORD,repeatedPassword);
+			request.setAttribute(UserParameter.ROLE,role);
+			request.setAttribute(UserParameter.NAME,name);
+			request.setAttribute(UserParameter.SURNAME, surname);
+			request.setAttribute(UserParameter.PATRONYMIC, patronymic);
+			request.setAttribute(UserParameter.EMAIL,email);
+			request.setAttribute(UserParameter.PHONE_NUMBER,phoneNumber);
+			request.setAttribute(UserParameter.DATE_OF_BIRTHDAY,dateOfBirthday);
+			
+			request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+			
 		} catch (ServletException | IOException e) {
 			log.error(e);
 			throw new CommandException(e);

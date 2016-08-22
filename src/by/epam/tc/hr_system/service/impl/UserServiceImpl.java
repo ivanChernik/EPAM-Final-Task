@@ -12,6 +12,7 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.LoginAlreadyExistsExeption;
+import by.epam.tc.hr_system.exception.validation.PasswordsNotEqualException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.util.MessageManager;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements IUserService {
 	public Person registerUser(String login, String password, String repeatedPassword, String role, String name,
 			String surname, String patronymic, String email, String phoneNumber, String dateOfBirthday)
 			throws ServiceException {
-
+		
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		IPersonDAO personDAO = daoFactory.getPersonDAO();
 		
@@ -40,25 +41,26 @@ public class UserServiceImpl implements IUserService {
 			throw new ServiceException(e);
 		}
 
-		password = Validator.validateInputString(password);
-		repeatedPassword = Validator.validateInputString(repeatedPassword);
-
-		if (!password.equals(repeatedPassword)) {
-			log.warn("Warning the password and repeated password already are not equal");
-			throw new ServiceException("Warning the password and repeated password already are not equal");
-		}
-
 		Validator.validateInputString(role);
-		Validator.validateOption(Person.getRoleList(), role);
+		Validator.validateSelectedItem(Person.getRoleList(), role);
 
 		name = Validator.validateInputString(name);
 		surname = Validator.validateInputString(surname);
 		email = Validator.validateInputString(email);
 
+
 		Date birthdayDate = Validator.parseStringToDate(dateOfBirthday);
-		java.util.Date utilDate = new java.util.Date();
-		Date currentDate = new Date(utilDate.getTime());
+		Date currentDate = new Date(new java.util.Date().getTime());
 		Validator.validateDatesPeriod(currentDate, birthdayDate);
+		
+		password = Validator.validateInputString(password);
+		repeatedPassword = Validator.validateInputString(repeatedPassword);
+
+		if (!password.equals(repeatedPassword)) {
+			log.warn("Warning the password and repeated password already are not equal");
+			throw new PasswordsNotEqualException("Warning the password and repeated password already are not equal");
+		}
+
 		
 		Person person = new Person(name, surname, patronymic, birthdayDate, email, phoneNumber, role);
 

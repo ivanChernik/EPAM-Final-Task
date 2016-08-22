@@ -61,7 +61,7 @@
 						<ul class="dropdown-menu dropdown-button-style">
 							<li><a href="creationResume.jsp"> ${createResume}</a></li>
 							<li><a href="#"> ${updateResume}</a></li>
-							<li><a href="./resume.jsp?idResume=${sessionScope.person.id}"> ${lookResume}</a></li>
+							<li><a href="./resume.jsp?idUser=${sessionScope.person.id}"> ${lookResume}</a></li>
 							<%-- <li>
 								<form action="Controller" method="post">
 									<input name="command" value="show-resume" type="hidden">

@@ -6,10 +6,12 @@ import java.util.Formatter;
 import java.util.List;
 
 import by.epam.tc.hr_system.dao.DAOFactory;
+import by.epam.tc.hr_system.dao.IResumeDAO;
 import by.epam.tc.hr_system.dao.IVacancyResponceDAO;
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.ResumeDoesNotExistException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
 import by.epam.tc.hr_system.util.validation.Validator;
@@ -30,6 +32,10 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 
 		try {
+			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
+			if(!resumeDAO.checkApplicantResume(vacancyResponce.getResume().getId())){
+				throw new ResumeDoesNotExistException("Resume doesn't exist");
+			}
 			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
 			vacancyResponceDAO.addResponceToVacancy(vacancyResponce);
 		} catch (DAOException e) {

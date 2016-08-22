@@ -23,6 +23,7 @@ import by.epam.tc.hr_system.util.PageName;
 
 public class ShowApplicantResponceCommand implements ICommand {
 
+	private static final String VACANCY = "vacancy";
 	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String RESPONCE_LIST = "responceList";
 	private static final String PERSON = "person";

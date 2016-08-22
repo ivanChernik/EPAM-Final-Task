@@ -13,5 +13,6 @@ public class MessageManager {
 	public static final String ERROR_MESSAGE_IMPOSSIBLE_ACTION = "Impossible action! Please Athorize.";
 	public static final String ERROR_MESSAGE_INVALID_DATE_VALUE = "Invalid date(s) value.";
 	public static final String ERROR_MESSAGE_VACANCY_DOES_NOT_EXIST = "Vacancy does not exist.";
+	public static final String ERROR_MESSAGE_RESUME_DOES_NOT_EXIST = "Resume does not exist.";
 
 }

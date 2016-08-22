@@ -20,6 +20,7 @@ import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.ResumeParamater;
+import by.epam.tc.hr_system.util.parameter.UserParameter;
 
 public class ShowResumeCommand implements ICommand {
 
@@ -39,7 +40,7 @@ public class ShowResumeCommand implements ICommand {
 				return;
 			}
 
-			String idResumeString = request.getParameter(ResumeParamater.ID_RESUME);
+			String idResumeString = request.getParameter(UserParameter.ID);
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 

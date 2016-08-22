@@ -22,8 +22,8 @@
 
 <fmt:message bundle="${loc}" key="local.description" var="description" />
 <fmt:message bundle="${loc}" key="local.requirement" var="requirement" />
-<fmt:message bundle="${loc}" key="local.contact.data" var="contactData" />	
-<fmt:message bundle="${loc}" key="local.salary" var="salary" />	
+<fmt:message bundle="${loc}" key="local.contact.data" var="contactData" />
+<fmt:message bundle="${loc}" key="local.salary" var="salary" />
 <fmt:message bundle="${loc}" key="local.send.resume" var="sendResume" />
 <fmt:message bundle="${loc}" key="local.employment" var="employment" />
 
@@ -32,42 +32,44 @@
 <body>
 	<jsp:include page="navigation.jsp"></jsp:include>
 	<section class="main-information">
-	
+
 		<c:if test="${not empty requestScope.errormessages}">
-					<div class="form-group alert alert-danger">
-						<strong>${requestScope.errormessages}</strong>
-					</div>
+			<div class="form-group alert alert-danger">
+				<strong>${requestScope.errormessages}</strong>
+			</div>
 		</c:if>
-				
+
 		<form action="Controller" method="post">
-		
+
 			<input name="command" value="responce-to-vacancy" type="hidden">
-			<input name="idVacancy" value="${requestScope.vacancy.id}" type="hidden">
-			 
+			<input name="idVacancy" value="${sessionScope.vacancy.id}" type="hidden">
 			<div class="thumbnail section-information ">
-				<h1>${requestScope.vacancy.name}</h1>
-				<h4>${requestScope.vacancy.companyName}</h4>
-				<h4 class="page-header"> ${description}</h4>
-				<p>${requestScope.vacancy.descrption}</p>
+				<h1>${sessionScope.vacancy.name}</h1>
+				<h4>${sessionScope.vacancy.companyName}</h4>
+				<h4 class="page-header">${description}</h4>
+				<p>${sessionScope.vacancy.descrption}</p>
 			</div>
 			<div class="thumbnail section-information ">
-				<h4 class="page-header"> ${requirement}</h4>
-				<p>${requestScope.vacancy.requirement}</p>
+				<h4 class="page-header">${requirement}</h4>
+				<p>${sessionScope.vacancy.requirement}</p>
 			</div>
 			<div class="thumbnail section-information ">
-				<h4 class="page-header"> ${contactData}</h4>
-				<p>${requestScope.vacancy.contactInformation}</p>
+				<h4 class="page-header">${contactData}</h4>
+				<p>${sessionScope.vacancy.contactInformation}</p>
 			</div>
 			<div class="thumbnail section-information ">
-				<h4 class="page-header"> ${employment}</h4>
-				<p>${requestScope.vacancy.employment}</p>
+				<h4 class="page-header">${employment}</h4>
+				<p>${sessionScope.vacancy.employment}</p>
 			</div>
 			<div class="thumbnail section-information ">
-				<h4 class="page-header"> ${salary}</h4>
-				<p>${requestScope.vacancy.salary} &nbsp; y.e.</p>
+				<h4 class="page-header">${salary}</h4>
+				<p>${sessionScope.vacancy.salary}&nbsp;y.e.</p>
 			</div>
-			<button type="submit" class="btn btn-success"> ${sendResume}</button>
+			<button type="submit" class="btn btn-success">${sendResume}</button>
 		</form>
+		<c:if test="${not empty requestScope.errormessages}">
+			<c:remove var="vacancy" scope="session" />
+		</c:if>
 	</section>
 	<!-- FOOTER -->
 	<jsp:include page="footer.jsp" />

@@ -30,7 +30,7 @@ public class VacancyServiceImpl implements IVacancyService {
 		int salary = Validator.parseStringToInt(salaryString);
 		Validator.validateInputString(companyName);
 		Validator.validateInputString(contactInformation);
-		Validator.validateOption(Vacancy.getTimeList(), employment);
+		Validator.validateSelectedItem(Vacancy.getTimeList(), employment);
 		Validator.validateInt(userID);
 
 		Date dateSubmission = new Date(new java.util.Date().getTime());

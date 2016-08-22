@@ -151,56 +151,56 @@
 		<div class="form-group">
 			<label for="name">*${enterName}:</label> <input type="text"
 				class="form-control" placeholder="${enterName}" id="name"
-				name="name" required>
+				name="name" required value="${requestScope.name}">
 		</div>
 
 		<div class="form-group">
 			<label for="surname">*${enterSurname}:</label> <input type="text"
 				class="form-control" placeholder="${enterSurname}" id="surname"
-				name="surname" required>
+				name="surname" required value="${requestScope.surname}">
 		</div>
 
 		<div class="form-group">
 			<label for="patronymic">${enterPatronymic}:</label> <input
 				type="text" class="form-control" placeholder="${enterPatronymic}"
-				id="patronymic" name="patronymic">
+				id="patronymic" name="patronymic" value="${requestScope.patronymic}">
 		</div>
 
 		<div class="form-group">
 			<label for="email">*${enterEmail}:</label> <input type="email"
 				class="form-control" placeholder="${enterEmail}" id="email"
-				name="email" required>
+				name="email" required value="${requestScope.email}">
 		</div>
 
 		<div class="form-group">
 			<label for="dateOfBirthday">*${enterDateOfBirthday}:</label> <input
 				type="date" class="form-control"
 				placeholder="${enterDateOfBirthday}" id="dateOfBirthday"
-				name="dateOfBirthday" required>
+				name="dateOfBirthday" required value="${requestScope.dateOfBirthday}">
 		</div>
 
 		<div class="form-group">
 			<label for="phoneNumber">${enterPhone}:</label> <input type="text"
 				class="form-control" placeholder="${enterPhone}" id="phoneNumber"
-				name="phoneNumber">
+				name="phoneNumber" value="${requestScope.phoneNumber}">
 		</div>
 
 		<div class="form-group">
 			<label for="patronymic">*${enterLogin}:</label> <input type="text"
 				class="form-control" placeholder="${enterLogin}" id="login"
-				pattern="[\w]+" name="login" required>
+				pattern="[\w]+" name="login" required value="${requestScope.login}">
 		</div>
 
 		<div class="form-group">
 			<label for="pwd">* ${enterPassword}: </label> <input type="password"
 				class="form-control" placeholder="${enterPassword}" id="pwd"
-				name="password" required>
+				name="password" required value="${requestScope.password}">
 		</div>
 
 		<div class="form-group">
 			<label for="pwd-repeat">*${repeatPassword}:</label> <input
 				type="password" class="form-control" placeholder="${repeatPassword}"
-				id="pwd-repeat" name="repeatedPassword" required>
+				id="pwd-repeat" name="repeatedPassword" required value="${requestScope.repeatedPassword}">
 		</div>
 
 		<div class="form-group">

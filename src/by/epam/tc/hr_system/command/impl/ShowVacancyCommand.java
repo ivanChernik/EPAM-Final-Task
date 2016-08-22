@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -29,6 +30,9 @@ public class ShowVacancyCommand implements ICommand {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
 		try {
+			
+			HttpSession session = request.getSession(false);
+			
 			int vacancyID = Integer.parseInt(request.getParameter(VacancyParameter.ID));
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -36,7 +40,7 @@ public class ShowVacancyCommand implements ICommand {
 			try {
 				IVacancyService vacancyService = serviceFactory.getVacancyService();
 				Vacancy vacancy = vacancyService.getVacancyByID(vacancyID);
-				request.setAttribute(VACANCY, vacancy);
+				session.setAttribute(VACANCY, vacancy);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			} catch (ValidationException e) {

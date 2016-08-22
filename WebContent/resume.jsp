@@ -37,7 +37,7 @@
 
 	<jsp:include page="${request.contextPath}/Controller" flush="true">
 		<jsp:param name="command" value="show-resume" />
-		<jsp:param name="idResume" value="${param.idResume}" />
+		<jsp:param name="idUser" value="${param.idUser}" />
 	</jsp:include>
 
 	<c:set var="resume" value="${requestScope.resume}" scope="page" />
@@ -49,52 +49,58 @@
 					<strong>${requestScope.errormessages}</strong>
 				</div>
 			</c:if>
-			<div class="placing-inline main-information">
-				<div class="position-head">${resume.position}</div>
-				<div class="name">${resume.person.name}&nbsp;
-					${resume.person.surname}</div>
+			<c:choose>
+				<c:when test="${empty resume}">
+					You don't have the resume.
+			</c:when>
+				<c:otherwise>
+					<div class="placing-inline main-information">
+						<div class="position-head">${resume.position}</div>
+						<div class="name">${resume.person.name}&nbsp;
+							${resume.person.surname}</div>
 
-				<div class="location">${resume.contactInfo.address}</div>
+						<div class="location">${resume.contactInfo.address}</div>
 
-				<div class="contact-information">
-					<div>${email}:&nbsp; ${resume.contactInfo.email}</div>
-					<div>${phoneNumber}:&nbsp; ${resume.contactInfo.phone}</div>
-				</div>
+						<div class="contact-information">
+							<div>${email}:&nbsp;${resume.contactInfo.email}</div>
+							<div>${phoneNumber}:&nbsp;${resume.contactInfo.phone}</div>
+						</div>
 
-				<div class="social-network-placing">
+						<div class="social-network-placing">
 
-					<c:if test="${not empty resume.contactInfo.linkGooglePlus}">
-						<a class="social-network"
-							href="${resume.contactInfo.linkGooglePlus}" target="_blank"><img
-							src="myStyle/img/google.png" alt="google+ account"></a>
-					</c:if>
+							<c:if test="${not empty resume.contactInfo.linkGooglePlus}">
+								<a class="social-network"
+									href="${resume.contactInfo.linkGooglePlus}" target="_blank"><img
+									src="myStyle/img/google.png" alt="google+ account"></a>
+							</c:if>
 
-					<c:if test="${not empty resume.contactInfo.linkLinkedIn}">
-						<a class="social-network"
-							href="${resume.contactInfo.linkLinkedIn}" target="_blank"><img
-							src="myStyle/img/linkedin.png" alt="linkedin account"></a>
-					</c:if>
+							<c:if test="${not empty resume.contactInfo.linkLinkedIn}">
+								<a class="social-network"
+									href="${resume.contactInfo.linkLinkedIn}" target="_blank"><img
+									src="myStyle/img/linkedin.png" alt="linkedin account"></a>
+							</c:if>
 
-					<c:if test="${not empty resume.contactInfo.linkTwitter}">
-						<a class="social-network" href="${resume.contactInfo.linkTwitter}"
-							target="_blank"><img src="myStyle/img/twitter.png"
-							alt="twitter account"></a>
-					</c:if>
+							<c:if test="${not empty resume.contactInfo.linkTwitter}">
+								<a class="social-network"
+									href="${resume.contactInfo.linkTwitter}" target="_blank"><img
+									src="myStyle/img/twitter.png" alt="twitter account"></a>
+							</c:if>
 
-					<c:if test="${not empty resume.contactInfo.linkFacebook}">
-						<a class="social-network"
-							href="${resume.contactInfo.linkFacebook}" target="_blank"><img
-							src="myStyle/img/facebook.png" alt="facebook account"></a>
-					</c:if>
-				</div>
-			</div>
-			<div class="placing-inline">
-				<img class="img-rounded profile-photo" src="${resume.pathImage}"
-					alt="photo for resume">
-			</div>
+							<c:if test="${not empty resume.contactInfo.linkFacebook}">
+								<a class="social-network"
+									href="${resume.contactInfo.linkFacebook}" target="_blank"><img
+									src="myStyle/img/facebook.png" alt="facebook account"></a>
+							</c:if>
+						</div>
+					</div>
+					<div class="placing-inline">
+						<img class="img-rounded profile-photo" src="${resume.pathImage}"
+							alt="photo for resume">
+					</div>
+
+				</c:otherwise>
+			</c:choose>
 		</div>
-
-
 		<c:if test="${not empty resume.profInformation}">
 			<div class="thumbnail section-information ">
 				<h4 class="page-header">${professionalInformation}</h4>
@@ -121,7 +127,7 @@
 
 					<div>
 						<div class="subtitle">${position.previousPosition}</div>
-						<p>${position.workFrom}&nbsp; - &nbsp; ${position.workTo}</p>
+						<p>${position.workFrom}&nbsp;-&nbsp;${position.workTo}</p>
 						<p>${position.workDescription}</p>
 					</div>
 
@@ -138,7 +144,7 @@
 				<c:forEach var="education" items="${resume.educationList}">
 					<div>
 						<div class="subtitle">${education.university}</div>
-						<p>${education.educationFrom}&nbsp; - &nbsp;
+						<p>${education.educationFrom}&nbsp;-&nbsp;
 							${education.educationTo}</p>
 						<p>${education.faculty}.${education.specialty}.${education.formEducation}.${education.educationDescription}.</p>
 					</div>
@@ -146,7 +152,6 @@
 			</div>
 
 		</c:if>
-
 	</section>
 	<!-- FOOTER -->
 	<jsp:include page="footer.jsp" />

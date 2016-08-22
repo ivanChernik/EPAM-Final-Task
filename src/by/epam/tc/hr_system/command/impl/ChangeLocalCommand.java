@@ -21,8 +21,8 @@ public class ChangeLocalCommand implements ICommand {
 		request.getSession(true).setAttribute(LOCAL, request.getParameter(LOCAL));
 		String url = request.getRequestURL().toString();
 		
-//		url = url.substring(0, url.lastIndexOf("/"));
-//		
+		url = url.substring(0, url.lastIndexOf("/"));
+		
 //		String queryString = ((HttpServletRequest) request).getQueryString();
 //		if (queryString != null) {
 //			url = url + "?" + queryString;
