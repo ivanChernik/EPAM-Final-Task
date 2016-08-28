@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page info="resume.jsp" language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -27,17 +27,20 @@
 <fmt:message bundle="${loc}" key="local.skills" var="skills" />
 <fmt:message bundle="${loc}" key="local.experience" var="experience" />
 <fmt:message bundle="${loc}" key="local.education" var="education" />
-
+<fmt:message bundle="${loc}" key="local.resume.does.not.exist" var="resumeDoesNotExist" />
 
 <title>Resume</title>
 </head>
 <body>
 	<!-- NAVIGATION START-->
+	
+	<c:set var="pageName" value="resume.jsp" scope="session" />
+	
 	<jsp:include page="navigation.jsp"></jsp:include>
 
 	<jsp:include page="${request.contextPath}/Controller" flush="true">
 		<jsp:param name="command" value="show-resume" />
-		<jsp:param name="idUser" value="${param.idUser}" />
+		<jsp:param name="idResume" value="${param.idResume}" />
 	</jsp:include>
 
 	<c:set var="resume" value="${requestScope.resume}" scope="page" />
@@ -46,12 +49,13 @@
 		<div class="thumbnail head-information">
 			<c:if test="${not empty requestScope.errormessages}">
 				<div class="form-group alert alert-danger">
-					<strong>${requestScope.errormessages}</strong>
+					<span class="glyphicon glyphicon-exclamation-sign"
+							aria-hidden="true"></span><strong>${requestScope.errormessages}</strong>
 				</div>
 			</c:if>
 			<c:choose>
 				<c:when test="${empty resume}">
-					You don't have the resume.
+					 ${resumeDoesNotExist}
 			</c:when>
 				<c:otherwise>
 					<div class="placing-inline main-information">

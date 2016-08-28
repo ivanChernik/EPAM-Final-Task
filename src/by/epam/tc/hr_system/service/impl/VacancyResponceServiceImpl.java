@@ -84,7 +84,7 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 			String idVacancyString) throws ServiceException {
 
 		int[] idResponceArray = Validator.parseArrayStringToInt(idResponceArrayString);
-		Validator.validateInputString(status);
+		Validator.validateInputRequiredString(status);
 		int idVacancy = Validator.parseStringToInt(idVacancyString);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();

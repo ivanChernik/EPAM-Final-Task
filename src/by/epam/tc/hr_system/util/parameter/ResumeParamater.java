@@ -9,7 +9,7 @@ public class ResumeParamater {
 	public static final String LINK_FACEBOOK = "link-facebook";
 	public static final String LINK_TWITTER = "link-twitter";
 	public static final String LINK_LINKEDIN = "link-linkedin";
-	public static final String LINK_GOOGLE_PLUS = "google-plus";
+	public static final String LINK_GOOGLE_PLUS = "link-google-plus";
 	public static final String ADDRESS = "address";
 	public static final String EMAIL = "email";
 	public static final String PHONE = "phone";

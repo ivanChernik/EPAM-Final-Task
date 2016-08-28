@@ -18,11 +18,14 @@ public interface IVacancyDAO {
 	
 	List<Vacancy> getHRVacancies(int idHR) throws DAOException;
 	
-	Vacancy getVacancyByID(int vacancyId) throws DAOException;
+	void deleteHRVacancies(int[] idVacancyArray) throws DAOException;
 	
+	Vacancy getVacancyByID(int vacancyId) throws DAOException;
 	
 	int getCountVacancies() throws DAOException;
 	
 	int getCountCompanies() throws DAOException;
+	
+	boolean checkVacancyToHR(int idHR, int idVacancy) throws DAOException;
 
 }

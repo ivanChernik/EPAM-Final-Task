@@ -19,6 +19,7 @@ import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.ResumeDoesNotExistException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
+import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
@@ -29,6 +30,7 @@ public class ApplyForJobCommand implements ICommand {
 	private static final String VACANCY = "vacancy";
 	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String PERSON = "person";
+	
 	private static final Logger log = Logger.getLogger(ApplyForJobCommand.class);
 
 	@Override
@@ -43,26 +45,22 @@ public class ApplyForJobCommand implements ICommand {
 				return;
 			}
 
-			if (!person.getRole().equals(Person.APPLICANT_ROLE)) {
-				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
-				return;
-			}
-
 			VacancyResponce vacancyResponse = new VacancyResponce();
 			vacancyResponse.getResume().setId(person.getId());
 
-			Vacancy vacancy = (Vacancy) session.getAttribute(VacancyParameter.ID);
-			vacancyResponse.setVacancy(vacancy);
+			vacancyResponse.getVacancy().setId(Integer.parseInt(request.getParameter(VacancyParameter.ID)));
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
-
+			Vacancy vacancy = null;
 			try {
 				IVacancyResponceService vacancyResponceService = serviceFactory.getVacancyResponceService();
+				IVacancyService vacancyService =  serviceFactory.getVacancyService();
+				vacancy = vacancyService.getVacancyByID(request.getParameter(VacancyParameter.ID));
 				vacancyResponceService.addResponceToVacancy(vacancyResponse);
-				session.removeAttribute(VACANCY);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			} catch (ResumeDoesNotExistException e) {
+				request.setAttribute(VACANCY, vacancy);
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_RESUME_DOES_NOT_EXIST);
 				request.getRequestDispatcher(PageName.VACANCY_PAGE).forward(request, response);
 				return;

@@ -64,6 +64,12 @@ public class CreateVacancyCommand implements ICommand {
 				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
 			}
 
+			request.setAttribute(VacancyParameter.TITLE_VACANCY, name);
+			request.setAttribute(VacancyParameter.DESCRIPTION, descrption);
+			request.setAttribute(VacancyParameter.SHORT_DESCRIPTION, shortDescription);
+			request.setAttribute(VacancyParameter.REQUIREMENT, requirement);
+			request.setAttribute(VacancyParameter.COMPANY_NAME, companyName);
+			request.setAttribute(VacancyParameter.CONTACT_DATA, contactInformation);
 			request.getRequestDispatcher(PageName.CREATE_VACANCY_PAGE).forward(request, response);
 
 		} catch (ServletException | IOException e) {

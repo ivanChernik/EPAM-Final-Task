@@ -1,5 +1,5 @@
-<%@ page info="creationVacancy.jsp" language="java"
-	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" info="updateVacancy.jsp"  contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -32,20 +32,27 @@
 <fmt:message bundle="${loc}" key="local.salary" var="salary" />
 <fmt:message bundle="${loc}" key="local.create.vacancy.index"
 	var="createVacancyIndex" />
+<fmt:message bundle="${loc}" key="local.update.vacancy"
+	var="updateVacancy" />	
+<fmt:message bundle="${loc}" key="local.vacancy.status.open"
+	var="openStatus" />
+<fmt:message bundle="${loc}" key="local.vacancy.status.close"
+	var="closeStatus" />
 
-<title>Create vacancy</title>
+<title>Update vacancy</title>
 </head>
 <body>
 
-	<c:set var="pageName" value="creationVacancy.jsp" scope="session" />
+	<c:set var="pageName" value="updateVacancy.jsp" scope="session" />
 
 	<jsp:include page="navigation.jsp"></jsp:include>
-
 	<section class="section-information">
+
+     <c:set var="vacancy" value="${requestScope.vacancy}" scope="page" />
 
 		<form role="form" method="post" action="Controller">
 
-			<input name="command" value="create-vacancy" type="hidden" />
+			<input name="command" value="update-vacancy" type="hidden" />
 			<div class="thumbnail input-information">
 				 <c:if test="${not empty requestScope.errormessages}">
 					<div class="form-group alert alert-danger">
@@ -57,18 +64,18 @@
 				<div class="form-group">
 					<label for="titleVacancy"><span class="required-field">*</span>${titleVacancy}:</label>
 					<input type="text" placeholder="${titleVacancy}"
-						class="form-control" id="titleVacancy" name="titleVacancy" value="${requestScope.titleVacancy}" required>
+						class="form-control" id="titleVacancy" name="titleVacancy" value="${vacancy.name}" required>
 				</div>
 				<div class="form-group">
 					<label for="companyName"><span class="required-field">*</span>${companyName}:</label>
 					<input type="text" placeholder="${companyName}"
-						class="form-control" id="companyName" name="companyName" value="${requestScope.companyName}" required>
+						class="form-control" id="companyName" name="companyName" value="${vacancy.companyName}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="contactData"><span class="required-field">*</span>${contactData}:</label>
 					<input type="text" placeholder="${contactData}"
-						class="form-control" id="contactData" name="contactData" value="${requestScope.contactData}" required>
+						class="form-control" id="contactData" name="contactData" value="${vacancy.contactInformation}" required>
 				</div>
 
 				<div class="form-group">
@@ -81,30 +88,38 @@
 				<div class="form-group">
 					<label for="shortDescription"><span class="required-field">*</span>${shortDescription}:</label>
 					<textarea class="form-control" placeholder="${shortDescription}"
-						rows="5" id="shortDescription" name="shortDescription" required>${requestScope.shortDescription}</textarea>
+						rows="5" id="shortDescription" name="shortDescription" required>${vacancy.shortDescription}</textarea>
 				</div>
 
 				<div class="form-group">
 					<label for="description"><span class="required-field">*</span>${description}:</label>
 					<textarea class="form-control" placeholder="${description}"
-						rows="5" id="description" name="description" required>${requestScope.description}</textarea>
+						rows="5" id="description" name="description" required>${vacancy.description}</textarea>
 				</div>
 				<div class="form-group">
 					<label for="requirement"><span class="required-field">*</span>${requirement}:</label>
 					<textarea class="form-control" placeholder="${requirement}"
-						rows="5" id="requirement" name="requirement" required>${requestScope.requirement}</textarea>
+						rows="5" id="requirement" name="requirement" required>${vacancy.requirement}</textarea>
 				</div>
 
 				<div class="form-group">
 					<label for="salary"><span class="required-field">*</span>${salary}<span
 						class="glyphicon glyphicon-usd" aria-hidden="true"></span>: </label> <input
 						type="text" placeholder="${salary}" class="form-control"
-						id="salary" name="salary" value="${requestScope.salary}" required>
+						id="salary" name="salary" value="${vacancy.salary}" required>
 				</div>
+				
+				<div class="form-group">
+					<select class="selectpicker" name="status">
+						<option value="open">${openStatus}</option>
+						<option value="close">${closeStatus}</option>
+					</select>
+				</div>
+				
 			</div>
 
-			<button type="submit" name="createVacancy" class="btn btn-success">
-				${createVacancyIndex}</button>
+			<button type="submit" class="btn btn-success">
+				${updateVacancy}</button>
 		</form>
 	</section>
 	<!-- FOOTER -->

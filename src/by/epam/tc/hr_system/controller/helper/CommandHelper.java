@@ -10,8 +10,10 @@ import by.epam.tc.hr_system.command.impl.ApplyForJobCommand;
 import by.epam.tc.hr_system.command.impl.AuthorizationCommand;
 import by.epam.tc.hr_system.command.impl.ChangeLocalCommand;
 import by.epam.tc.hr_system.command.impl.ChangeResponceStatusCommand;
+import by.epam.tc.hr_system.command.impl.CheckAffiliationVacancyToHRCommand;
 import by.epam.tc.hr_system.command.impl.CreateResumeCommand;
 import by.epam.tc.hr_system.command.impl.CreateVacancyCommand;
+import by.epam.tc.hr_system.command.impl.DeleteVacancyCommand;
 import by.epam.tc.hr_system.command.impl.LogOutCommand;
 import by.epam.tc.hr_system.command.impl.RegistrationCommand;
 import by.epam.tc.hr_system.command.impl.ShowApplicantResponceCommand;
@@ -20,6 +22,7 @@ import by.epam.tc.hr_system.command.impl.ShowResponceForVacancy;
 import by.epam.tc.hr_system.command.impl.ShowResumeCommand;
 import by.epam.tc.hr_system.command.impl.ShowTopVacancies;
 import by.epam.tc.hr_system.command.impl.ShowVacancyCommand;
+import by.epam.tc.hr_system.command.impl.ShowVacancyToUpdateCommand;
 import by.epam.tc.hr_system.exception.CommandException;
 
 public class CommandHelper {
@@ -39,10 +42,13 @@ public class CommandHelper {
 		commands.put(CommandName.SHOW_RESPONCE, new ShowApplicantResponceCommand());
 		commands.put(CommandName.LOG_OUT, new LogOutCommand());
 		commands.put(CommandName.SHOW_RESUME, new ShowResumeCommand());
-		commands.put(CommandName.SHOW_HR_VACANCIES, new ShowHRVacancyCommand());
-		commands.put(CommandName.SHOW_RESPONCE_TO_VACANCY, new ShowResponceForVacancy());
+		commands.put(CommandName.SHOW_HR_VACANCY, new ShowHRVacancyCommand());
 		commands.put(CommandName.SHOW_RESPONCE_TO_VACANCY, new ShowResponceForVacancy());
 		commands.put(CommandName.CHANGE_RESPONCE_STATUS, new ChangeResponceStatusCommand());
+		commands.put(CommandName.DELETE_VACANCY, new DeleteVacancyCommand());
+		commands.put(CommandName.SHOW_VACANCY_TO_UPDATE, new ShowVacancyToUpdateCommand());
+		commands.put(CommandName.CHECK_AFFILIATION_VACANCY_TO_HR, new CheckAffiliationVacancyToHRCommand());
+		
 	}
 	
 	public ICommand getCommand(String name) throws CommandException {

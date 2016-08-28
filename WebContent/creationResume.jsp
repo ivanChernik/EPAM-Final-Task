@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page info="creationResume.jsp" language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -66,9 +66,13 @@
 <fmt:message bundle="${loc}" key="local.link.facebook"
 	var="linkFacebook" />
 
+
 <title>Create Resume</title>
 </head>
 <body>
+
+	<c:set var="pageName" value="creationResume.jsp" scope="session" />
+
 	<jsp:include page="navigation.jsp"></jsp:include>
 	<section class="section-information">
 
@@ -81,7 +85,8 @@
 			<div class="thumbnail input-information">
 				<c:if test="${not empty requestScope.errormessages}">
 					<div class="form-group alert alert-danger">
-						<strong>${requestScope.errormessages}</strong>
+						<span class="glyphicon glyphicon-exclamation-sign"
+							aria-hidden="true"></span><strong>${requestScope.errormessages}</strong>
 					</div>
 				</c:if>
 

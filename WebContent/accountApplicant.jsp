@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page info="accountApplicant.jsp"  language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -39,6 +39,8 @@
 </head>
 <body>
 
+	<c:set var="pageName" value="accountApplicant.jsp" scope="session"/>
+
 	<jsp:include page="navigation.jsp"></jsp:include>
 
 	<jsp:include page="${request.contextPath}/Controller" flush="true">
@@ -49,7 +51,8 @@
 		<div class="thumbnail wrap-information">
 			<c:if test="${not empty requestScope.errormessages}">
 				<div class="form-group alert alert-danger">
-					<strong>${requestScope.errormessages}</strong>
+					<span class="glyphicon glyphicon-exclamation-sign"
+							aria-hidden="true"></span><strong>${requestScope.errormessages}</strong>
 				</div>
 			</c:if>
 			

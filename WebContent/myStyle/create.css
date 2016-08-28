@@ -38,3 +38,8 @@ footer {
 	color: #9d9d9d;
 	font-size: 18px;
 }
+
+.required-field{ 
+    color: #d00;
+    content: "*";
+}

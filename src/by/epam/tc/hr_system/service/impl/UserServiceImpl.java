@@ -30,7 +30,7 @@ public class UserServiceImpl implements IUserService {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		IPersonDAO personDAO = daoFactory.getPersonDAO();
 		
-		login = Validator.validateInputString(login);
+		login = Validator.validateInputRequiredString(login);
 
 		try {
 			if (personDAO.searchSimilarLogin(login)) {
@@ -41,20 +41,21 @@ public class UserServiceImpl implements IUserService {
 			throw new ServiceException(e);
 		}
 
-		Validator.validateInputString(role);
+		Validator.validateInputRequiredString(role);
 		Validator.validateSelectedItem(Person.getRoleList(), role);
 
-		name = Validator.validateInputString(name);
-		surname = Validator.validateInputString(surname);
-		email = Validator.validateInputString(email);
-
+		name = Validator.validateInputRequiredString(name);
+		surname = Validator.validateInputRequiredString(surname);
+		email = Validator.validateInputRequiredString(email);
+		patronymic = Validator.validateNotRequiredString(patronymic);
+		phoneNumber = Validator.validateNotRequiredString(phoneNumber);
 
 		Date birthdayDate = Validator.parseStringToDate(dateOfBirthday);
 		Date currentDate = new Date(new java.util.Date().getTime());
 		Validator.validateDatesPeriod(currentDate, birthdayDate);
 		
-		password = Validator.validateInputString(password);
-		repeatedPassword = Validator.validateInputString(repeatedPassword);
+		password = Validator.validateInputRequiredString(password);
+		repeatedPassword = Validator.validateInputRequiredString(repeatedPassword);
 
 		if (!password.equals(repeatedPassword)) {
 			log.warn("Warning the password and repeated password already are not equal");
@@ -76,8 +77,8 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public Person authorizePerson(String login, String password) throws ServiceException {
 
-		Validator.validateInputString(login);
-		Validator.validateInputString(password);
+		Validator.validateInputRequiredString(login);
+		Validator.validateInputRequiredString(password);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		Person person = null;

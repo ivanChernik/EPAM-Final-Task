@@ -16,7 +16,7 @@ public class Validator {
 
 	// private static final Logger log = Logger.getLogger(Validator.class);
 
-	public static String validateString(String property) throws ValidationException {
+	public static String validateRequiredString(String property) throws ValidationException {
 		property = property.trim();
 
 		if (property == null || property.isEmpty()) {
@@ -25,14 +25,21 @@ public class Validator {
 
 		return property;
 	}
-
-	public static String validateInputString(String property) throws ValidationException {
-
+	
+	
+	public static String validateNotRequiredString(String property) throws ValidationException {
 		property = property.trim();
 
-		if (property == null || property.isEmpty()) {
-			throw new ValidationException("Error validation: String is null or empty.");
+		if (property.length() >= 50) {
+			throw new ValidationException("Error validation: String is big.");
 		}
+
+		return property;
+	}
+
+	public static String validateInputRequiredString(String property) throws ValidationException {
+
+		property = validateRequiredString(property);
 
 		if (property.length() >= 50) {
 			throw new IllegalStringLengtnException("Error validation: String is big.");
@@ -41,13 +48,9 @@ public class Validator {
 		return property;
 	}
 
-	public static String validateTextAreaString(String property) throws ValidationException {
+	public static String validateTextAreaRequiredString(String property) throws ValidationException {
 
-		property = property.trim();
-
-		if (property == null || property.isEmpty()) {
-			throw new ValidationException("Error validation: String is null or empty.");
-		}
+		property = validateRequiredString(property);
 
 		if (property.length() >= 800) {
 			throw new IllegalStringLengtnException("Error validation: String is big.");
@@ -88,7 +91,7 @@ public class Validator {
 	}
 
 	public static int parseStringToInt(String property) throws ValidationException {
-		property = validateInputString(property);
+		property = validateInputRequiredString(property);
 		int numer = 0;
 		try {
 			numer = Integer.parseInt(property);
@@ -99,7 +102,7 @@ public class Validator {
 	}
 
 	public static Date parseStringToDate(String dateString) throws ValidationException {
-		dateString = validateInputString(dateString);
+		dateString = validateInputRequiredString(dateString);
 		Date date = null;
 		try {
 			date = Date.valueOf(dateString);
@@ -121,7 +124,7 @@ public class Validator {
 
 		for (int index = 0; index < arrayString.length; index++) {
 
-			validateString(arrayString[index]);
+			validateRequiredString(arrayString[index]);
 
 			try {
 				arrrayInt[index] = Integer.parseInt(arrayString[index]);

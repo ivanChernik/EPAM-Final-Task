@@ -12,23 +12,18 @@ import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.domain.Person;
-import by.epam.tc.hr_system.domain.VacancyResponce;
+import by.epam.tc.hr_system.domain.Vacancy;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
-import by.epam.tc.hr_system.service.IVacancyResponceService;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.VacancyParameter;
 
-public class ChangeResponceStatusCommand implements ICommand {
-
-	private static final String VACANCY_NAME = "vacancyName";
-	private static final String STATUS = "status";
-	private static final String RESPONCE_LIST = "responceList";
-	private static final String ID_RESPONCE = "idResponce";
+public class DeleteVacancyCommand implements ICommand {
+	private static final String VACANCY_LIST = "vacancyList";
 	private static final String ERRORMESSAGES = "errormessages";
 	private static final String PERSON = "person";
 	private static final Logger log = Logger.getLogger(CreateVacancyCommand.class);
@@ -43,27 +38,22 @@ public class ChangeResponceStatusCommand implements ICommand {
 				return;
 			}
 
-			String[] idResponceArrayString = (String[]) request.getParameterValues(ID_RESPONCE);
-			String status = request.getParameter(STATUS);
-			String idVacancy = request.getParameter(VacancyParameter.ID);
-			String vacancyName = request.getParameter(VACANCY_NAME);
+			String[] idResponceArrayString = (String[]) request.getParameterValues(VacancyParameter.ID);
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
+			List<Vacancy> vacancyList = null;
 			try {
-				List<VacancyResponce> responceList = null;
-
-				IVacancyResponceService responceService = serviceFactory.getVacancyResponceService();
-				responceService.changeResponceStatus(idResponceArrayString, status, idVacancy);
-				request.setAttribute(RESPONCE_LIST, responceList);
+				IVacancyService vacancyService = serviceFactory.getVacancyService();
+				vacancyList = vacancyService.deleteVacancies(idResponceArrayString, person.getId());
+				request.setAttribute(VACANCY_LIST, vacancyList);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			} catch (ValidationException e) {
 				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_SELECTION_IS_EMPTY);
 			}
 
-			request.getRequestDispatcher("./Controller?command=show-responce-to-vacancy&idVacancy=" + idVacancy
-					+ "&vacancyName=" + vacancyName).forward(request, response);
+			request.getRequestDispatcher(PageName.TABLE_VACANCY_PAGE).forward(request, response);
 
 		} catch (ServletException | IOException e) {
 			log.error(e);

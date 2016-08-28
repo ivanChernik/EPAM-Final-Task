@@ -15,9 +15,13 @@ public interface IVacancyService {
 
 	List<Vacancy> getTopVacancies() throws ServiceException;
 	
-	Vacancy getVacancyByID(int vacancyId) throws ServiceException;
+	List<Vacancy> deleteVacancies(String[] idVacancyArray, int idHR) throws ServiceException;
+	
+	Vacancy getVacancyByID(String vacancyIdString) throws ServiceException;
 
 	int getCountVacancies() throws ServiceException;
 	
 	int getCountCompanies() throws ServiceException;
+	
+	boolean checkVacancyToHR(int idHR, String idVacancy) throws ServiceException;
 }

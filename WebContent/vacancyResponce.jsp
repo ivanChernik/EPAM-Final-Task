@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page info="vacancyResponce.jsp" language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -27,7 +27,6 @@
 
 <fmt:message bundle="${loc}" key="local.status" var="status" />
 <fmt:message bundle="${loc}" key="local.return" var="returnButton" />
-<fmt:message bundle="${loc}" key="local.delete" var="delete" />
 <fmt:message bundle="${loc}" key="local.table.of.responces"
 	var="tableResponces" />
 <fmt:message bundle="${loc}" key="local.phone.number" var="phoneNumber" />
@@ -45,6 +44,9 @@
 <title>List of responces for vacancy</title>
 </head>
 <body>
+
+	<c:set var="pageName" value="Controller" scope="session" />
+	
 	<jsp:include page="navigation.jsp"></jsp:include>
 
 	<section>
@@ -53,7 +55,8 @@
 			<h3>${param.vacancyName}</h3>
 			<c:if test="${not empty requestScope.errormessages}">
 					<div class="form-group alert alert-danger">
-						<strong>${requestScope.errormessages}</strong>
+						<span class="glyphicon glyphicon-exclamation-sign"
+							aria-hidden="true"></span><strong>${requestScope.errormessages}</strong>
 					</div>
 				</c:if>
 			<c:if test="${empty requestScope.responceList}">
@@ -114,13 +117,6 @@
 						${returnButton}</a>
 				</div>
 			</form>
-			<%-- <div class="form-group">
-					<input type="hidden" name="name" value="delete-responce" />
-					<button type="submit" class="btn btn-success">${delete}</button>
-					<a href="accountHR.jsp" class="btn btn-success">
-						${returnButton}</a>
-				</div>
-			</form> --%>
 		</div>
 
 	</section>

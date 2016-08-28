@@ -39,8 +39,8 @@ public class ShowResumeCommand implements ICommand {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
 			}
-
-			String idResumeString = request.getParameter(UserParameter.ID);
+			
+			String idResumeString = request.getParameter(ResumeParamater.ID_RESUME);
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 

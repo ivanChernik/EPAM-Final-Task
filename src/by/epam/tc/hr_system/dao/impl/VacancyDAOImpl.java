@@ -17,6 +17,8 @@ import by.epam.tc.hr_system.exception.DAOException;
 
 public class VacancyDAOImpl implements IVacancyDAO {
 
+	private static final String SQL_SELECT_BY_ID_HR_AND_VACANCY = "SELECT * FROM `hr-system`.vacancy  WHERE id_vacancy = ? && id_hr = ?;";
+	private static final String SQL_DELETE_VACANCY_BY_ID = "DELETE FROM `hr-system`.`vacancy` WHERE `id_vacancy`=?;";
 	private static final String SQL_SHORT_DESCRIPTION = "short_description";
 	private static final String SQL_TYPE_EMPLOYMENT = "type_employment";
 	private static final String SQL_CONTACT_INFORMATION = "contact_information";
@@ -32,7 +34,6 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	private static final String SQL_SELECT_COUNT_COMPANIES = "SELECT COUNT(distinct company_name) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_COUNT_VACANCIES = "SELECT count(id_vacancy) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_HR_VACANCY = "SELECT `id_vacancy`,`name`,`company_name`, `date_of_submission`,`status` FROM `hr-system`.`vacancy` WHERE `id_hr` = ?;";
-	//лишние параметры !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	private static final String SQL_SELECT_TOP_VACANCY = "SELECT `id_vacancy`,`name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_vacancy` in (1,2,3,4);";
 	private static final String SQL_SELECT_VACANCY_BY_ID = "SELECT `id_vacancy`,`name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_vacancy` = ?;";
 
@@ -60,7 +61,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			addVacancyPS = connection.prepareStatement(SQL_ADD_NEW_VACANCY);
 			addVacancyPS.setInt(1, idHR);
 			addVacancyPS.setString(2, vacancy.getName());
-			addVacancyPS.setString(3, vacancy.getDescrption());
+			addVacancyPS.setString(3, vacancy.getDescription());
 			addVacancyPS.setString(4, vacancy.getRequirement());
 			addVacancyPS.setInt(5, vacancy.getSalary());
 			addVacancyPS.setDate(6, vacancy.getDateSubmission());
@@ -110,7 +111,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			updateVacancyPS = connection.prepareStatement(SQL_UPDATE_VACANCY);
 
 			updateVacancyPS.setString(1, vacancy.getName());
-			updateVacancyPS.setString(2, vacancy.getDescrption());
+			updateVacancyPS.setString(2, vacancy.getDescription());
 			updateVacancyPS.setString(3, vacancy.getRequirement());
 			updateVacancyPS.setString(4, vacancy.getCompanyName());
 			updateVacancyPS.setInt(5, vacancy.getSalary());
@@ -222,7 +223,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 
 		return vacancyList;
 	}
-	
+
 	private List<Vacancy> getVacancyList(ResultSet rs) throws SQLException {
 		List<Vacancy> vacancyList = new ArrayList<Vacancy>();
 
@@ -230,7 +231,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 			Vacancy vacancy = new Vacancy();
 			vacancy.setId(rs.getInt(SQL_ID_VACANCY));
 			vacancy.setName(rs.getString(SQL_NAME));
-			vacancy.setDescrption(rs.getString(SQL_DESCRIPTION));
+			vacancy.setDescription(rs.getString(SQL_DESCRIPTION));
 			vacancy.setShortDescription(rs.getString(SQL_SHORT_DESCRIPTION));
 			vacancy.setRequirement(rs.getString(SQL_REQUIREMENT));
 			vacancy.setSalary(rs.getInt(SQL_SALARY));
@@ -284,8 +285,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 
 		return vacancyList;
 	}
-	
-	
+
 	private List<Vacancy> getHRVacancyList(ResultSet rs) throws SQLException {
 		List<Vacancy> vacancyList = new ArrayList<Vacancy>();
 
@@ -301,7 +301,6 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		return vacancyList;
 
 	}
-	
 
 	@Override
 	public int getCountVacancies() throws DAOException {
@@ -387,7 +386,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		if (!rs.next()) {
 			return 0;
 		}
-		
+
 		countResumes = rs.getInt(1);// number of column
 		return countResumes;
 	}
@@ -433,17 +432,16 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	}
 
 	private Vacancy getVacancy(ResultSet rs) throws SQLException {
-		
 
 		Vacancy vacancy = new Vacancy();
-		
+
 		if (!rs.next()) {
-			return vacancy;
+			return null;
 		}
-		
+
 		vacancy.setId(rs.getInt(SQL_ID_VACANCY));
 		vacancy.setName(rs.getString(SQL_NAME));
-		vacancy.setDescrption(rs.getString(SQL_DESCRIPTION));
+		vacancy.setDescription(rs.getString(SQL_DESCRIPTION));
 		vacancy.setShortDescription(rs.getString(SQL_SHORT_DESCRIPTION));
 		vacancy.setRequirement(rs.getString(SQL_REQUIREMENT));
 		vacancy.setSalary(rs.getInt(SQL_SALARY));
@@ -457,5 +455,86 @@ public class VacancyDAOImpl implements IVacancyDAO {
 
 	}
 
+	@Override
+	public void deleteHRVacancies(int[] idVacancyArray) throws DAOException {
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+		Connection connection = null;
+		PreparedStatement deleteHRvacancies = null;
+		try {
+			connection = connectionPool.takeConnection();
+			deleteHRvacancies = connection.prepareStatement(SQL_DELETE_VACANCY_BY_ID);
+			for (int idVacancy : idVacancyArray) {
+				deleteHRvacancies.setInt(1, idVacancy);
+				deleteHRvacancies.execute();
+			}
+
+		} catch (SQLException | ConnectionPoolException e) {
+			log.error("Error deletion vacancy by ID", e);
+			throw new DAOException("Error deletion vacancy by ID", e);
+		}
+
+		finally {
+			try {
+				deleteHRvacancies.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				log.error("Error closing connection", e);
+			}
+		}
+
+	}
+
+	@Override
+	public boolean checkVacancyToHR(int idHR, int idVacancy) throws DAOException {
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+		Connection connection = null;
+		PreparedStatement searchHRVacancy = null;
+		try {
+			connection = connectionPool.takeConnection();
+			searchHRVacancy = connection
+					.prepareStatement(SQL_SELECT_BY_ID_HR_AND_VACANCY);
+			searchHRVacancy.setInt(1, idVacancy);
+			searchHRVacancy.setInt(2, idHR);
+			ResultSet rs = searchHRVacancy.executeQuery();
+			
+			if(rs.next()) return true;
+
+		} catch (SQLException | ConnectionPoolException e) {
+			log.error("Error selection vacancy by ID HR and Vacancy", e);
+			throw new DAOException("Error selection vacancy by ID HR and Vacancy", e);
+		}
+
+		finally {
+			try {
+				searchHRVacancy.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				log.error("Error closing connection", e);
+			}
+		}
+		return false;
+	}
 
 }

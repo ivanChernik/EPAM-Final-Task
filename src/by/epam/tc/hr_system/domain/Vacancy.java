@@ -18,7 +18,7 @@ public class Vacancy implements Serializable {
 
 	private int id;
 	private String name;
-	private String descrption;
+	private String description;
 	private String shortDescription;
 	private String requirement;
 	private int salary;
@@ -32,10 +32,10 @@ public class Vacancy implements Serializable {
 
 	}
 
-	public Vacancy(String name, String descrption, String shortDescription, String requirement, int salary,
+	public Vacancy(String name, String description, String shortDescription, String requirement, int salary,
 			Date dateSubmission, String status, String companyName, String contactInformation, String employment) {
 		this.name = name;
-		this.descrption = descrption;
+		this.description = description;
 		this.shortDescription = shortDescription;
 		this.requirement = requirement;
 		this.salary = salary;
@@ -62,12 +62,12 @@ public class Vacancy implements Serializable {
 		this.name = name;
 	}
 
-	public String getDescrption() {
-		return descrption;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescrption(String descrption) {
-		this.descrption = descrption;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getRequirement() {

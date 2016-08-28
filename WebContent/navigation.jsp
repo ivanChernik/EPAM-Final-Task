@@ -6,8 +6,8 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="localization.local" var="loc" />
 
-<fmt:message bundle="${loc}" key="local.sing.in" var="singIn" />
 <fmt:message bundle="${loc}" key="local.sing.up" var="singUp" />
+<fmt:message bundle="${loc}" key="local.sing.in" var="singIn" />
 <fmt:message bundle="${loc}" key="local.log.out" var="logOut" />
 
 <fmt:message bundle="${loc}" key="local.search" var="search" />
@@ -35,7 +35,7 @@
 <fmt:message bundle="${loc}" key="local.enter.password"
 	var="enterPassword" />
 <fmt:message bundle="${loc}" key="local.look.resume" var="lookResume" />
-
+<fmt:message bundle="${loc}" key="local.show.vacancies" var="showVacancies" />
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
@@ -61,14 +61,7 @@
 						<ul class="dropdown-menu dropdown-button-style">
 							<li><a href="creationResume.jsp"> ${createResume}</a></li>
 							<li><a href="#"> ${updateResume}</a></li>
-							<li><a href="./resume.jsp?idUser=${sessionScope.person.id}"> ${lookResume}</a></li>
-							<%-- <li>
-								<form action="Controller" method="post">
-									<input name="command" value="show-resume" type="hidden">
-									<input name="idResume" value="${sessionScope.person.id}" type="hidden">
-									<button type="submit" class="btn">${lookResume}</button>
-								</form>
-							</li> --%>
+							<li><a href="./resume.jsp?idResume=${sessionScope.person.id}"> ${lookResume}</a></li>
 						</ul></li>
 
 					<li role="presentation" class="dropdown"><a
@@ -90,6 +83,8 @@
 					</a>
 						<ul class="dropdown-menu dropdown-button-style">
 							<li><a href="creationVacancy.jsp"> ${createVacancy}</a></li>
+							<li><a href="accountHR.jsp">${responces}</a></li>
+							<li><a href="tableVacancy.jsp">${showVacancies}</a></li>
 						</ul></li>
 
 					<li role="presentation" class="dropdown"><a
@@ -98,7 +93,6 @@
 						aria-expanded="false"> ${profile} <span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu dropdown-button-style">
-							<li><a href="accountHR.jsp">${responces}</a></li>
 							<li><a href="#">${updateProfile}</a></li>
 						</ul></li>
 				</c:if>
@@ -120,8 +114,8 @@
 								<input type="password" placeholder="${enterPassword}"
 									class="form-control" name="password" value="">
 							</div>
-							<button type="submit" class="btn btn-success">${singIn}
-							</button>
+							<input type="submit" class="btn btn-success" value="${singIn}"/>
+							
 							<a href="#popup-registration" class="btn btn-success">
 								${singUp} </a>
 						</form>
@@ -131,7 +125,7 @@
 					<li>
 						<form action="Controller" class="navbar-form navbar-right"
 							method="post">
-							<input name="command" value="log_out" type="hidden">
+							<input name="command" value="log-out" type="hidden">
 							<button type="submit" class="btn btn-success">${logOut}</button>
 						</form>
 					</li>

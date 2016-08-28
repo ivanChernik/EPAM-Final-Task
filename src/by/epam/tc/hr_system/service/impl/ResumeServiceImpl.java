@@ -40,8 +40,8 @@ public class ResumeServiceImpl implements IResumeService {
 
 		PreviousPosition prevPosition = resume.getPreviousWorkList().get(0);
 
-		prevPosition.setPreviousPosition(Validator.validateInputString(prevPosition.getPreviousPosition()));
-		prevPosition.setWorkDescription(Validator.validateTextAreaString(prevPosition.getWorkDescription()));
+		prevPosition.setPreviousPosition(Validator.validateInputRequiredString(prevPosition.getPreviousPosition()));
+		prevPosition.setWorkDescription(Validator.validateTextAreaRequiredString(prevPosition.getWorkDescription()));
 
 		Date workFromDate = Validator.parseStringToDate(workFrom);
 		Date workToDate = Validator.parseStringToDate(workTo);
@@ -53,10 +53,10 @@ public class ResumeServiceImpl implements IResumeService {
 
 		Education education = resume.getEducationList().get(0);
 
-		education.setEducationDescription(Validator.validateTextAreaString(education.getEducationDescription()));
-		education.setUniversity(Validator.validateInputString(education.getUniversity()));
-		education.setFaculty(Validator.validateInputString(education.getFaculty()));
-		education.setSpecialty(Validator.validateInputString(education.getSpecialty()));
+		education.setEducationDescription(Validator.validateTextAreaRequiredString(education.getEducationDescription()));
+		education.setUniversity(Validator.validateInputRequiredString(education.getUniversity()));
+		education.setFaculty(Validator.validateInputRequiredString(education.getFaculty()));
+		education.setSpecialty(Validator.validateInputRequiredString(education.getSpecialty()));
 
 		Date educationFromDate = Validator.parseStringToDate(educationFrom);
 		Date educationToDate = Validator.parseStringToDate(educationTo);
@@ -66,14 +66,14 @@ public class ResumeServiceImpl implements IResumeService {
 		education.setEducationFrom(educationFromDate);
 		education.setEducationTo(educationToDate);
 
-		education.setFormEducation(Validator.validateInputString(education.getFormEducation()));
-		education.setKindEducation(Validator.validateInputString(education.getKindEducation()));
+		education.setFormEducation(Validator.validateInputRequiredString(education.getFormEducation()));
+		education.setKindEducation(Validator.validateInputRequiredString(education.getKindEducation()));
 
 		// other information
 
-		resume.setSkill(Validator.validateInputString(resume.getSkill()));
-		resume.setPosition(Validator.validateInputString(resume.getSkill()));
-		resume.setProfInformation(Validator.validateTextAreaString(resume.getProfInformation()));
+		resume.setSkill(Validator.validateInputRequiredString(resume.getSkill()));
+		resume.setPosition(Validator.validateInputRequiredString(resume.getSkill()));
+		resume.setProfInformation(Validator.validateTextAreaRequiredString(resume.getProfInformation()));
 
 		Validator.validateInt(userId);
 
@@ -91,7 +91,7 @@ public class ResumeServiceImpl implements IResumeService {
 	private String validateAndLoadImage(Part filePart, String filename, String mimeType, String realpath)
 			throws ServiceException {
 		if (!filename.isEmpty()) {
-
+		
 			if (mimeType.startsWith(IMAGE_MIME_TYPE)) {
 				File uploads = new File(realpath);
 				File file = new File(uploads, filename);

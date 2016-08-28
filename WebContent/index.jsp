@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page info="index.jsp" language="java"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -13,10 +13,13 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script> 
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
 
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="jquery/jquery-3.0.0.min.js"></script>
@@ -28,11 +31,15 @@
 <fmt:setBundle basename="localization.local" var="loc" />
 
 <fmt:message bundle="${loc}" key="local.sing.up.index" var="singUpIndex" />
-<fmt:message bundle="${loc}" key="local.create.resume.index" var="createResumeIndex" />
-<fmt:message bundle="${loc}" key="local.create.vacancy.index" var="createVacancyIndex" />	
+<fmt:message bundle="${loc}" key="local.create.resume.index"
+	var="createResumeIndex" />
+<fmt:message bundle="${loc}" key="local.create.vacancy.index"
+	var="createVacancyIndex" />
 
-<fmt:message bundle="${loc}" key="local.welcome.to.hr.system" var="welcomeToHR" />
-<fmt:message bundle="${loc}" key="local.count.resumes" var="countResumes" />
+<fmt:message bundle="${loc}" key="local.welcome.to.hr.system"
+	var="welcomeToHR" />
+<fmt:message bundle="${loc}" key="local.count.resumes"
+	var="countResumes" />
 <fmt:message bundle="${loc}" key="local.count.vacancies"
 	var="countVacancies" />
 <fmt:message bundle="${loc}" key="local.count.companies"
@@ -43,7 +50,8 @@
 <fmt:message bundle="${loc}" key="local.en" var="en" />
 
 <fmt:message bundle="${loc}" key="local.enter.name" var="enterName" />
-<fmt:message bundle="${loc}" key="local.enter.surname" var="enterSurname" />
+<fmt:message bundle="${loc}" key="local.enter.surname"
+	var="enterSurname" />
 <fmt:message bundle="${loc}" key="local.enter.patronymic"
 	var="enterPatronymic" />
 <fmt:message bundle="${loc}" key="local.enter.date.of.birthday"
@@ -64,6 +72,8 @@
 <title>HR System</title>
 </head>
 <body>
+	<c:set var="pageName" value="index.jsp" scope="session" />
+
 	<!-- NAVIGATION START-->
 	<jsp:include page="navigation.jsp"></jsp:include>
 	<!-- NAVIGATION END -->
@@ -72,8 +82,8 @@
 	<jsp:include page="${request.contextPath}/Controller">
 		<jsp:param name="command" value="show-top-vacancies" />
 	</jsp:include>
-	
-	
+
+
 	<!-- BACKGROUNG IMAGE -->
 	<div class="container jumbotron background-img">
 		<div class="topic-button-placing">
@@ -94,13 +104,13 @@
 			<div class="text-value">${countCompanies}</div>
 		</div>
 	</div>
-	<!-- LIST VACANCIES -->
+	<!-- LIST VACANCIES START -->
 	<section class="section-placing">
 		<div class="row">
 			<c:set var="countVacancies" value="${0}" scope="page" />
 			<c:forEach var="vacancy" items="${requestScope.vacancyList}">
 
-				<form action="Controller" method="post">
+				<form action="Controller" method="get">
 					<input name="command" value="show-vacancy" type="hidden"> <input
 						name="idVacancy" value="${vacancy.id}" type="hidden">
 					<div class="col-sm-6 col-md-4">
@@ -109,8 +119,7 @@
 								<h3>${vacancy.name}</h3>
 								<h4>${vacancy.salary}$</h4>
 								<p>${vacancy.shortDescription}</p>
-								<button type="submit" class="btn btn-success" name="local"
-									value="ru">${look}</button>
+								<button type="submit" class="btn btn-success">${look}</button>
 							</div>
 						</div>
 					</div>
@@ -124,7 +133,8 @@
 			</c:forEach>
 		</div>
 	</section>
-	<!-- POPUP SING UP -->
+	<!-- LIST VACANCIES END -->
+	<!-- POPUP SING UP START-->
 	<c:choose>
 		<c:when test="${not empty requestScope.errorMessage}">
 
@@ -141,7 +151,8 @@
 		<c:if test="${not empty requestScope.errorMessage}">
 
 			<div class="form-group alert alert-danger">
-				<strong>${errorMessage}</strong>
+				<span class="glyphicon glyphicon-exclamation-sign"
+							aria-hidden="true"></span><strong>${errorMessage}</strong>
 			</div>
 
 		</c:if>
@@ -176,7 +187,8 @@
 			<label for="dateOfBirthday">*${enterDateOfBirthday}:</label> <input
 				type="date" class="form-control"
 				placeholder="${enterDateOfBirthday}" id="dateOfBirthday"
-				name="dateOfBirthday" required value="${requestScope.dateOfBirthday}">
+				name="dateOfBirthday" required
+				value="${requestScope.dateOfBirthday}">
 		</div>
 
 		<div class="form-group">
@@ -200,7 +212,8 @@
 		<div class="form-group">
 			<label for="pwd-repeat">*${repeatPassword}:</label> <input
 				type="password" class="form-control" placeholder="${repeatPassword}"
-				id="pwd-repeat" name="repeatedPassword" required value="${requestScope.repeatedPassword}">
+				id="pwd-repeat" name="repeatedPassword" required
+				value="${requestScope.repeatedPassword}">
 		</div>
 
 		<div class="form-group">
@@ -213,9 +226,9 @@
 		<a href="index.jsp" class="btn btn-success"> ${cancel} </a>
 	</form>
 	</div>
-
+	<!-- POPUP SING UP END-->
 	<!-- FOOTER -->
 	<jsp:include page="footer.jsp" />
-	
+
 </body>
 </html>

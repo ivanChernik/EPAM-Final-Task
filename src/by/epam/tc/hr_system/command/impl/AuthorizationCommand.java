@@ -17,6 +17,7 @@ import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IUserService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.PageName;
+import by.epam.tc.hr_system.util.RoleDispatcher;
 import by.epam.tc.hr_system.util.parameter.UserParameter;
 
 public class AuthorizationCommand implements ICommand {
@@ -54,15 +55,10 @@ public class AuthorizationCommand implements ICommand {
 				return;
 			}
 
+			RoleDispatcher roleDispatcher = RoleDispatcher.getInstance();
 			session.setAttribute(PERSON, person);
-
-			if (Person.APPLICANT_ROLE.equals(person.getRole())) {
-				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
-			}
-			if (Person.HR_ROLE.equals(person.getRole())) {
-				request.getRequestDispatcher(PageName.INDEX_HR_PAGE).forward(request, response);
-			}
-
+			roleDispatcher.forwardToIndexByRole(request, response, person.getRole());
+			
 		} catch (ServletException | IOException e) {
 			log.error(e);
 			throw new CommandException(e);

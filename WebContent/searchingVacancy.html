@@ -38,42 +38,43 @@
 	</nav>
 	<section>
 		<div class="row row-grid">
-			<div class="thumbnail search-block col-sm-6 col-md-4 ">
-				<form role="form">
-					<div class="form-group">
-						<label for="title-vacancy">Название должности:</label> <input
-							type="text" placeholder="Vacancy title" class="form-control"
-							id="title-vacancy" pattern="[\w]+">
-					</div>
-					<div class="form-group dropdown">
-						<button class="btn  btn-success dropdown-toggle" type="button"
-							data-toggle="dropdown">
-							Занятость <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-							<li><a href="#">Полная занятость</a></li>
-							<li><a href="#">Частичная занятость</a></li>
-						</ul>
-					</div>
-					<p>Заработная плата:</p>
-					<div class="form-group">
-						<label for="salary-from">От:</label> <input type="text"
-							placeholder="Salary from" class="form-control" id="salary-from"
-							pattern="[0-9]+">
-					</div>
-
-					<div class="form-group">
-						<label for="salary-to">До:</label> <input type="text"
-							placeholder="Salary from" class="form-control" id="salary-to"
-							pattern="[0-9]+">
-					</div>
-
-					<button type="submit" name="createVacancy" class="btn btn-success">Найти
-						вакансии</button>
-				</form>
-			</div>
-
 			<div class="row">
+				<div class="thumbnail search-block col-sm-6 col-md-4 ">
+					<form role="form">
+						<div class="form-group">
+							<label for="title-vacancy">Название должности:</label> <input
+								type="text" placeholder="Vacancy title" class="form-control"
+								id="title-vacancy" pattern="[\w]+">
+						</div>
+						<div class="form-group dropdown">
+							<button class="btn  btn-success dropdown-toggle" type="button"
+								data-toggle="dropdown">
+								Занятость <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Полная занятость</a></li>
+								<li><a href="#">Частичная занятость</a></li>
+							</ul>
+						</div>
+						<p>Заработная плата:</p>
+						<div class="form-group">
+							<label for="salary-from">От:</label> <input type="text"
+								placeholder="Salary from" class="form-control" id="salary-from"
+								pattern="[0-9]+">
+						</div>
+
+						<div class="form-group">
+							<label for="salary-to">До:</label> <input type="text"
+								placeholder="Salary from" class="form-control" id="salary-to"
+								pattern="[0-9]+">
+						</div>
+
+						<button type="submit" name="createVacancy" class="btn btn-success">Найти
+							вакансии</button>
+					</form>
+				</div>
+
+
 
 				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail ">
@@ -169,7 +170,10 @@
 	</section>
 	<!-- FOOTER -->
 	<footer>
-		<p class="text-footer">© 2016 EPAM Training Center, HR System.  <a href="siteMap.html"> Карта сайта</a></p>
+		<p class="text-footer">
+			© 2016 EPAM Training Center, HR System. <a href="siteMap.html">
+				Карта сайта</a>
+		</p>
 	</footer>
 </body>
 </html>

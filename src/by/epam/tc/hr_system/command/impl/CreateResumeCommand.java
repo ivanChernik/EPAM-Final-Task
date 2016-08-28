@@ -132,9 +132,7 @@ public class CreateResumeCommand implements ICommand {
 
 			request.getRequestDispatcher(PageName.CREATE_RESUME_PAGE).forward(request, response);
 
-		} catch (ServletException |
-
-				IOException e) {
+		} catch (ServletException | IOException e) {
 			log.error(e);
 			throw new CommandException(e);
 		}
