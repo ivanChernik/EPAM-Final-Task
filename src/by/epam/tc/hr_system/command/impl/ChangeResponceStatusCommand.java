@@ -15,6 +15,7 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
 import by.epam.tc.hr_system.service.IVacancyService;
@@ -29,7 +30,7 @@ public class ChangeResponceStatusCommand implements ICommand {
 	private static final String STATUS = "status";
 	private static final String RESPONCE_LIST = "responceList";
 	private static final String ID_RESPONCE = "idResponce";
-	private static final String ERRORMESSAGES = "errormessages";
+	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String PERSON = "person";
 	private static final Logger log = Logger.getLogger(CreateVacancyCommand.class);
 
@@ -59,7 +60,7 @@ public class ChangeResponceStatusCommand implements ICommand {
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			} catch (ValidationException e) {
-				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_SELECTION_IS_EMPTY);
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_SELECTION_IS_EMPTY);
 			}
 
 			request.getRequestDispatcher("./Controller?command=show-responce-to-vacancy&idVacancy=" + idVacancy

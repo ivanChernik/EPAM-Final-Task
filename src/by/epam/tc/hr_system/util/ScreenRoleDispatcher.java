@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import by.epam.tc.hr_system.domain.Person;
 
-public class RoleDispatcher {
+public class ScreenRoleDispatcher {
 	private Map<String, String> pages = new HashMap<>();
-	private static final RoleDispatcher instance = new RoleDispatcher();
+	private static final ScreenRoleDispatcher instance = new ScreenRoleDispatcher();
 
-	private RoleDispatcher() {
-		pages.put(Person.HR_ROLE, PageName.INDEX_HR_PAGE);
+	private ScreenRoleDispatcher() {
+		pages.put(Person.HR_ROLE, PageName.TABLE_VACANCY_PAGE);
 		pages.put(Person.APPLICANT_ROLE, PageName.INDEX_APPLICANT_PAGE);
 	}
 
@@ -27,7 +27,7 @@ public class RoleDispatcher {
 		request.getRequestDispatcher(pageName).forward(request, response);
 	}
 	
-	public static RoleDispatcher getInstance(){
+	public static ScreenRoleDispatcher getInstance(){
 		return instance;
 	}
 

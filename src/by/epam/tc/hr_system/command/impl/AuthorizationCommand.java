@@ -14,10 +14,10 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
-import by.epam.tc.hr_system.service.IUserService;
+import by.epam.tc.hr_system.service.IPersonService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.PageName;
-import by.epam.tc.hr_system.util.RoleDispatcher;
+import by.epam.tc.hr_system.util.ScreenRoleDispatcher;
 import by.epam.tc.hr_system.util.parameter.UserParameter;
 
 public class AuthorizationCommand implements ICommand {
@@ -36,7 +36,7 @@ public class AuthorizationCommand implements ICommand {
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
 			Person person = null;
-			IUserService userService = null;
+			IPersonService userService = null;
 
 			try {
 				userService = serviceFactory.getUserService();
@@ -55,7 +55,7 @@ public class AuthorizationCommand implements ICommand {
 				return;
 			}
 
-			RoleDispatcher roleDispatcher = RoleDispatcher.getInstance();
+			ScreenRoleDispatcher roleDispatcher = ScreenRoleDispatcher.getInstance();
 			session.setAttribute(PERSON, person);
 			roleDispatcher.forwardToIndexByRole(request, response, person.getRole());
 			

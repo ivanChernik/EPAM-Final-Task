@@ -17,6 +17,7 @@ import by.epam.tc.hr_system.exception.DAOException;
 
 public class VacancyDAOImpl implements IVacancyDAO {
 
+	private static final String SQL_UPDATE_VACANCY_BY_ID = "UPDATE `hr-system`.`vacancy` SET `name`= ?, `short_description`= ?, `description`= ?, `requirement`= ?, `salary`= ?, `status`= ?, `company_name`= ?, `contact_information`= ?, `type_employment`= ? WHERE `id_vacancy`= ?;";
 	private static final String SQL_SELECT_BY_ID_HR_AND_VACANCY = "SELECT * FROM `hr-system`.vacancy  WHERE id_vacancy = ? && id_hr = ?;";
 	private static final String SQL_DELETE_VACANCY_BY_ID = "DELETE FROM `hr-system`.`vacancy` WHERE `id_vacancy`=?;";
 	private static final String SQL_SHORT_DESCRIPTION = "short_description";
@@ -94,7 +95,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	}
 
 	@Override
-	public boolean updateVacancy(Vacancy vacancy, int idHR) throws DAOException {
+	public void updateVacancy(Vacancy vacancy) throws DAOException {
 		ConnectionPool connectionPool = null;
 		try {
 			connectionPool = ConnectionPool.getInstance();
@@ -104,27 +105,25 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		}
 		Connection connection = null;
 		PreparedStatement updateVacancyPS = null;
-
-		boolean result = false;
+		
 		try {
 			connection = connectionPool.takeConnection();
-			updateVacancyPS = connection.prepareStatement(SQL_UPDATE_VACANCY);
-
+			updateVacancyPS = connection.prepareStatement(SQL_UPDATE_VACANCY_BY_ID);
 			updateVacancyPS.setString(1, vacancy.getName());
-			updateVacancyPS.setString(2, vacancy.getDescription());
-			updateVacancyPS.setString(3, vacancy.getRequirement());
-			updateVacancyPS.setString(4, vacancy.getCompanyName());
+			updateVacancyPS.setString(2, vacancy.getShortDescription());
+			updateVacancyPS.setString(3, vacancy.getDescription());
+			updateVacancyPS.setString(4, vacancy.getRequirement());
 			updateVacancyPS.setInt(5, vacancy.getSalary());
-			updateVacancyPS.setDate(6, vacancy.getDateSubmission());
-			updateVacancyPS.setString(7, vacancy.getStatus());
-			updateVacancyPS.setInt(8, idHR);
-			updateVacancyPS.setInt(9, vacancy.getId());
-
+			updateVacancyPS.setString(6, vacancy.getStatus());
+			updateVacancyPS.setString(7, vacancy.getCompanyName());
+			updateVacancyPS.setString(8, vacancy.getContactInformation());
+			updateVacancyPS.setString(9, vacancy.getEmployment());
+			updateVacancyPS.setInt(10, vacancy.getId());
 			updateVacancyPS.executeUpdate();
-			result = true;
+
 		} catch (SQLException | ConnectionPoolException e) {
-			log.error("Error updating vacancy", e);
-			throw new DAOException("Error updating vacancy", e);
+			log.error("Error updating vacancy by id", e);
+			throw new DAOException("Error updating vacancy by id", e);
 		}
 
 		finally {
@@ -140,7 +139,6 @@ public class VacancyDAOImpl implements IVacancyDAO {
 				log.error("Error closing connection", e);
 			}
 		}
-		return result;
 	}
 
 	@Override

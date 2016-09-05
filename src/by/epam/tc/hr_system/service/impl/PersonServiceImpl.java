@@ -14,23 +14,25 @@ import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.LoginAlreadyExistsExeption;
 import by.epam.tc.hr_system.exception.validation.PasswordsNotEqualException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
-import by.epam.tc.hr_system.service.IUserService;
+import by.epam.tc.hr_system.service.IPersonService;
 import by.epam.tc.hr_system.util.MessageManager;
-import by.epam.tc.hr_system.util.validation.Validator;
+import by.epam.tc.hr_system.util.validation.StringConverter;
 
-public class UserServiceImpl implements IUserService {
+import static by.epam.tc.hr_system.util.validation.Validator.*;
 
-	private static final Logger log = Logger.getLogger(UserServiceImpl.class);
+public class PersonServiceImpl implements IPersonService {
+
+	private static final Logger log = Logger.getLogger(PersonServiceImpl.class);
 
 	@Override
 	public Person registerUser(String login, String password, String repeatedPassword, String role, String name,
 			String surname, String patronymic, String email, String phoneNumber, String dateOfBirthday)
 			throws ServiceException {
-		
+
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		IPersonDAO personDAO = daoFactory.getPersonDAO();
-		
-		login = Validator.validateInputRequiredString(login);
+
+		login = validateRequiredString(login, 30);
 
 		try {
 			if (personDAO.searchSimilarLogin(login)) {
@@ -41,28 +43,26 @@ public class UserServiceImpl implements IUserService {
 			throw new ServiceException(e);
 		}
 
-		Validator.validateInputRequiredString(role);
-		Validator.validateSelectedItem(Person.getRoleList(), role);
+		validateSelectedItem(Person.getRoleList(), role);
 
-		name = Validator.validateInputRequiredString(name);
-		surname = Validator.validateInputRequiredString(surname);
-		email = Validator.validateInputRequiredString(email);
-		patronymic = Validator.validateNotRequiredString(patronymic);
-		phoneNumber = Validator.validateNotRequiredString(phoneNumber);
+		name = validateRequiredString(name, 50);
+		surname = validateRequiredString(surname, 50);
+		patronymic = validateNotRequiredString(patronymic, 50);
+		phoneNumber = validateNotRequiredString(phoneNumber, 20);
+		email = validateRequiredString(email, 30);
 
-		Date birthdayDate = Validator.parseStringToDate(dateOfBirthday);
+		Date birthdayDate = StringConverter.parseStringToDate(dateOfBirthday);
 		Date currentDate = new Date(new java.util.Date().getTime());
-		Validator.validateDatesPeriod(currentDate, birthdayDate);
-		
-		password = Validator.validateInputRequiredString(password);
-		repeatedPassword = Validator.validateInputRequiredString(repeatedPassword);
+		validateDatesPeriod(currentDate, birthdayDate);
+
+		password = validateRequiredString(password, 45);
+		repeatedPassword = validateRequiredString(repeatedPassword, 45);
 
 		if (!password.equals(repeatedPassword)) {
 			log.warn("Warning the password and repeated password already are not equal");
 			throw new PasswordsNotEqualException("Warning the password and repeated password already are not equal");
 		}
 
-		
 		Person person = new Person(name, surname, patronymic, birthdayDate, email, phoneNumber, role);
 
 		try {
@@ -77,8 +77,8 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public Person authorizePerson(String login, String password) throws ServiceException {
 
-		Validator.validateInputRequiredString(login);
-		Validator.validateInputRequiredString(password);
+		validateRequiredString(login, 30);
+		validateRequiredString(password, 45);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		Person person = null;
@@ -93,4 +93,30 @@ public class UserServiceImpl implements IUserService {
 		return person;
 	}
 
+	@Override
+	public Person updateProfile(int idPerson, String name, String surname, String patronymic, String email,
+			String phoneNumber, String dateOfBirthday) throws ServiceException {
+
+		validatePositiveInt(idPerson);
+		name = validateRequiredString(name, 50);
+		surname = validateRequiredString(surname, 50);
+		patronymic = validateNotRequiredString(patronymic, 50);
+		phoneNumber = validateNotRequiredString(phoneNumber, 20);
+		email = validateRequiredString(email, 30);
+
+		Date birthdayDate = StringConverter.parseStringToDate(dateOfBirthday);
+		Date currentDate = new Date(new java.util.Date().getTime());
+		validateDatesPeriod(currentDate, birthdayDate);
+
+		Person person = new Person(idPerson, name, surname, patronymic, birthdayDate, email, phoneNumber);
+		DAOFactory daoFactory = DAOFactory.getInstance();
+
+		try {
+			IPersonDAO personDAO = daoFactory.getPersonDAO();
+			personDAO.updateProfile(person);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		return person;
+	}
 }

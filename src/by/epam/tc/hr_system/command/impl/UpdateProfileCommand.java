@@ -16,17 +16,14 @@ import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
 import by.epam.tc.hr_system.exception.validation.IllegalStringLengtnException;
-import by.epam.tc.hr_system.exception.validation.LoginAlreadyExistsExeption;
-import by.epam.tc.hr_system.exception.validation.PasswordsNotEqualException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IPersonService;
 import by.epam.tc.hr_system.service.ServiceFactory;
-import by.epam.tc.hr_system.util.ScreenRoleDispatcher;
 import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.UserParameter;
 
-public class RegistrationCommand implements ICommand {
+public class UpdateProfileCommand implements ICommand {
 
 	private static final String PERSON = "person";
 	private static final String ERROR_MESSAGES = "errorMessage";
@@ -37,11 +34,12 @@ public class RegistrationCommand implements ICommand {
 
 		try {
 			HttpSession session = request.getSession(true);
+			Person person = (Person) session.getAttribute(PERSON);
 
-			String login = request.getParameter(UserParameter.LOGIN);
-			String password = request.getParameter(UserParameter.PASSWORD);
-			String repeatedPassword = request.getParameter(UserParameter.REPEATED_PASSWORD);
-			String role = request.getParameter(UserParameter.ROLE);
+			if (person == null) {
+				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+				return;
+			}
 
 			String name = request.getParameter(UserParameter.NAME);
 			String surname = request.getParameter(UserParameter.SURNAME);
@@ -52,15 +50,14 @@ public class RegistrationCommand implements ICommand {
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
-			Person person = null;
-
 			try {
 				IPersonService userService = serviceFactory.getUserService();
-				person = userService.registerUser(login, password, repeatedPassword, role, name, surname, patronymic,
-						email, phoneNumber, dateOfBirthday);
-				ScreenRoleDispatcher roleDispatcher = ScreenRoleDispatcher.getInstance();
+				String role = person.getRole();
+				person = userService.updateProfile(person.getId(), name, surname, patronymic, email, phoneNumber, dateOfBirthday);
+				person.setRole(role);
+				
 				session.setAttribute(PERSON, person);
-				roleDispatcher.forwardToIndexByRole(request, response, role);
+				request.getRequestDispatcher(PageName.VIEW_PROFILE_PAGE).forward(request, response);
 				return;
 			} catch (ServiceException e) {
 				throw new CommandException(e);
@@ -68,21 +65,13 @@ public class RegistrationCommand implements ICommand {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
 			} catch (IllegalDatesPeriodException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_INVALID_DATE_VALUE);
-			} catch (PasswordsNotEqualException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD);
-			} catch (LoginAlreadyExistsExeption e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS);
-			} catch (EmptyPropertyException e) {
+			}  catch (EmptyPropertyException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
 			} catch (ValidationException e) {
 				throw new CommandException(e);
 			}
 
 			// exception forwarding
-			request.setAttribute(UserParameter.LOGIN, login);
-			request.setAttribute(UserParameter.PASSWORD, password);
-			request.setAttribute(UserParameter.REPEATED_PASSWORD, repeatedPassword);
-			request.setAttribute(UserParameter.ROLE, role);
 			request.setAttribute(UserParameter.NAME, name);
 			request.setAttribute(UserParameter.SURNAME, surname);
 			request.setAttribute(UserParameter.MIDDLE_NAME, patronymic);
@@ -90,7 +79,7 @@ public class RegistrationCommand implements ICommand {
 			request.setAttribute(UserParameter.PHONE_NUMBER, phoneNumber);
 			request.setAttribute(UserParameter.DATE_OF_BIRTHDAY, dateOfBirthday);
 
-			request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
+			request.getRequestDispatcher(PageName.UPDATE_PROFILE_PAGE).forward(request, response);
 
 		} catch (ServletException | IOException e) {
 			log.error(e);
@@ -98,5 +87,6 @@ public class RegistrationCommand implements ICommand {
 		}
 
 	}
+
 
 }

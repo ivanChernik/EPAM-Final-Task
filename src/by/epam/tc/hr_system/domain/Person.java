@@ -34,6 +34,20 @@ public class Person implements Serializable {
 		this.phone = phone;
 		this.role = role;
 	}
+	
+	
+
+	public Person(int id, String name, String surname, String middleName, Date dateOfBirthday, String email,
+			String phone) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.middleName = middleName;
+		this.dateOfBirthday = dateOfBirthday;
+		this.email = email;
+		this.phone = phone;
+	}
 
 	public String getRole() {
 		return role;

@@ -15,28 +15,31 @@ import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IVacancyService;
-import by.epam.tc.hr_system.util.validation.Validator;
+import by.epam.tc.hr_system.util.validation.StringConverter;
+
+import static by.epam.tc.hr_system.util.validation.Validator.*;
 
 public class VacancyServiceImpl implements IVacancyService {
 
 	private static final Logger log = Logger.getLogger(VacancyServiceImpl.class);
 
 	@Override
-	public void addVacancy(String name, String descrption, String shortDescription, String requirement,
+	public void addVacancy(String name, String description, String shortDescription, String requirement,
 			String salaryString, String companyName, String contactInformation, String employment, int userID)
 			throws ServiceException {
 
-		Validator.validateInputRequiredString(name);
-		Validator.validateTextAreaRequiredString(descrption);
-		Validator.validateTextAreaRequiredString(requirement);
-		int salary = Validator.parseStringToInt(salaryString);
-		Validator.validateInputRequiredString(companyName);
-		Validator.validateInputRequiredString(contactInformation);
-		Validator.validateSelectedItem(Vacancy.getTimeList(), employment);
-		Validator.validateInt(userID);
+		name = validateRequiredString(name, 45);
+		description = validateRequiredString(description, 800);
+		shortDescription = validateRequiredString(shortDescription, 250);
+		requirement = validateRequiredString(requirement, 800);
+		int salary = StringConverter.parseStringToInt(salaryString);
+		companyName = validateRequiredString(companyName, 50);
+		contactInformation = validateRequiredString(contactInformation, 100);
+		validateSelectedItem(Vacancy.getTimeList(), employment);
+		validatePositiveInt(userID);
 
 		Date dateSubmission = new Date(new java.util.Date().getTime());
-		Vacancy vacancy = new Vacancy(name, descrption, shortDescription, requirement, salary, dateSubmission,
+		Vacancy vacancy = new Vacancy(name, description, shortDescription, requirement, salary, dateSubmission,
 				Vacancy.OPEN_STATUS, companyName, contactInformation, employment);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
@@ -50,8 +53,37 @@ public class VacancyServiceImpl implements IVacancyService {
 	}
 
 	@Override
+	public void updateVacancy(String vacancyIDString, String name, String description, String shortDescription,
+			String requirement, String salaryString, String companyName, String contactInformation, String employment,
+			String status) throws ServiceException {
+
+		int vacancyID = StringConverter.parseStringToInt(vacancyIDString);
+		name = validateRequiredString(name, 45);
+		description = validateRequiredString(description, 800);
+		shortDescription = validateRequiredString(shortDescription, 250);
+		requirement = validateRequiredString(requirement, 800);
+		int salary = StringConverter.parseStringToInt(salaryString);
+		companyName = validateRequiredString(companyName, 50);
+		contactInformation = validateRequiredString(contactInformation, 100);
+		validateSelectedItem(Vacancy.getTimeList(), employment);
+		validateSelectedItem(Vacancy.getStatusList(), status);
+
+		Vacancy vacancy = new Vacancy(vacancyID, name, description, shortDescription, requirement, salary, status,
+				companyName, contactInformation, employment);
+		DAOFactory daoFactory = DAOFactory.getInstance();
+
+		try {
+			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
+			vacancyDAO.updateVacancy(vacancy);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+
+	}
+
+	@Override
 	public List<Vacancy> getHRVacancies(int userID) throws ServiceException {
-		Validator.validateInt(userID);
+		validatePositiveInt(userID);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 
@@ -108,7 +140,7 @@ public class VacancyServiceImpl implements IVacancyService {
 	@Override
 	public Vacancy getVacancyByID(String vacancyIdString) throws ServiceException {
 
-		int vacancyId = Validator.parseStringToInt(vacancyIdString);
+		int vacancyId = StringConverter.parseStringToInt(vacancyIdString);
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		Vacancy vacancy = null;
 		try {
@@ -122,8 +154,8 @@ public class VacancyServiceImpl implements IVacancyService {
 
 	@Override
 	public List<Vacancy> deleteVacancies(String[] idVacancyArrayString, int idHR) throws ServiceException {
-		
-		int[] idResponceArray = Validator.parseArrayStringToInt(idVacancyArrayString);
+
+		int[] idResponceArray = StringConverter.parseArrayStringToInt(idVacancyArrayString);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		List<Vacancy> responceList = null;
@@ -135,16 +167,16 @@ public class VacancyServiceImpl implements IVacancyService {
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
-		
+
 		return responceList;
 	}
 
 	@Override
 	public boolean checkVacancyToHR(int idHR, String idVacancyString) throws ServiceException {
-		
-		Validator.validateInt(idHR);
-		int idVacancy = Validator.parseStringToInt(idVacancyString);
-		
+
+		validatePositiveInt(idHR);
+		int idVacancy = StringConverter.parseStringToInt(idVacancyString);
+
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		boolean result = false;
 		try {

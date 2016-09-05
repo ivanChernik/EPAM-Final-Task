@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.ICommand;
+import by.epam.tc.hr_system.command.impl.AddEducationToResumeCommand;
 import by.epam.tc.hr_system.command.impl.ApplyForJobCommand;
 import by.epam.tc.hr_system.command.impl.AuthorizationCommand;
 import by.epam.tc.hr_system.command.impl.ChangeLocalCommand;
@@ -23,6 +24,8 @@ import by.epam.tc.hr_system.command.impl.ShowResumeCommand;
 import by.epam.tc.hr_system.command.impl.ShowTopVacancies;
 import by.epam.tc.hr_system.command.impl.ShowVacancyCommand;
 import by.epam.tc.hr_system.command.impl.ShowVacancyToUpdateCommand;
+import by.epam.tc.hr_system.command.impl.UpdateProfileCommand;
+import by.epam.tc.hr_system.command.impl.UpdateVacancyCommand;
 import by.epam.tc.hr_system.exception.CommandException;
 
 public class CommandHelper {
@@ -48,7 +51,9 @@ public class CommandHelper {
 		commands.put(CommandName.DELETE_VACANCY, new DeleteVacancyCommand());
 		commands.put(CommandName.SHOW_VACANCY_TO_UPDATE, new ShowVacancyToUpdateCommand());
 		commands.put(CommandName.CHECK_AFFILIATION_VACANCY_TO_HR, new CheckAffiliationVacancyToHRCommand());
-		
+		commands.put(CommandName.UPDATE_VACANCY, new UpdateVacancyCommand());
+		commands.put(CommandName.UPDATE_PROFILE, new UpdateProfileCommand());
+		commands.put(CommandName.ADD_EDUCATION, new AddEducationToResumeCommand());
 	}
 	
 	public ICommand getCommand(String name) throws CommandException {

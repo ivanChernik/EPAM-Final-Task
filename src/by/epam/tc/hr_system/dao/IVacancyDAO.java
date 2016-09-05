@@ -10,7 +10,7 @@ public interface IVacancyDAO {
 
 	boolean addVacancy(Vacancy vacancy, int idHR) throws DAOException;
 
-	boolean updateVacancy(Vacancy vacancy, int idHR) throws DAOException;
+	void updateVacancy(Vacancy vacancy) throws DAOException;
 
 	boolean removeVacancy(int idVacancy) throws DAOException;
 	

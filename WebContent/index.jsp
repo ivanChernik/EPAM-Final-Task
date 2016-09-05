@@ -172,9 +172,9 @@
 		</div>
 
 		<div class="form-group">
-			<label for="patronymic">${enterPatronymic}:</label> <input
+			<label for="middleName">${enterPatronymic}:</label> <input
 				type="text" class="form-control" placeholder="${enterPatronymic}"
-				id="patronymic" name="patronymic" value="${requestScope.patronymic}">
+				id="middleName" name="middleName" value="${requestScope.middleName}">
 		</div>
 
 		<div class="form-group">

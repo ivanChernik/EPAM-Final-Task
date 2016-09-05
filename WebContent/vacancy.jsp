@@ -92,6 +92,7 @@
 						</c:if>
 					</c:if>
 
+					<p>${requestScope.vacancy.status}${requestScope.vacancy.dateSubmission}</p>
 					<h1>${requestScope.vacancy.name}</h1>
 					<h4>${requestScope.vacancy.companyName}</h4>
 					<h4 class="page-header">${description}</h4>

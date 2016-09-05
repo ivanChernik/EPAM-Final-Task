@@ -24,7 +24,7 @@ import by.epam.tc.hr_system.util.parameter.VacancyParameter;
 
 public class DeleteVacancyCommand implements ICommand {
 	private static final String VACANCY_LIST = "vacancyList";
-	private static final String ERRORMESSAGES = "errormessages";
+	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String PERSON = "person";
 	private static final Logger log = Logger.getLogger(CreateVacancyCommand.class);
 
@@ -50,7 +50,7 @@ public class DeleteVacancyCommand implements ICommand {
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			} catch (ValidationException e) {
-				request.setAttribute(ERRORMESSAGES, MessageManager.ERROR_MESSAGE_SELECTION_IS_EMPTY);
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_SELECTION_IS_EMPTY);
 			}
 
 			request.getRequestDispatcher(PageName.TABLE_VACANCY_PAGE).forward(request, response);

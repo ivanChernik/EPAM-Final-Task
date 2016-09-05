@@ -38,6 +38,8 @@
 	var="openStatus" />
 <fmt:message bundle="${loc}" key="local.vacancy.status.close"
 	var="closeStatus" />
+<fmt:message bundle="${loc}" key="local.cancel"
+	var="cancel" />
 
 <title>Update vacancy</title>
 </head>
@@ -53,6 +55,7 @@
 		<form role="form" method="post" action="Controller">
 
 			<input name="command" value="update-vacancy" type="hidden" />
+			<input name="idVacancy" value="${vacancy.id}" type="hidden" />
 			<div class="thumbnail input-information">
 				 <c:if test="${not empty requestScope.errormessages}">
 					<div class="form-group alert alert-danger">
@@ -64,18 +67,18 @@
 				<div class="form-group">
 					<label for="titleVacancy"><span class="required-field">*</span>${titleVacancy}:</label>
 					<input type="text" placeholder="${titleVacancy}"
-						class="form-control" id="titleVacancy" name="titleVacancy" value="${vacancy.name}" required>
+						class="form-control" id="titleVacancy" name="titleVacancy" value="${vacancy.name}${requestScope.titleVacancy}" required>
 				</div>
 				<div class="form-group">
 					<label for="companyName"><span class="required-field">*</span>${companyName}:</label>
 					<input type="text" placeholder="${companyName}"
-						class="form-control" id="companyName" name="companyName" value="${vacancy.companyName}" required>
+						class="form-control" id="companyName" name="companyName" value="${vacancy.companyName}${requestScope.companyName}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="contactData"><span class="required-field">*</span>${contactData}:</label>
 					<input type="text" placeholder="${contactData}"
-						class="form-control" id="contactData" name="contactData" value="${vacancy.contactInformation}" required>
+						class="form-control" id="contactData" name="contactData" value="${vacancy.contactInformation}${requestScope.contactData}" required>
 				</div>
 
 				<div class="form-group">
@@ -88,25 +91,25 @@
 				<div class="form-group">
 					<label for="shortDescription"><span class="required-field">*</span>${shortDescription}:</label>
 					<textarea class="form-control" placeholder="${shortDescription}"
-						rows="5" id="shortDescription" name="shortDescription" required>${vacancy.shortDescription}</textarea>
+						rows="5" id="shortDescription" name="shortDescription" required>${vacancy.shortDescription}${requestScope.shortDescription}</textarea>
 				</div>
 
 				<div class="form-group">
 					<label for="description"><span class="required-field">*</span>${description}:</label>
 					<textarea class="form-control" placeholder="${description}"
-						rows="5" id="description" name="description" required>${vacancy.description}</textarea>
+						rows="5" id="description" name="description" required>${vacancy.description}${requestScope.description}</textarea>
 				</div>
 				<div class="form-group">
 					<label for="requirement"><span class="required-field">*</span>${requirement}:</label>
 					<textarea class="form-control" placeholder="${requirement}"
-						rows="5" id="requirement" name="requirement" required>${vacancy.requirement}</textarea>
+						rows="5" id="requirement" name="requirement" required>${vacancy.requirement}${requestScope.requirement}</textarea>
 				</div>
 
 				<div class="form-group">
 					<label for="salary"><span class="required-field">*</span>${salary}<span
 						class="glyphicon glyphicon-usd" aria-hidden="true"></span>: </label> <input
 						type="text" placeholder="${salary}" class="form-control"
-						id="salary" name="salary" value="${vacancy.salary}" required>
+						id="salary" name="salary" value="${vacancy.salary}${requestScope.salary}" required>
 				</div>
 				
 				<div class="form-group">
@@ -120,6 +123,10 @@
 
 			<button type="submit" class="btn btn-success">
 				${updateVacancy}</button>
+			<a href="tableVacancy.jsp" class="btn btn-danger">
+				${cancel}</a>
+				
+			
 		</form>
 	</section>
 	<!-- FOOTER -->

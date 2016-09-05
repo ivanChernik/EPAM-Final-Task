@@ -45,6 +45,23 @@ public class Vacancy implements Serializable {
 		this.contactInformation = contactInformation;
 		this.employment = employment;
 	}
+	
+	
+
+	public Vacancy(int id, String name, String description, String shortDescription, String requirement, int salary,
+			String status, String companyName, String contactInformation, String employment) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.shortDescription = shortDescription;
+		this.requirement = requirement;
+		this.salary = salary;
+		this.status = status;
+		this.companyName = companyName;
+		this.contactInformation = contactInformation;
+		this.employment = employment;
+	}
 
 	public int getId() {
 		return id;

@@ -11,8 +11,9 @@ public class MessageManager {
 	public static final String ERROR_MESSAGE_ENTRY_VERY_LONG = "Entry is very long.";
 	public static final String ERROR_MESSAGE_SELECTION_IS_EMPTY = "Selection is empty.";
 	public static final String ERROR_MESSAGE_IMPOSSIBLE_ACTION = "Impossible action! Please Athorize.";
-	public static final String ERROR_MESSAGE_INVALID_DATE_VALUE = "Invalid date(s) value.";
+	public static final String ERROR_MESSAGE_INVALID_DATE_VALUE = "Invalid date period.";
 	public static final String ERROR_MESSAGE_VACANCY_DOES_NOT_EXIST = "Vacancy does not exist.";
 	public static final String ERROR_MESSAGE_RESUME_DOES_NOT_EXIST = "Resume does not exist.";
+	public static final String ERROR_MESSAGE_ILLEGAL_ENTRIED_VALUE = "Illegal entried value (number or date).";
 
 }

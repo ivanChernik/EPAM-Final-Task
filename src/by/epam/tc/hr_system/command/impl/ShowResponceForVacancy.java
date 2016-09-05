@@ -31,7 +31,7 @@ public class ShowResponceForVacancy implements ICommand {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-		
+
 		try {
 			HttpSession session = request.getSession(true);
 
@@ -41,29 +41,29 @@ public class ShowResponceForVacancy implements ICommand {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
 			}
-			
+
 			String idVacancyString = request.getParameter(ID_VACANCY);
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
 			List<VacancyResponce> responceList = null;
 			try {
-				 IVacancyResponceService responceService = serviceFactory.getVacancyResponceService();
-				 responceList = responceService.getReponcesForVacancy(idVacancyString);
-			} catch (ServiceException e) {	
+				IVacancyResponceService responceService = serviceFactory.getVacancyResponceService();
+				responceList = responceService.getReponcesForVacancy(idVacancyString);
+			} catch (ServiceException e) {
 				throw new CommandException(e);
 			} catch (ValidationException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_IMPOSSIBLE_ACTION);
 			}
 
-			request.setAttribute(RESPONCE_LIST,responceList);
+			request.setAttribute(RESPONCE_LIST, responceList);
 			request.getRequestDispatcher(PageName.VACANCY_RESPONCE_PAGE).forward(request, response);
 
 		} catch (ServletException | IOException e) {
 			log.error(e);
 			throw new CommandException(e);
 		}
-		
+
 	}
 
 }

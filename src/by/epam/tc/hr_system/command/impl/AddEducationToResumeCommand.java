@@ -1,6 +1,7 @@
 package by.epam.tc.hr_system.command.impl;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import javax.servlet.http.Part;
 import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.ICommand;
+import by.epam.tc.hr_system.domain.ApplicantContactInfo;
 import by.epam.tc.hr_system.domain.Education;
 import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.domain.PreviousPosition;
@@ -24,21 +26,17 @@ import by.epam.tc.hr_system.exception.validation.PhotoNotChosenException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.ServiceFactory;
-import by.epam.tc.hr_system.domain.ApplicantContactInfo;
 import by.epam.tc.hr_system.util.MessageManager;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.ResumeParamater;
 
-public class CreateResumeCommand implements ICommand {
+public class AddEducationToResumeCommand implements ICommand {
 
-	private static final String WORK_TO = "workTo";
-	private static final String WORK_FROM = "workFrom";
+	private static final String EDUCATION = "education";
 	private static final String EDUCATION_TO = "educationTo";
 	private static final String EDUCATION_FROM = "educationFrom";
-	private static final String RESUME = "resume";
 
 	private static final String ERROR_MESSAGES = "errormessages";
-	private static final String FILE = "photo";
 	private static final String PERSON = "person";
 
 	private static final Logger log = Logger.getLogger(CreateResumeCommand.class);
@@ -55,12 +53,6 @@ public class CreateResumeCommand implements ICommand {
 				return;
 			}
 
-			String position = request.getParameter(ResumeParamater.POSITION);
-			String profInformation = request.getParameter(ResumeParamater.PROF_INFIRMATION);
-			String skill = request.getParameter(ResumeParamater.SKILL);
-
-			Resume resume = new Resume(position, profInformation, skill);
-
 			String kindEducation = request.getParameter(ResumeParamater.KIND_EDUCATION);
 			String university = request.getParameter(ResumeParamater.UNIVERSITY);
 			String faculty = request.getParameter(ResumeParamater.FACULTY);
@@ -72,47 +64,16 @@ public class CreateResumeCommand implements ICommand {
 
 			Education education = new Education(kindEducation, university, faculty, specialty, formEducation,
 					description);
-			resume.addEducation(education);
-
-			String prevpositionName = request.getParameter(ResumeParamater.PREVIOS_POSITION);
-			String workFrom = request.getParameter(ResumeParamater.WORK_FROM);
-			String workTo = request.getParameter(ResumeParamater.WORK_TO);
-			String workDescription = request.getParameter(ResumeParamater.WORK_DESCRIPTION);
-
-			PreviousPosition prevPosition = new PreviousPosition(prevpositionName, workDescription);
-			resume.addPreviousWork(prevPosition);
-
-			ApplicantContactInfo contactInfo = resume.getContactInfo();
-
-			contactInfo.setPhone(request.getParameter(ResumeParamater.PHONE));
-			contactInfo.setEmail(request.getParameter(ResumeParamater.EMAIL));
-			contactInfo.setAddress(request.getParameter(ResumeParamater.ADDRESS));
-
-			contactInfo.setLinkGooglePlus(request.getParameter(ResumeParamater.LINK_GOOGLE_PLUS));
-			contactInfo.setLinkLinkedIn(request.getParameter(ResumeParamater.LINK_LINKEDIN));
-			contactInfo.setLinkTwitter(request.getParameter(ResumeParamater.LINK_TWITTER));
-			contactInfo.setLinkFacebook(request.getParameter(ResumeParamater.LINK_FACEBOOK));
-
-			Part filePart = request.getPart(FILE);
-			String filename = filePart.getSubmittedFileName();
-			String mimeType = request.getServletContext().getMimeType(filename);
-			String realpath = request.getServletContext().getRealPath("");
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
 			try {
 				IResumeService resumeService = serviceFactory.getResumeService();
-				resumeService.addResume(resume, person.getId(), educationFrom, educationTo, workFrom, workTo, filePart,
-						filename, mimeType, realpath);
-				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
+				resumeService.addEducation(education, educationFrom, educationTo, person.getId());
+				request.getRequestDispatcher("./resume.jsp?idResume=" + person.getId())
+						.forward(request, response);
 				return;
-			} catch (PhotoNotChosenException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_PHOTO_NOT_UPLOADED);
-
-			} catch (InvalidFormatImageException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_PHOTO_HAS_WRONG_FORMAT);
-
-			} catch (IllegalStringLengtnException e) {
+			}  catch (IllegalStringLengtnException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
 
 			} catch (IllegalDatesPeriodException e) {
@@ -124,13 +85,11 @@ public class CreateResumeCommand implements ICommand {
 				throw new CommandException(e);
 			}
 
-			request.setAttribute(RESUME, resume);
+			request.setAttribute(EDUCATION, education);
 			request.setAttribute(EDUCATION_FROM, educationFrom);
 			request.setAttribute(EDUCATION_TO, educationTo);
-			request.setAttribute(WORK_FROM, workFrom);
-			request.setAttribute(WORK_TO, workTo);
 
-			request.getRequestDispatcher(PageName.CREATE_RESUME_PAGE).forward(request, response);
+			request.getRequestDispatcher(PageName.ADDICTION_EDUCATION_PAGE).forward(request, response);
 
 		} catch (ServletException | IOException e) {
 			log.error(e);

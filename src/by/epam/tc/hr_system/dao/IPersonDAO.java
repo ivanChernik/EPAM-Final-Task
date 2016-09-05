@@ -10,10 +10,10 @@ public interface IPersonDAO {
 	boolean searchSimilarLogin(String login) throws DAOException;
 
 	void registerPerson(String login, String password, Person person) throws DAOException;
+	
+	void updateProfile(Person person) throws DAOException;
 
 	boolean removePersonByID(int idUser) throws DAOException;
-
-	boolean updatePersonInformation(Person person) throws DAOException;
 	
 	Person authorizePerson(String login, String password) throws DAOException;
 

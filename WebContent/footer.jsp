@@ -6,8 +6,10 @@
 <fmt:setBundle basename="localization.local" var="loc" />
 <fmt:message bundle="${loc}" key="local.site.map" var="siteMap" />
 
-<footer>
-	<p class="text-footer">
-		&#169; 2016 EPAM Training Center, HR System. <a href="siteMap.html">${siteMap}</a>
-	</p>
+<footer class="footer">
+	<div class="container">
+		<p class="text-footer">
+			&#169; 2016 EPAM Training Center, HR System. <a href="siteMap.html">${siteMap}</a>
+		</p>
+	</div>
 </footer>

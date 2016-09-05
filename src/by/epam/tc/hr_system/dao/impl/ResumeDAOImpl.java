@@ -148,6 +148,13 @@ public class ResumeDAOImpl implements IResumeDAO {
 			} catch (SQLException e) {
 				log.error("Error closing statements", e);
 			}
+			
+			try {
+				addEducationPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+			
 			try {
 				addResumeInfoPS.close();
 			} catch (SQLException e) {
@@ -415,6 +422,102 @@ public class ResumeDAOImpl implements IResumeDAO {
 				log.error("Error closing connection", e);
 			}
 		}
+	}
+	
+	
+
+	@Override
+	public void addEducation(Education education, int idUser) throws DAOException {
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+
+		Connection connection = null;
+		PreparedStatement addEducationPS = null;
+		try {
+			connection = connectionPool.takeConnection();
+			
+			addEducationPS = connection.prepareStatement(SQL_ADD_EDUCATION);
+
+			addEducationPS.setInt(1, idUser);
+			addEducationPS.setString(2, education.getUniversity());
+			addEducationPS.setString(3, education.getFaculty());
+			addEducationPS.setString(4, education.getSpecialty());
+			addEducationPS.setString(5, education.getFormEducation());
+			addEducationPS.setDate(6, education.getEducationFrom());
+			addEducationPS.setDate(7, education.getEducationTo());
+			addEducationPS.setString(8, education.getEducationDescription());
+			addEducationPS.executeUpdate();
+		}
+
+		catch (ConnectionPoolException | SQLException e) {
+			
+			log.error("Error addiction person education", e);
+			throw new DAOException("Error addiction person education", e);
+
+		} finally {
+
+			try {
+				addEducationPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				log.error("Error closing connection", e);
+			}
+		}
+		
+	}
+
+	@Override
+	public void addPreviousPosition(PreviousPosition prevPosition, int idUser) throws DAOException {
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+
+		Connection connection = null;
+		PreparedStatement addExperiencePS = null;
+		try {
+			connection = connectionPool.takeConnection();
+			addExperiencePS = connection.prepareStatement(SQL_ADD_PREVIOUS_POSITION);
+			
+			addExperiencePS.setString(1, prevPosition.getPreviousPosition());
+			addExperiencePS.setString(2, prevPosition.getWorkDescription());
+			addExperiencePS.setDate(3, prevPosition.getWorkFrom());
+			addExperiencePS.setDate(4, prevPosition.getWorkTo());
+			addExperiencePS.setInt(5, idUser);
+			addExperiencePS.executeUpdate();
+		}
+
+		catch (ConnectionPoolException | SQLException e) {	
+			log.error("Error addiction previous position person", e);
+			throw new DAOException("Error addiction previous position person", e);
+
+		} finally {
+			try {
+				addExperiencePS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				log.error("Error closing connection", e);
+			}
+		}
+
+		
 	}
 
 }

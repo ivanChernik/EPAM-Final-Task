@@ -14,19 +14,20 @@ import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.ResumeDoesNotExistException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
-import by.epam.tc.hr_system.util.validation.Validator;
+import by.epam.tc.hr_system.util.validation.StringConverter;
+
+import static by.epam.tc.hr_system.util.validation.Validator.*;
 
 public class VacancyResponceServiceImpl implements IVacancyResponceService {
 
 	@Override
 	public void addResponceToVacancy(VacancyResponce vacancyResponce) throws ServiceException {
 
-		Validator.validateInt(vacancyResponce.getResume().getId());
-		Validator.validateInt(vacancyResponce.getVacancy().getId());
+		validatePositiveInt(vacancyResponce.getResume().getId());
+		validatePositiveInt(vacancyResponce.getVacancy().getId());
 		vacancyResponce.setStatus(VacancyResponce.NOT_VIEWED_STATUS);
 
 		java.util.Date currentDate = new java.util.Date();
-		
 		vacancyResponce.setDate(new Date(currentDate.getTime()));
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
@@ -48,7 +49,7 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		
-		Validator.validateInt(idApplicant);		
+		validatePositiveInt(idApplicant);		
 		
 		List<VacancyResponce> responceList = null;
 		try {
@@ -64,7 +65,7 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 	@Override
 	public List<VacancyResponce> getReponcesForVacancy(String idVacancyString) throws ServiceException {
 
-		int idVacancy = Validator.parseStringToInt(idVacancyString);
+		int idVacancy = StringConverter.parseStringToInt(idVacancyString);
 		
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		List<VacancyResponce> responceList = null;
@@ -83,9 +84,9 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 	public List<VacancyResponce> changeResponceStatus(String[] idResponceArrayString, String status,
 			String idVacancyString) throws ServiceException {
 
-		int[] idResponceArray = Validator.parseArrayStringToInt(idResponceArrayString);
-		Validator.validateInputRequiredString(status);
-		int idVacancy = Validator.parseStringToInt(idVacancyString);
+		int[] idResponceArray = StringConverter.parseArrayStringToInt(idResponceArrayString);
+		validateSelectedItem(VacancyResponce.getStatusList(), status);
+		int idVacancy = StringConverter.parseStringToInt(idVacancyString);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		List<VacancyResponce> responceList = null;

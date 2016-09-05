@@ -17,8 +17,8 @@ import by.epam.tc.hr_system.exception.ConnectionPoolException;
 import by.epam.tc.hr_system.exception.DAOException;
 
 public class PersonDAOImpl implements IPersonDAO {
-
-	private static final String SQL_UPDATE_PERSONAL_DATA_BY_ID = "UPDATE `hr-system`.`person` SET `name` =?, `surname`= ?, `middle_name`= ?, `date_of_birthday`= ?, `email`= ?, `phone`= ? WHERE `id_person` = ?;";
+	
+	private static final String SQL_UPDATE_PERSON_BY_ID = "UPDATE `hr-system`.`person` SET `name`= ?, `surname`= ?, `middle_name`= ?, `date_of_birthday`= ?, `email`= ?, `phone`= ? WHERE `id_person`= ?;";
 
 	private static final String SQL_DELETE_UDER_BY_ID = "DELETE FROM `hr-system`.`user` WHERE `id_user`= ?;";
 	private static final String SQL_DELETE_PERSONAL_INFORMATION_BY_ID = "DELETE FROM `hr-system`.`person` WHERE `id_person`= ?;";
@@ -91,7 +91,7 @@ public class PersonDAOImpl implements IPersonDAO {
 		}
 
 		catch (ConnectionPoolException | SQLException e) {
-			
+
 			try {
 				connection.rollback();
 			} catch (SQLException eSQL) {
@@ -141,7 +141,7 @@ public class PersonDAOImpl implements IPersonDAO {
 			searchLoginPS.setString(1, login);
 			rs = searchLoginPS.executeQuery();
 			return rs.next();
-			
+
 		} catch (ConnectionPoolException | SQLException e) {
 			log.error("Error searching similar login", e);
 			throw new DAOException("Error searching similar login", e);
@@ -223,45 +223,6 @@ public class PersonDAOImpl implements IPersonDAO {
 
 		}
 
-		return result;
-	}
-
-	@Override
-	public boolean updatePersonInformation(Person person) throws DAOException {
-		ConnectionPool connectionPool = null;
-		try {
-			connectionPool = ConnectionPool.getInstance();
-		} catch (ConnectionPoolException e) {
-			log.fatal("Error connection pool instanse", e);
-			throw new DAOException("Error connection pool instanse", e);
-		}
-		Connection connection = null;
-		PreparedStatement updatePersonalDataPS = null;
-		boolean result = false;
-		try {
-			connection = connectionPool.takeConnection();
-
-			updatePersonalDataPS = connection.prepareStatement(SQL_UPDATE_PERSONAL_DATA_BY_ID);
-			updatePersonalDataPS.setString(1, person.getName());
-			updatePersonalDataPS.setString(2, person.getSurname());
-			updatePersonalDataPS.setString(3, person.getMiddleName());
-			updatePersonalDataPS.setDate(4, person.getDateOfBirthday());
-			updatePersonalDataPS.setString(5, person.getEmail());
-			updatePersonalDataPS.setString(6, person.getPhone());
-			updatePersonalDataPS.setInt(7, person.getId());
-			updatePersonalDataPS.executeUpdate();
-			result = true;
-		} catch (ConnectionPoolException | SQLException e) {
-			log.error("Error updating profile data", e);
-			throw new DAOException("Error updating profile data", e);
-
-		} finally {
-			try {
-				updatePersonalDataPS.close();
-			} catch (SQLException e) {
-				log.error("Erorr closing statement", e);
-			}
-		}
 		return result;
 	}
 
@@ -438,6 +399,49 @@ public class PersonDAOImpl implements IPersonDAO {
 
 		}
 		return person;
+	}
+
+	@Override
+	public void updateProfile(Person person) throws DAOException {
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+
+		Connection connection = null;
+		PreparedStatement updateProfilePS = null;
+		try {
+			connection = connectionPool.takeConnection();
+
+			updateProfilePS = connection.prepareStatement(SQL_UPDATE_PERSON_BY_ID);
+			updateProfilePS.setString(1, person.getName());
+			updateProfilePS.setString(2, person.getSurname());
+			updateProfilePS.setString(3, person.getMiddleName());
+			updateProfilePS.setDate(4, person.getDateOfBirthday());
+			updateProfilePS.setString(5, person.getEmail());
+			updateProfilePS.setString(6, person.getPhone());
+			updateProfilePS.setInt(7, person.getId());
+			updateProfilePS.executeUpdate();
+		} catch (ConnectionPoolException | SQLException e) {
+			log.error("Error update profile person", e);
+			throw new DAOException("Error update profile person", e);
+		} finally {
+			try {
+				updateProfilePS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				log.error("Error closing connection", e);
+			}
+		}
+
 	}
 
 }
