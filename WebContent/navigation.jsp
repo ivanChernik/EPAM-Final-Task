@@ -43,6 +43,9 @@
 	var="showVacancies" />
 <fmt:message bundle="${loc}" key="local.add.education"
 	var="addEducation" />
+<fmt:message bundle="${loc}" key="local.add.previous.position"
+	var="addPreviousPosition" />
+	
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
@@ -71,6 +74,7 @@
 							<ul class="dropdown-menu dropdown-button-style">
 								<li><a href="creationResume.jsp"> ${createResume}</a></li>
 								<li><a href="addictionEducation.jsp"> ${addEducation}</a></li>
+								<li><a href="addictionPreviousPosition.jsp"> ${addPreviousPosition}</a></li>
 								<li><a href="#"> ${updateResume}</a></li>
 								<li><a
 									href="./resume.jsp?idResume=${sessionScope.person.id}">

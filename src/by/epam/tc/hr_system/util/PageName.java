@@ -3,6 +3,7 @@ package by.epam.tc.hr_system.util;
 public class PageName {
 	
 	 public static final String ADDICTION_EDUCATION_PAGE = "addictionEducation.jsp";
+	 public static final String ADDICTION_PREVIOUS_POSITION_PAGE = "addictionPreviousPosition.jsp";
 	 public static final String INDEX_PAGE = "index.jsp";
 	 public static final String INDEX_APPLICANT_PAGE = "accountApplicant.jsp";
 	 public static final String INDEX_HR_PAGE = "accountHR.jsp";

@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.command.impl.AddEducationToResumeCommand;
+import by.epam.tc.hr_system.command.impl.AddPreviousPositionToResumeCommand;
 import by.epam.tc.hr_system.command.impl.ApplyForJobCommand;
 import by.epam.tc.hr_system.command.impl.AuthorizationCommand;
 import by.epam.tc.hr_system.command.impl.ChangeLocalCommand;
@@ -54,6 +55,7 @@ public class CommandHelper {
 		commands.put(CommandName.UPDATE_VACANCY, new UpdateVacancyCommand());
 		commands.put(CommandName.UPDATE_PROFILE, new UpdateProfileCommand());
 		commands.put(CommandName.ADD_EDUCATION, new AddEducationToResumeCommand());
+		commands.put(CommandName.ADD_PREVIOUS_POSITION, new AddPreviousPositionToResumeCommand());
 	}
 	
 	public ICommand getCommand(String name) throws CommandException {
