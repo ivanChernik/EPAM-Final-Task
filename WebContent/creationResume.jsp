@@ -1,5 +1,5 @@
-<%@ page info="creationResume.jsp" language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page info="creationResume.jsp" language="java"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -93,30 +93,33 @@
 				<h4 class="page-header resume-item-header">
 					${generalInformation}</h4>
 				<div class="form-group">
-					<label for="position">${prefedPosition}:</label> <input type="text"
+					<label for="position"><span class="required-field">*</span>${prefedPosition}:</label> <input type="text"
 						placeholder="${prefedPosition}" class="form-control" id="position"
-						name="position" value="${resume.position}">
+						name="position" value="${resume.position}" required>
 				</div>
 
 				<div class="form-group">
-					<label for="photo">${uploadPhoto}(JPG/JPEG):</label> <input
-						type="file" name="photo" id="photo" accept="image/jpeg">
+					<label for="photo"><span class="required-field">*</span>${uploadPhoto}:</label> <input
+						type="file" name="photo" id="photo" accept="image/jpeg" required>
 				</div>
 
 				<div class="form-group">
-					<label for="prof-infirmation"> ${professionalInformation}:</label>
+					<label for="prof-infirmation"><span class="required-field">*</span>${professionalInformation}:</label>
 					<textarea class="form-control"
 						placeholder="${professionalInformation}" rows="5"
-						id="prof-infirmation" name="prof-infirmation">${resume.profInformation}</textarea>
+						id="prof-infirmation" name="prof-infirmation" required>${resume.profInformation}</textarea>
 				</div>
 				<div class="form-group">
-					<label for="skill"> ${skills}:</label>
+					<label for="skill"><span class="required-field">*</span>${skills}:</label>
 					<textarea class="form-control" placeholder="${skills}" rows="5"
-						id="skill" name="skill">${resume.skill}</textarea>
+						id="skill" name="skill" required>${resume.skill}</textarea>
 				</div>
 			</div>
 
 			<div class="thumbnail input-information">
+			<div class="checkbox">
+					<label><input type="checkbox" name="doNotStudy" value="doNotStudy">Я нигде не учился</label>
+				</div>
 				<h4 class="page-header resume-item-header">${education}</h4>
 
 
@@ -135,20 +138,20 @@
 
 
 				<div class="form-group">
-					<label for="university"> ${nameEducationInstitution}:</label> <input
+					<label for="university"><span class="required-field">*</span>${nameEducationInstitution}:</label> <input
 						type="text" placeholder="${nameEducationInstitution}"
 						class="form-control" id="university" name="university"
 						value="${resume.educationList.get(0).university}">
 				</div>
 
 				<div class="form-group">
-					<label for="faculty"> ${nameFaculty}:</label> <input type="text"
+					<label for="faculty"><span class="required-field">*</span>${nameFaculty}:</label> <input type="text"
 						placeholder="${nameFaculty}" class="form-control" id="faculty"
 						name="faculty" value="${resume.educationList.get(0).faculty}">
 				</div>
 
 				<div class="form-group">
-					<label for="specialty"> ${nameSpecialty}:</label> <input
+					<label for="specialty"><span class="required-field">*</span>${nameSpecialty}:</label> <input
 						type="text" placeholder="${nameSpecialty}" class="form-control"
 						id="specialty" name="specialty"
 						value="${resume.educationList.get(0).specialty}">
@@ -164,7 +167,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="period-education">${periodEducation}:</label> <input
+					<label for="period-education"><span class="required-field">*</span>${periodEducation}:</label> <input
 						type="date" placeholder="From" class="form-control"
 						id="period-education" name="educationFrom"
 						value="${requestScope.educationFrom}">
@@ -177,23 +180,28 @@
 				</div>
 
 				<div class="form-group">
-					<label for="education-description"> ${description}:</label>
+					<label for="education-description"><span class="required-field">*</span>${description}:</label>
 					<textarea class="form-control" placeholder="${description}"
 						rows="5" id="education-description" name="education-description">${resume.educationList.get(0).educationDescription}</textarea>
 				</div>
 			</div>
 
 			<div class="thumbnail input-information">
+
+				<div class="checkbox">
+					<label><input type="checkbox" name="doNotWork" value="doNotWork">Я нигде не работал</label>
+				</div>
+
 				<h4 class="page-header resume-item-header">${experience}</h4>
 				<div class="form-group">
-					<label for="previos-position">${previousPosition}:</label> <input
+					<label for="previos-position"><span class="required-field">*</span>${previousPosition}:</label> <input
 						type="text" placeholder="${previousPosition}" class="form-control"
 						id="previos-position" name="previos-position"
 						value="${resume.previousWorkList.get(0).previousPosition}">
 				</div>
 
 				<div class="form-group">
-					<label for="period-work">${periodWork}</label> <input type="date"
+					<label for="period-work"><span class="required-field">*</span>${periodWork}</label> <input type="date"
 						placeholder="From" class="form-control" id="workFrom"
 						name="workFrom" value="${requestScope.workFrom}">
 				</div>
@@ -204,7 +212,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="work-description"> ${description}:</label>
+					<label for="work-description"><span class="required-field">*</span>${description}:</label>
 					<textarea class="form-control" placeholder="${description}"
 						rows="5" id="work-description" name="work-description">${resume.previousWorkList.get(0).workDescription}</textarea>
 				</div>
@@ -213,22 +221,22 @@
 
 			<div class="thumbnail input-information">
 				<div class="form-group">
-					<h4 class="page-header resume-item-header">${contactData}</h4>
-					<label for="phone">${phoneNumber}:</label> <input type="text"
+					<h4 class="page-header resume-item-header"><span class="required-field">*</span>${contactData}</h4>
+					<label for="phone"><span class="required-field">*</span> ${phoneNumber}:</label> <input type="text"
 						placeholder="${phoneNumber}" class="form-control" id="phone"
-						name="phone" value="${resume.contactInfo.phone}">
+						name="phone" value="${resume.contactInfo.phone}" required>
 				</div>
 
 				<div class="form-group">
-					<label for="email"> ${email}:</label> <input type="email"
+					<label for="email"><span class="required-field">*</span> ${email}:</label> <input type="email"
 						class="form-control" id="email" placeholder="${email}"
-						name="email" value="${resume.contactInfo.email}">
+						name="email" value="${resume.contactInfo.email}" required>
 				</div>
 
 				<div class="form-group">
-					<label for="address">${address}:</label> <input type="text"
+					<label for="address"><span class="required-field">*</span>${address}:</label> <input type="text"
 						class="form-control" id="address" placeholder="${address}"
-						name="address" value="${resume.contactInfo.address}">
+						name="address" value="${resume.contactInfo.address}" required>
 				</div>
 
 				<div class="form-group">

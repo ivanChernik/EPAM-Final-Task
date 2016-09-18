@@ -14,6 +14,8 @@ public class MessageManager {
 	public static final String ERROR_MESSAGE_INVALID_DATE_VALUE = "Invalid date period.";
 	public static final String ERROR_MESSAGE_VACANCY_DOES_NOT_EXIST = "Vacancy does not exist.";
 	public static final String ERROR_MESSAGE_RESUME_DOES_NOT_EXIST = "Resume does not exist.";
+	public static final String ERROR_MESSAGE_RESUME_ALREADY_EXISTS = "Resume is existing already.";
 	public static final String ERROR_MESSAGE_ILLEGAL_ENTRIED_VALUE = "Illegal entried value (number or date).";
+	public static final String ERROR_MESSAGE_RESPONCE_ALREDY_EXISTS = "Responce already exists.";
 
 }

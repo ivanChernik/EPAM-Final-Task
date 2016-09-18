@@ -188,4 +188,28 @@ public class VacancyServiceImpl implements IVacancyService {
 		return result;
 	}
 
+	@Override
+	public List<Vacancy> searchVacancyByParameters(String titleVacancy, String employment, String salaryFromString,
+			String salaryToString) throws ServiceException {
+		
+		int salaryTo = StringConverter.parseStringToInt(salaryToString);
+		int salaryFrom = StringConverter.parseStringToInt(salaryFromString);
+		validateNumberPeriod(salaryFrom, salaryTo);
+		validateRequiredString(titleVacancy, 45);
+		validateSelectedItem(Vacancy.getTimeList(), employment);
+		
+		
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		List<Vacancy> vacancyList = null;
+
+		try {
+			IVacancyDAO vacancyDAO = daoFactory.getVacancyDAO();
+			vacancyList = vacancyDAO.searchVacancyByParameters(titleVacancy, employment, salaryFrom, salaryTo);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		
+		return vacancyList;
+	}
+
 }

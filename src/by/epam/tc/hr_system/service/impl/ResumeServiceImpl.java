@@ -1,92 +1,59 @@
 package by.epam.tc.hr_system.service.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.sql.Date;
-
-import javax.servlet.http.Part;
-
-import org.apache.log4j.Logger;
-
-import com.sun.media.sound.InvalidFormatException;
+import java.util.List;
 
 import by.epam.tc.hr_system.dao.DAOFactory;
 import by.epam.tc.hr_system.dao.IResumeDAO;
-import by.epam.tc.hr_system.dao.IVacancyDAO;
 import by.epam.tc.hr_system.domain.ApplicantContactInfo;
 import by.epam.tc.hr_system.domain.Education;
 import by.epam.tc.hr_system.domain.PreviousPosition;
 import by.epam.tc.hr_system.domain.Resume;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.exception.validation.InvalidFormatImageException;
-import by.epam.tc.hr_system.exception.validation.PhotoNotChosenException;
+import by.epam.tc.hr_system.exception.validation.ResumeAlreadyExistsException;
+import by.epam.tc.hr_system.exception.validation.ResumeDoesNotExistException;
 import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.util.validation.StringConverter;
 import static by.epam.tc.hr_system.util.validation.Validator.*;
 
 public class ResumeServiceImpl implements IResumeService {
 
-	private static final String IMAGE_MIME_TYPE = "image/";
-
-	private static final Logger log = Logger.getLogger(ResumeServiceImpl.class);
-
 	@Override
 	public void addResume(Resume resume, int userId, String educationFrom, String educationTo, String workFrom,
-			String workTo, Part filePart, String filename, String mimeType, String realpath) throws ServiceException {
+			String workTo, String filename, String doNotStudy, String doNotWork) throws ServiceException {
 
 		validatePositiveInt(userId);
-		filename = validateAndLoadImage(filePart, realpath, realpath, realpath);
-
+		validateEmptyString(filename);
+		resume.setPathImage(filename);
 		resume.setSkill(validateRequiredString(resume.getSkill(), 300));
 		resume.setPosition(validateRequiredString(resume.getSkill(), 30));
 		resume.setProfInformation(validateRequiredString(resume.getProfInformation(), 800));
 
 		resume.setContactInfo(validateContactInfo(resume.getContactInfo()));
-		resume.addPreviousWork(validatePreviousPosition(resume.getPreviousWorkList().get(0), workFrom, workTo));
-		resume.addEducation(validateEducation(resume.getEducationList().get(0), educationFrom, educationTo));
+
+		if (doNotWork == null) {
+			resume.addPreviousWork(validatePreviousPosition(resume.getPreviousWorkList().get(0), workFrom, workTo));
+		}
+
+		if (doNotStudy == null) {
+			resume.addEducation(validateEducation(resume.getEducationList().get(0), educationFrom, educationTo));
+		}
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 
 		try {
 			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
-			resumeDAO.addResume(resume, userId);
+			resumeDAO.addResume(resume, userId, doNotStudy, doNotWork);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
 
 	}
 
-	private String validateAndLoadImage(Part filePart, String filename, String mimeType, String realpath)
-			throws ServiceException {
-		if (!filename.isEmpty()) {
-
-			if (mimeType.startsWith(IMAGE_MIME_TYPE)) {
-				File uploads = new File(realpath);
-				File file = new File(uploads, filename);
-				try (InputStream input = filePart.getInputStream()) {
-					Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-				} catch (IOException e) {
-					log.error("Error reading user photo", e);
-					throw new ServiceException(e);
-				}
-			} else {
-				log.warn("Warning: format photo");
-				throw new InvalidFormatImageException("Error format photo");
-			}
-		} else {
-			log.warn("Warning: photo was not picked");
-			throw new PhotoNotChosenException("Warning: photo was not picked");
-		}
-		return filename;
-	}
-
 	private PreviousPosition validatePreviousPosition(PreviousPosition prevPosition, String workFrom, String workTo) {
-		prevPosition.setPreviousPosition(validateRequiredString(prevPosition.getPreviousPosition(), 30));
-		prevPosition.setWorkDescription(validateRequiredString(prevPosition.getWorkDescription(), 1000));
+		prevPosition.setPreviousPosition(validateNotRequiredString(prevPosition.getPreviousPosition(), 30));
+		prevPosition.setWorkDescription(validateNotRequiredString(prevPosition.getWorkDescription(), 1000));
 
 		Date workFromDate = StringConverter.parseStringToDate(workFrom);
 		Date workToDate = StringConverter.parseStringToDate(workTo);
@@ -100,10 +67,10 @@ public class ResumeServiceImpl implements IResumeService {
 
 	private Education validateEducation(Education education, String educationFrom, String educationTo) {
 
-		education.setEducationDescription(validateRequiredString(education.getEducationDescription(), 1000));
-		education.setUniversity(validateRequiredString(education.getUniversity(), 100));
-		education.setFaculty(validateRequiredString(education.getFaculty(), 100));
-		education.setSpecialty(validateRequiredString(education.getSpecialty(), 100));
+		education.setEducationDescription(validateNotRequiredString(education.getEducationDescription(), 1000));
+		education.setUniversity(validateNotRequiredString(education.getUniversity(), 100));
+		education.setFaculty(validateNotRequiredString(education.getFaculty(), 100));
+		education.setSpecialty(validateNotRequiredString(education.getSpecialty(), 100));
 
 		Date educationFromDate = StringConverter.parseStringToDate(educationFrom);
 		Date educationToDate = StringConverter.parseStringToDate(educationTo);
@@ -162,16 +129,19 @@ public class ResumeServiceImpl implements IResumeService {
 	}
 
 	@Override
-	public void addEducation(Education education, String educationFrom, String educationTo,int idUser) throws ServiceException {
+	public void addEducation(Education education, String educationFrom, String educationTo, int idUser)
+			throws ServiceException {
 		validatePositiveInt(idUser);
 		education = validateEducation(education, educationFrom, educationTo);
-		
+
 		DAOFactory daoFactory = DAOFactory.getInstance();
-		
+
 		try {
 			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
 			if (resumeDAO.checkApplicantResume(idUser)) {
-				resumeDAO.addEducation(education, idUser);;
+				resumeDAO.addEducation(education, idUser);
+			} else {
+				throw new ResumeDoesNotExistException("Error addiction education");
 			}
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -180,22 +150,59 @@ public class ResumeServiceImpl implements IResumeService {
 	}
 
 	@Override
-	public void addPreviousPosition(PreviousPosition prevPosition, String workFrom, String workTo ,int idUser)
+	public void addPreviousPosition(PreviousPosition prevPosition, String workFrom, String workTo, int idUser)
 			throws ServiceException {
 		validatePositiveInt(idUser);
 		prevPosition = validatePreviousPosition(prevPosition, workFrom, workTo);
-		
-	DAOFactory daoFactory = DAOFactory.getInstance();
-		
+
+		DAOFactory daoFactory = DAOFactory.getInstance();
+
 		try {
 			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
 			if (resumeDAO.checkApplicantResume(idUser)) {
 				resumeDAO.addPreviousPosition(prevPosition, idUser);
+			} else {
+				throw new ResumeDoesNotExistException("Error addiction prev position");
 			}
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
 
+	}
+
+	@Override
+	public void checkExistingResume(int idApplicant) throws ServiceException {
+		validatePositiveInt(idApplicant);
+
+		DAOFactory daoFactory = DAOFactory.getInstance();
+
+		try {
+			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
+			if (resumeDAO.checkApplicantResume(idApplicant)) {
+				throw new ResumeAlreadyExistsException("Error: resume is existing");
+			}
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+
+	}
+
+	@Override
+	public List<Resume> searchResumesByParameter(String position, String kindEducation) throws ServiceException {
+
+		validateRequiredString(position, 30);
+		validateSelectedItem(Education.getKindEducationList(), kindEducation);
+
+		List<Resume> resumeList = null;
+		DAOFactory daoFactory = DAOFactory.getInstance();
+
+		try {
+			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
+			resumeList = resumeDAO.searchResumeByParameters(position, kindEducation);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		return resumeList;
 	}
 
 }

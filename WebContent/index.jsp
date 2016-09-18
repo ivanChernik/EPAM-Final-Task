@@ -46,8 +46,6 @@
 	var="countCompanies" />
 
 <fmt:message bundle="${loc}" key="local.look" var="look" />
-<fmt:message bundle="${loc}" key="local.ru" var="ru" />
-<fmt:message bundle="${loc}" key="local.en" var="en" />
 
 <fmt:message bundle="${loc}" key="local.enter.name" var="enterName" />
 <fmt:message bundle="${loc}" key="local.enter.surname"
@@ -160,13 +158,13 @@
 		<input name="command" value="registration" type="hidden" />
 
 		<div class="form-group">
-			<label for="name">*${enterName}:</label> <input type="text"
+			<label for="name"><span class="required-field">*</span>${enterName}:</label> <input type="text"
 				class="form-control" placeholder="${enterName}" id="name"
 				name="name" required value="${requestScope.name}">
 		</div>
 
 		<div class="form-group">
-			<label for="surname">*${enterSurname}:</label> <input type="text"
+			<label for="surname"><span class="required-field">*</span>${enterSurname}:</label> <input type="text"
 				class="form-control" placeholder="${enterSurname}" id="surname"
 				name="surname" required value="${requestScope.surname}">
 		</div>
@@ -178,13 +176,13 @@
 		</div>
 
 		<div class="form-group">
-			<label for="email">*${enterEmail}:</label> <input type="email"
+			<label for="email"><span class="required-field">*</span>${enterEmail}:</label> <input type="email"
 				class="form-control" placeholder="${enterEmail}" id="email"
 				name="email" required value="${requestScope.email}">
 		</div>
 
 		<div class="form-group">
-			<label for="dateOfBirthday">*${enterDateOfBirthday}:</label> <input
+			<label for="dateOfBirthday"><span class="required-field">*</span>${enterDateOfBirthday}:</label> <input
 				type="date" class="form-control"
 				placeholder="${enterDateOfBirthday}" id="dateOfBirthday"
 				name="dateOfBirthday" required
@@ -198,19 +196,19 @@
 		</div>
 
 		<div class="form-group">
-			<label for="patronymic">*${enterLogin}:</label> <input type="text"
+			<label for="patronymic"><span class="required-field">*</span>${enterLogin}:</label> <input type="text"
 				class="form-control" placeholder="${enterLogin}" id="login"
 				pattern="[\w]+" name="login" required value="${requestScope.login}">
 		</div>
 
 		<div class="form-group">
-			<label for="pwd">* ${enterPassword}: </label> <input type="password"
+			<label for="pwd"><span class="required-field">*</span>${enterPassword}: </label> <input type="password"
 				class="form-control" placeholder="${enterPassword}" id="pwd"
 				name="password" required value="${requestScope.password}">
 		</div>
 
 		<div class="form-group">
-			<label for="pwd-repeat">*${repeatPassword}:</label> <input
+			<label for="pwd-repeat"><span class="required-field">*</span>${repeatPassword}:</label> <input
 				type="password" class="form-control" placeholder="${repeatPassword}"
 				id="pwd-repeat" name="repeatedPassword" required
 				value="${requestScope.repeatedPassword}">

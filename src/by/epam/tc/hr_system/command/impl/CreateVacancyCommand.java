@@ -14,10 +14,7 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
-import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
-import by.epam.tc.hr_system.exception.validation.IllegalEntriedValueException;
-import by.epam.tc.hr_system.exception.validation.IllegalStringLengtnException;
-import by.epam.tc.hr_system.exception.validation.NegativeNumberValueException;
+import by.epam.tc.hr_system.exception.validation.IllegalSizeException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
@@ -60,9 +57,7 @@ public class CreateVacancyCommand implements ICommand {
 				request.getRequestDispatcher(PageName.TABLE_VACANCY_PAGE).forward(request, response);
 				return;
 
-			} catch (IllegalEntriedValueException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ILLEGAL_ENTRIED_VALUE);
-			} catch (IllegalStringLengtnException e) {
+			} catch (IllegalSizeException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
 			} catch (EmptyPropertyException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);

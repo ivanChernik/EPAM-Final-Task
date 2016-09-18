@@ -72,7 +72,7 @@
 						<c:forEach var="vacancy" items="${requestScope.vacancyList}">
 							<tr>
 							<td><input class="checkbox" type="checkbox"
-									name="idVacancy" value="${vacancy.id}" /></td>
+									name="idVacancy" value="${vacancy.id}"/></td>
 								<td><a href="./Controller?command=show-vacancy&idVacancy=${vacancy.id}">${vacancy.name}</a></td>
 								<td>${vacancy.companyName}</td>
 								<td>${vacancy.dateSubmission}</td>

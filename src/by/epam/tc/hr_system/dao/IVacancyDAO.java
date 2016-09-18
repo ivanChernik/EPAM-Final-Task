@@ -27,5 +27,7 @@ public interface IVacancyDAO {
 	int getCountCompanies() throws DAOException;
 	
 	boolean checkVacancyToHR(int idHR, int idVacancy) throws DAOException;
+	
+	List<Vacancy> searchVacancyByParameters(String position, String employment, int salaryFrom, int salaryTo) throws DAOException;
 
 }

@@ -16,6 +16,7 @@ import by.epam.tc.hr_system.domain.Vacancy;
 import by.epam.tc.hr_system.domain.VacancyResponce;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
+import by.epam.tc.hr_system.exception.validation.ResponceAlreadyExistsException;
 import by.epam.tc.hr_system.exception.validation.ResumeDoesNotExistException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyResponceService;
@@ -30,7 +31,7 @@ public class ApplyForJobCommand implements ICommand {
 	private static final String VACANCY = "vacancy";
 	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String PERSON = "person";
-	
+
 	private static final Logger log = Logger.getLogger(ApplyForJobCommand.class);
 
 	@Override
@@ -49,19 +50,27 @@ public class ApplyForJobCommand implements ICommand {
 			vacancyResponse.getResume().setId(person.getId());
 
 			vacancyResponse.getVacancy().setId(Integer.parseInt(request.getParameter(VacancyParameter.ID)));
+			String idVacancy = request.getParameter(VacancyParameter.ID);
 
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 			Vacancy vacancy = null;
 			try {
 				IVacancyResponceService vacancyResponceService = serviceFactory.getVacancyResponceService();
-				IVacancyService vacancyService =  serviceFactory.getVacancyService();
-				vacancy = vacancyService.getVacancyByID(request.getParameter(VacancyParameter.ID));
+				IVacancyService vacancyService = serviceFactory.getVacancyService();
+				vacancy = vacancyService.getVacancyByID(idVacancy);
+				vacancyResponceService.checkResponceToVacancy(person.getId(), idVacancy);
 				vacancyResponceService.addResponceToVacancy(vacancyResponse);
+
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			} catch (ResumeDoesNotExistException e) {
 				request.setAttribute(VACANCY, vacancy);
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_RESUME_DOES_NOT_EXIST);
+				request.getRequestDispatcher(PageName.VACANCY_PAGE).forward(request, response);
+				return;
+			} catch (ResponceAlreadyExistsException e) {
+				request.setAttribute(VACANCY, vacancy);
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_RESPONCE_ALREDY_EXISTS);
 				request.getRequestDispatcher(PageName.VACANCY_PAGE).forward(request, response);
 				return;
 			} catch (ValidationException e) {
@@ -78,5 +87,6 @@ public class ApplyForJobCommand implements ICommand {
 		}
 
 	}
+	
 
 }

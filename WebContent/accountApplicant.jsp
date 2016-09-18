@@ -1,5 +1,5 @@
-<%@ page info="accountApplicant.jsp"  language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page info="accountApplicant.jsp" language="java"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -34,12 +34,14 @@
 <fmt:message bundle="${loc}" key="local.date" var="date" />
 <fmt:message bundle="${loc}" key="local.not.responces"
 	var="notResponces" />
+<fmt:message bundle="${loc}" key="local.title.vacancy"
+	var="titleVacancy" />
 
 <title>Account Applicant</title>
 </head>
 <body>
 
-	<c:set var="pageName" value="accountApplicant.jsp" scope="session"/>
+	<c:set var="pageName" value="accountApplicant.jsp" scope="session" />
 
 	<jsp:include page="navigation.jsp"></jsp:include>
 
@@ -52,10 +54,10 @@
 			<c:if test="${not empty requestScope.errormessages}">
 				<div class="form-group alert alert-danger">
 					<span class="glyphicon glyphicon-exclamation-sign"
-							aria-hidden="true"></span><strong>${requestScope.errormessages}</strong>
+						aria-hidden="true"></span><strong>${requestScope.errormessages}</strong>
 				</div>
 			</c:if>
-			
+
 			<c:if test="${empty requestScope.responceList}">
 				<p>${notResponces}</p>
 			</c:if>
@@ -63,6 +65,7 @@
 				<caption>${tableStatusFeedback}</caption>
 				<thead>
 					<tr>
+						<th>${titleVacancy}</th>
 						<th>${company}</th>
 						<th>${status}</th>
 						<th>${date}</th>
@@ -71,6 +74,8 @@
 				<tbody>
 					<c:forEach var="responce" items="${requestScope.responceList}">
 						<tr>
+							<td><a
+								href="./Controller?command=show-vacancy&idVacancy=${responce.vacancy.id}">${responce.vacancy.name}</a></td>
 							<td>${responce.vacancy.companyName}</td>
 							<td>${responce.status}</td>
 							<td>${responce.date}</td>

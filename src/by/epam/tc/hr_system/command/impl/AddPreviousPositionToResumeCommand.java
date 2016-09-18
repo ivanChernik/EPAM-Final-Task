@@ -17,7 +17,8 @@ import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
-import by.epam.tc.hr_system.exception.validation.IllegalStringLengtnException;
+import by.epam.tc.hr_system.exception.validation.IllegalSizeException;
+import by.epam.tc.hr_system.exception.validation.ResumeDoesNotExistException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.ServiceFactory;
@@ -63,7 +64,9 @@ public class AddPreviousPositionToResumeCommand implements ICommand {
 				request.getRequestDispatcher("./resume.jsp?idResume=" + person.getId())
 						.forward(request, response);
 				return;
-			}  catch (IllegalStringLengtnException e) {
+			} catch (ResumeDoesNotExistException e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_RESUME_DOES_NOT_EXIST);
+			} catch (IllegalSizeException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
 
 			} catch (IllegalDatesPeriodException e) {

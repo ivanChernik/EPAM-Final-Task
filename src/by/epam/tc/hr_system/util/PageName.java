@@ -16,6 +16,8 @@ public class PageName {
 	 public static final String UPDATE_VACANCY_PAGE = "updateVacancy.jsp";
 	 public static final String UPDATE_PROFILE_PAGE = "updateProfile.jsp";
 	 public static final String VIEW_PROFILE_PAGE = "viewProfile.jsp";
+	 public static final String SEARCH_VACANCY_PAGE = "searchingVacancy.jsp";
+	 public static final String SEARCH_RESUME_PAGE = "searchingResume.jsp";
 	 public static final String ERROR_505_PAGE = "500.html";
 	 public static final String ERROR_404_PAGE = "404.html";
 }

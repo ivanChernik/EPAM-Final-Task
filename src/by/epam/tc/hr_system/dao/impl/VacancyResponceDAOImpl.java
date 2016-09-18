@@ -19,10 +19,10 @@ import by.epam.tc.hr_system.exception.DAOException;
 
 public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 
-	private static final String SQL_UPDATE_RESPONCE_STATUS = "UPDATE `hr-system`.`applicants_vacancies` SET `status`=? WHERE `id_responce`=?;";
 	private static final String ID_RESPONCE = "id_responce";
+	private static final String ID_VACANCY = "vacancy.id_vacancy";
 	private static final String SQL_COMPANY_NAME = "company_name";
-	// private static final String SQL_DATE = "date";
+	private static final String SQL_VACANCY_NAME = "vacancy.name";
 	private static final String SQL_STATUS = "status";
 	private static final String SQL_SURNAME = "surname";
 	private static final String SQL_NAME = "name";
@@ -31,10 +31,13 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 	private static final String SQL_ID_APPLICANT = "applicants_vacancies.id_applicant";
 	private static final String SQL_APPLICATION_VACANCY_DATE = "applicants_vacancies.date";
 
-	private static final String SELECT_RESPONCE_BY_VACANCY_ID = "SELECT DISTINCT id_responce,name, surname,applicants_vacancies.id_applicant,position, resume_info.phone, status, applicants_vacancies.date FROM `hr-system`.resume_info JOIN `hr-system`.applicants_vacancies ON resume_info.id_applicant = applicants_vacancies.id_applicant JOIN `hr-system`.person ON applicants_vacancies.id_applicant = person.id_person WHERE id_vacancy = ?;";
-	private static final String SQL_SELECT_APPLICANT_RESPONCE = "SELECT `applicants_vacancies`.`status`, `applicants_vacancies`.`date`, `company_name` FROM `hr-system`.applicants_vacancies INNER JOIN `hr-system`.vacancy ON `vacancy`.id_vacancy = `applicants_vacancies`.id_vacancy WHERE id_applicant = ?;";
-
+	private static final String SQL_SELECT_RESPONCE_BY_VACANCY_ID = "SELECT DISTINCT id_responce,name, surname,applicants_vacancies.id_applicant,position, resume_info.phone, status, applicants_vacancies.date FROM `hr-system`.resume_info JOIN `hr-system`.applicants_vacancies ON resume_info.id_applicant = applicants_vacancies.id_applicant JOIN `hr-system`.person ON applicants_vacancies.id_applicant = person.id_person WHERE id_vacancy = ?;";
+	private static final String SQL_SELECT_APPLICANT_RESPONCE = "SELECT vacancy.`id_vacancy`, `applicants_vacancies`.`status`, `applicants_vacancies`.`date`, `company_name`, `vacancy`.`name` FROM `hr-system`.applicants_vacancies INNER JOIN `hr-system`.vacancy ON `vacancy`.id_vacancy = `applicants_vacancies`.id_vacancy WHERE id_applicant = ?;";
+	private static final String SQL_SELECT_RESPONCE_TO_VACANCY_FOR_APPLICANT = "SELECT * FROM `hr-system`.applicants_vacancies WHERE id_vacancy = ? AND id_applicant = ?;";
+	
 	private static final String SQL_ADD_RESPONCE_TO_VACANCY = "INSERT INTO `hr-system`.`applicants_vacancies` (`id_applicant`, `id_vacancy`, `status`, `date`) VALUES (?, ?, ?, ?);";
+	
+	private static final String SQL_UPDATE_RESPONCE_STATUS = "UPDATE `hr-system`.`applicants_vacancies` SET `status`=? WHERE `id_responce`=?;";
 
 	private static final Logger log = Logger.getLogger(VacancyResponceDAOImpl.class);
 
@@ -125,7 +128,9 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 			VacancyResponce responce = new VacancyResponce();
 			responce.setStatus(rs.getString(SQL_STATUS));
 			responce.setDate((rs.getDate(SQL_APPLICATION_VACANCY_DATE)));
+			responce.getVacancy().setId((rs.getInt(ID_VACANCY)));
 			responce.getVacancy().setCompanyName((rs.getString(SQL_COMPANY_NAME)));
+			responce.getVacancy().setName((rs.getString(SQL_VACANCY_NAME)));
 			responceList.add(responce);
 		}
 		return responceList;
@@ -146,7 +151,7 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 		PreparedStatement searchResponcesPS = null;
 		try {
 			connection = connectionPool.takeConnection();
-			searchResponcesPS = connection.prepareStatement(SELECT_RESPONCE_BY_VACANCY_ID);
+			searchResponcesPS = connection.prepareStatement(SQL_SELECT_RESPONCE_BY_VACANCY_ID);
 			searchResponcesPS.setInt(1, idVacancy);
 			responceList = getResponceListForVacancy(searchResponcesPS.executeQuery());
 
@@ -232,6 +237,50 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 				log.error("Error closing connection", e);
 			}
 		}
+	}
+	
+	@Override
+	public boolean checkResponceToVacancy(int idVacancy, int idApplicant) throws DAOException {
+
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+		Connection connection = null;
+		PreparedStatement searchHRVacancy = null;
+		try {
+			connection = connectionPool.takeConnection();
+			searchHRVacancy = connection.prepareStatement(
+					SQL_SELECT_RESPONCE_TO_VACANCY_FOR_APPLICANT);
+			searchHRVacancy.setInt(1, idVacancy);
+			searchHRVacancy.setInt(2, idApplicant);
+			ResultSet rs = searchHRVacancy.executeQuery();
+
+			if (rs.next())
+				return true;
+
+		} catch (SQLException | ConnectionPoolException e) {
+			log.error("Error selection responce to vacancy by ID aplicant and vacancy", e);
+			throw new DAOException("Error selection responce to vacancy by ID aplicant and vacancy", e);
+		}
+
+		finally {
+			try {
+				searchHRVacancy.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				log.error("Error closing connection", e);
+			}
+		}
+		return false;
 	}
 
 }

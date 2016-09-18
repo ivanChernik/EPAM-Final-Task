@@ -15,7 +15,7 @@ import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
-import by.epam.tc.hr_system.exception.validation.IllegalStringLengtnException;
+import by.epam.tc.hr_system.exception.validation.IllegalSizeException;
 import by.epam.tc.hr_system.exception.validation.LoginAlreadyExistsExeption;
 import by.epam.tc.hr_system.exception.validation.PasswordsNotEqualException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
@@ -64,7 +64,7 @@ public class RegistrationCommand implements ICommand {
 				return;
 			} catch (ServiceException e) {
 				throw new CommandException(e);
-			} catch (IllegalStringLengtnException e) {
+			} catch (IllegalSizeException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
 			} catch (IllegalDatesPeriodException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_INVALID_DATE_VALUE);

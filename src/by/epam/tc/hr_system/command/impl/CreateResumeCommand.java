@@ -1,6 +1,11 @@
 package by.epam.tc.hr_system.command.impl;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,9 +23,12 @@ import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
-import by.epam.tc.hr_system.exception.validation.IllegalStringLengtnException;
+import by.epam.tc.hr_system.exception.validation.IllegalSizeException;
 import by.epam.tc.hr_system.exception.validation.InvalidFormatImageException;
 import by.epam.tc.hr_system.exception.validation.PhotoNotChosenException;
+import by.epam.tc.hr_system.exception.validation.ResponceAlreadyExistsException;
+import by.epam.tc.hr_system.exception.validation.ResumeAlreadyExistsException;
+import by.epam.tc.hr_system.exception.validation.ResumeDoesNotExistException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.ServiceFactory;
@@ -31,11 +39,14 @@ import by.epam.tc.hr_system.util.parameter.ResumeParamater;
 
 public class CreateResumeCommand implements ICommand {
 
+	private static final String DO_NOT_WORK = "doNotWork";
+	private static final String DO_NOT_STUDY = "doNotStudy";
 	private static final String WORK_TO = "workTo";
 	private static final String WORK_FROM = "workFrom";
 	private static final String EDUCATION_TO = "educationTo";
 	private static final String EDUCATION_FROM = "educationFrom";
 	private static final String RESUME = "resume";
+	private static final String IMAGE_MIME_TYPE = "image/";
 
 	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String FILE = "photo";
@@ -93,6 +104,9 @@ public class CreateResumeCommand implements ICommand {
 			contactInfo.setLinkTwitter(request.getParameter(ResumeParamater.LINK_TWITTER));
 			contactInfo.setLinkFacebook(request.getParameter(ResumeParamater.LINK_FACEBOOK));
 
+			String doNotStudy = request.getParameter(DO_NOT_STUDY);
+			String doNotWork = request.getParameter(DO_NOT_WORK);
+
 			Part filePart = request.getPart(FILE);
 			String filename = filePart.getSubmittedFileName();
 			String mimeType = request.getServletContext().getMimeType(filename);
@@ -101,18 +115,23 @@ public class CreateResumeCommand implements ICommand {
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
 			try {
+				validateAndLoadImage(filePart, filename, mimeType, realpath);
 				IResumeService resumeService = serviceFactory.getResumeService();
-				resumeService.addResume(resume, person.getId(), educationFrom, educationTo, workFrom, workTo, filePart,
-						filename, mimeType, realpath);
+				resumeService.checkExistingResume(person.getId());
+				resumeService.addResume(resume, person.getId(), educationFrom, educationTo, workFrom, workTo, filename,
+						doNotStudy, doNotWork);
 				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
 				return;
 			} catch (PhotoNotChosenException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_PHOTO_NOT_UPLOADED);
-
+				
+			} catch (ResumeAlreadyExistsException e) {
+				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_RESUME_ALREADY_EXISTS);
+				
 			} catch (InvalidFormatImageException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_PHOTO_HAS_WRONG_FORMAT);
 
-			} catch (IllegalStringLengtnException e) {
+			} catch (IllegalSizeException e) {
 				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
 
 			} catch (IllegalDatesPeriodException e) {
@@ -136,6 +155,30 @@ public class CreateResumeCommand implements ICommand {
 			log.error(e);
 			throw new CommandException(e);
 		}
+	}
+
+	private String validateAndLoadImage(Part filePart, String filename, String mimeType, String realpath)
+			throws CommandException {
+		if (!filename.isEmpty()) {
+
+			if (mimeType.startsWith(IMAGE_MIME_TYPE)) {
+				File uploads = new File(realpath);
+				File file = new File(uploads, filename);
+				try (InputStream input = filePart.getInputStream()) {
+					Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					log.error("Error reading user photo", e);
+					throw new CommandException(e);
+				}
+			} else {
+				log.warn("Warning: format photo");
+				throw new InvalidFormatImageException("Error format photo");
+			}
+		} else {
+			log.warn("Warning: photo was not picked");
+			throw new PhotoNotChosenException("Warning: photo was not picked");
+		}
+		return filename;
 	}
 
 }

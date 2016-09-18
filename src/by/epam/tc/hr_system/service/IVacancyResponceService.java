@@ -16,4 +16,5 @@ public interface IVacancyResponceService {
 	
 	List<VacancyResponce> changeResponceStatus(String[] idResponceArrayString, String status, String idVacancy) throws ServiceException;
 
+	void checkResponceToVacancy(int idApplicant, String idVacancyString) throws ServiceException;
 }

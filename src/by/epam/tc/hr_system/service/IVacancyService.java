@@ -28,4 +28,6 @@ public interface IVacancyService {
 	int getCountCompanies() throws ServiceException;
 
 	boolean checkVacancyToHR(int idHR, String idVacancy) throws ServiceException;
+	
+	List<Vacancy> searchVacancyByParameters(String titleVacancy, String employment, String salaryFromString, String salaryToString) throws ServiceException;
 }

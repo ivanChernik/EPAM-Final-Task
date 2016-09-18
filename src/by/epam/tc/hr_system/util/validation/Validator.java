@@ -7,11 +7,12 @@ import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.impl.CreateResumeCommand;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.exception.validation.IllegalStringLengtnException;
+import by.epam.tc.hr_system.exception.validation.IllegalSizeException;
 import by.epam.tc.hr_system.exception.validation.NegativeNumberValueException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
+import by.epam.tc.hr_system.exception.validation.IllegalNumbersException;
 import by.epam.tc.hr_system.util.validation.Validator;
 
 public class Validator {
@@ -32,7 +33,7 @@ public class Validator {
 		property = property.trim();
 
 		if (property.length() >= length) {
-			throw new IllegalStringLengtnException("Error validation: String is big.");
+			throw new IllegalSizeException("Error validation: String is big.");
 		}
 
 		return property;
@@ -43,7 +44,7 @@ public class Validator {
 		property = validateEmptyString(property);
 
 		if (property.length() >= length) {
-			throw new IllegalStringLengtnException("Error validation: String is big.");
+			throw new IllegalSizeException("Error validation: String is big.");
 		}
 
 		return property;
@@ -53,6 +54,18 @@ public class Validator {
 		if (property < 0) {
 			throw new NegativeNumberValueException("Error validation: number  < 0.");
 		}
+		
+		if (property > 1000000) {
+			throw new IllegalSizeException("Error validation: number  > 1 000 000 .");
+		}
+		
+	}
+	
+	public static void validateNumberPeriod(int lessNumber, int moreNumber) {
+		if (lessNumber > moreNumber) {
+			throw new IllegalNumbersException("Error validation: less number > more big number.");
+		}
+		
 	}
 
 	public static void validateDate(Date date) throws ValidationException {

@@ -15,5 +15,5 @@ public interface IVacancyResponceDAO {
 	
 	void changeStatus(String status, int[] idResponceArray) throws DAOException;
 	
-
+	boolean checkResponceToVacancy(int idVacancy, int idApplicant) throws DAOException;
 }

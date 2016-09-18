@@ -15,6 +15,7 @@ public class StringConverter {
 		} catch (NumberFormatException e) {
 			throw new IllegalEntriedValueException("Error parsing String to int: Variable has wrong value.");
 		}
+		Validator.validatePositiveInt(numer);
 		return numer;
 	}
 
