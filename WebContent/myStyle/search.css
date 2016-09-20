@@ -20,9 +20,6 @@ footer {
 }
 
 .search-block {
-	/* 	margin-top: 60px;
-	margin-bottom: 20px;
-	margin-left: 2%; */
 	margin-right: 20px; padding : 10px;
 	width: 20%;
 	padding: 10px;
@@ -44,4 +41,8 @@ footer {
 .message{
 	width: 50%;
 	text-align: center;
+}
+
+.resume-block{
+	height: 200px;
 }

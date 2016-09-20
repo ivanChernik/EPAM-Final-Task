@@ -1,5 +1,5 @@
-<%@ page info="resume.jsp" language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page info="resume.jsp" language="java"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -27,15 +27,16 @@
 <fmt:message bundle="${loc}" key="local.skills" var="skills" />
 <fmt:message bundle="${loc}" key="local.experience" var="experience" />
 <fmt:message bundle="${loc}" key="local.education" var="education" />
-<fmt:message bundle="${loc}" key="local.resume.does.not.exist" var="resumeDoesNotExist" />
+<fmt:message bundle="${loc}" key="local.resume.does.not.exist"
+	var="resumeDoesNotExist" />
 
 <title>Resume</title>
 </head>
 <body>
 	<!-- NAVIGATION START-->
-	
+
 	<c:set var="pageName" value="resume.jsp" scope="session" />
-	
+
 	<jsp:include page="navigation.jsp"></jsp:include>
 
 	<jsp:include page="${request.contextPath}/Controller" flush="true">
@@ -47,17 +48,20 @@
 
 	<section>
 		<div class="thumbnail head-information">
-			<c:if test="${not empty requestScope.errormessages}">
-				<div class="form-group alert alert-danger">
-					<span class="glyphicon glyphicon-exclamation-sign"
-							aria-hidden="true"></span><strong>${requestScope.errormessages}</strong>
-				</div>
-			</c:if>
 			<c:choose>
 				<c:when test="${empty resume}">
 					 ${resumeDoesNotExist}
 			</c:when>
 				<c:otherwise>
+					<c:if test="${sessionScope.person.id eq param.idResume}">
+						<form action="Controller" method="post">
+							<input type="hidden" name="command" value="delete-resume" /> <input
+								name="idVacancy" value="${resume.id}" type="hidden">
+							<button role="button" type="submit" class="btn btn-danger">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+							</button>
+						</form>
+					</c:if>
 					<div class="placing-inline main-information">
 						<div class="position-head">${resume.position}</div>
 						<div class="name">${resume.person.name}&nbsp;

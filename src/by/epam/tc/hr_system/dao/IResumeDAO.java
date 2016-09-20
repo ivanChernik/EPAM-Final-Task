@@ -14,6 +14,8 @@ public interface IResumeDAO {
 	void addEducation(Education education, int idUser) throws DAOException;
 	
 	void addPreviousPosition(PreviousPosition prevPosition, int idUser) throws DAOException;
+	
+	void deleteResume(int idUser) throws DAOException;
 
 	int getCountResumes() throws DAOException;
 

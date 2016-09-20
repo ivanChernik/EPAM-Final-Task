@@ -87,20 +87,20 @@
 					<label for="university"> ${nameEducationInstitution}:</label> <input
 						type="text" placeholder="${nameEducationInstitution}"
 						class="form-control" id="university" name="university"
-						value="${education.university}">
+						value="${education.university}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="faculty"> ${nameFaculty}:</label> <input type="text"
 						placeholder="${nameFaculty}" class="form-control" id="faculty"
-						name="faculty" value="${education.faculty}">
+						name="faculty" value="${education.faculty}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="specialty"> ${nameSpecialty}:</label> <input
 						type="text" placeholder="${nameSpecialty}" class="form-control"
 						id="specialty" name="specialty"
-						value="${education.specialty}">
+						value="${education.specialty}" required>
 				</div>
 
 
@@ -116,19 +116,19 @@
 					<label for="period-education">${periodEducation}:</label> <input
 						type="date" placeholder="From" class="form-control"
 						id="period-education" name="educationFrom"
-						value="${requestScope.educationFrom}">
+						value="${requestScope.educationFrom}" required>
 				</div>
 
 				<div class="form-group">
 					<input type="date" placeholder="From" class="form-control"
 						id="period-education" name="educationTo"
-						value="${requestScope.educationTo}">
+						value="${requestScope.educationTo}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="education-description"> ${description}:</label>
 					<textarea class="form-control" placeholder="${description}"
-						rows="5" id="education-description" name="education-description">${education.educationDescription}</textarea>
+						rows="5" id="education-description" name="education-description" required>${education.educationDescription}</textarea>
 				</div>
 			</div>
 

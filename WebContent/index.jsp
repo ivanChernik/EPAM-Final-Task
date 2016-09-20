@@ -107,12 +107,11 @@
 		<div class="row">
 			<c:set var="countVacancies" value="${0}" scope="page" />
 			<c:forEach var="vacancy" items="${requestScope.vacancyList}">
-
 				<form action="Controller" method="get">
 					<input name="command" value="show-vacancy" type="hidden"> <input
 						name="idVacancy" value="${vacancy.id}" type="hidden">
 					<div class="col-sm-6 col-md-4">
-						<div class="thumbnail">
+						<div class="thumbnail vacancy-block">
 							<div class="caption">
 								<h3>${vacancy.name}</h3>
 								<h4>${vacancy.salary}$</h4>
@@ -150,7 +149,7 @@
 
 			<div class="form-group alert alert-danger">
 				<span class="glyphicon glyphicon-exclamation-sign"
-							aria-hidden="true"></span><strong>${errorMessage}</strong>
+					aria-hidden="true"></span><strong>${errorMessage}</strong>
 			</div>
 
 		</c:if>
@@ -158,15 +157,15 @@
 		<input name="command" value="registration" type="hidden" />
 
 		<div class="form-group">
-			<label for="name"><span class="required-field">*</span>${enterName}:</label> <input type="text"
-				class="form-control" placeholder="${enterName}" id="name"
-				name="name" required value="${requestScope.name}">
+			<label for="name"><span class="required-field">*</span>${enterName}:</label>
+			<input type="text" class="form-control" placeholder="${enterName}"
+				id="name" name="name" required value="${requestScope.name}">
 		</div>
 
 		<div class="form-group">
-			<label for="surname"><span class="required-field">*</span>${enterSurname}:</label> <input type="text"
-				class="form-control" placeholder="${enterSurname}" id="surname"
-				name="surname" required value="${requestScope.surname}">
+			<label for="surname"><span class="required-field">*</span>${enterSurname}:</label>
+			<input type="text" class="form-control" placeholder="${enterSurname}"
+				id="surname" name="surname" required value="${requestScope.surname}">
 		</div>
 
 		<div class="form-group">
@@ -176,14 +175,14 @@
 		</div>
 
 		<div class="form-group">
-			<label for="email"><span class="required-field">*</span>${enterEmail}:</label> <input type="email"
-				class="form-control" placeholder="${enterEmail}" id="email"
-				name="email" required value="${requestScope.email}">
+			<label for="email"><span class="required-field">*</span>${enterEmail}:</label>
+			<input type="email" class="form-control" placeholder="${enterEmail}"
+				id="email" name="email" required value="${requestScope.email}">
 		</div>
 
 		<div class="form-group">
-			<label for="dateOfBirthday"><span class="required-field">*</span>${enterDateOfBirthday}:</label> <input
-				type="date" class="form-control"
+			<label for="dateOfBirthday"><span class="required-field">*</span>${enterDateOfBirthday}:</label>
+			<input type="date" class="form-control"
 				placeholder="${enterDateOfBirthday}" id="dateOfBirthday"
 				name="dateOfBirthday" required
 				value="${requestScope.dateOfBirthday}">
@@ -196,21 +195,24 @@
 		</div>
 
 		<div class="form-group">
-			<label for="patronymic"><span class="required-field">*</span>${enterLogin}:</label> <input type="text"
-				class="form-control" placeholder="${enterLogin}" id="login"
-				pattern="[\w]+" name="login" required value="${requestScope.login}">
+			<label for="patronymic"><span class="required-field">*</span>${enterLogin}:</label>
+			<input type="text" class="form-control" placeholder="${enterLogin}"
+				id="login" pattern="[\w]+" name="login" required
+				value="${requestScope.login}">
 		</div>
 
 		<div class="form-group">
-			<label for="pwd"><span class="required-field">*</span>${enterPassword}: </label> <input type="password"
-				class="form-control" placeholder="${enterPassword}" id="pwd"
-				name="password" required value="${requestScope.password}">
+			<label for="pwd"><span class="required-field">*</span>${enterPassword}:
+			</label> <input type="password" class="form-control"
+				placeholder="${enterPassword}" id="pwd" name="password" required
+				value="${requestScope.password}">
 		</div>
 
 		<div class="form-group">
-			<label for="pwd-repeat"><span class="required-field">*</span>${repeatPassword}:</label> <input
-				type="password" class="form-control" placeholder="${repeatPassword}"
-				id="pwd-repeat" name="repeatedPassword" required
+			<label for="pwd-repeat"><span class="required-field">*</span>${repeatPassword}:</label>
+			<input type="password" class="form-control"
+				placeholder="${repeatPassword}" id="pwd-repeat"
+				name="repeatedPassword" required
 				value="${requestScope.repeatedPassword}">
 		</div>
 

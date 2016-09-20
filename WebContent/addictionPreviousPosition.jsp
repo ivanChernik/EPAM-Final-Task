@@ -100,24 +100,24 @@
 					<label for="previos-position">${previousPosition}:</label> <input
 						type="text" placeholder="${previousPosition}" class="form-control"
 						id="previos-position" name="previos-position"
-						value="${requestScope.prevPosition.previousPosition}">
+						value="${requestScope.prevPosition.previousPosition}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="period-work">${periodWork}</label> <input type="date"
 						placeholder="From" class="form-control" id="workFrom"
-						name="workFrom" value="${requestScope.workFrom}">
+						name="workFrom" value="${requestScope.workFrom}" required>
 				</div>
 
 				<div class="form-group">
 					<input type="date" placeholder="To" class="form-control"
-						id="period-work" name="workTo" value="${requestScope.workTo}">
+						id="period-work" name="workTo" value="${requestScope.workTo}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="work-description"> ${description}:</label>
 					<textarea class="form-control" placeholder="${description}"
-						rows="5" id="work-description" name="work-description">${requestScope.prevPosition.workDescription}</textarea>
+						rows="5" id="work-description" name="work-description" required>${requestScope.prevPosition.workDescription}</textarea>
 				</div>
 
 			</div>

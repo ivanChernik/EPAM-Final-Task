@@ -15,7 +15,9 @@ public interface IResumeService {
 
 	void addPreviousPosition(PreviousPosition prevPosition, String workFrom, String workTo, int idUser)
 			throws ServiceException;
-
+	
+	void deleteResume(int idApplicant) throws ServiceException;
+	
 	int getCountResumes() throws ServiceException;
 
 	Resume getApplicantResume(String idResumeString) throws ServiceException;

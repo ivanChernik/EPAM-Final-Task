@@ -34,9 +34,9 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	private static final String SQL_SELECT_VACANCY_BY_USER_PAREMETERS = "SELECT `id_vacancy`,`name`,`salary`,`short_description` FROM `hr-system`.vacancy WHERE `name` LIKE ? AND `salary` BETWEEN ? AND ? AND `type_employment` = ?;";
 	private static final String SQL_SELECT_BY_ID_HR_AND_VACANCY = "SELECT * FROM `hr-system`.vacancy  WHERE id_vacancy = ? && id_hr = ?;";
 	private static final String SQL_SELECT_COUNT_COMPANIES = "SELECT COUNT(distinct company_name) FROM `hr-system`.vacancy;";
-	private static final String SQL_SELECT_COUNT_VACANCIES = "SELECT count(id_vacancy) FROM `hr-system`.vacancy;";
+	private static final String SQL_SELECT_AMOUNT_VACANCIES = "SELECT count(id_vacancy) FROM `hr-system`.vacancy;";
 	private static final String SQL_SELECT_HR_VACANCY = "SELECT `id_vacancy`,`name`,`company_name`, `date_of_submission`,`status` FROM `hr-system`.`vacancy` WHERE `id_hr` = ?;";
-	private static final String SQL_SELECT_TOP_VACANCY = "SELECT `id_vacancy`,`name`, `salary`, `short_description` FROM `hr-system`.`vacancy` WHERE `id_vacancy` in (1,2,3,4);";
+	private static final String SQL_SELECT_TOP_VACANCY = "SELECT `id_vacancy`,`name`, `salary`, `short_description` FROM `hr-system`.`vacancy`";
 	private static final String SQL_SELECT_VACANCY_BY_ID = "SELECT `id_vacancy`,`name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description` FROM `hr-system`.`vacancy` WHERE `id_vacancy` = ?;";
 
 	private static final String SQL_ADD_NEW_VACANCY = "INSERT INTO `hr-system`.`vacancy` (`id_hr`, `name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description`) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
@@ -198,10 +198,18 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		}
 		Connection connection = null;
 		PreparedStatement searchTopVacancyPS = null;
+		PreparedStatement searchCountVacancyPS = null;
 		try {
 			connection = connectionPool.takeConnection();
+
+			searchCountVacancyPS = connection.prepareStatement(SQL_SELECT_AMOUNT_VACANCIES);
+			ResultSet rsAmount = searchCountVacancyPS.executeQuery();
+			rsAmount.next();
+			int amountVacanciesRS = rsAmount.getInt(1);
+
 			searchTopVacancyPS = connection.prepareStatement(SQL_SELECT_TOP_VACANCY);
-			vacancyList = getTopVacancyList(searchTopVacancyPS.executeQuery());
+
+			vacancyList = getTopVacancyList(amountVacanciesRS, searchTopVacancyPS.executeQuery());
 
 		} catch (SQLException | ConnectionPoolException e) {
 			log.error("Error get top vacancies", e);
@@ -224,22 +232,26 @@ public class VacancyDAOImpl implements IVacancyDAO {
 
 		return vacancyList;
 	}
-	
-	private List<Vacancy> getTopVacancyList(ResultSet rs) throws SQLException {
+
+	private List<Vacancy> getTopVacancyList(int amountVacanciesRS, ResultSet rs) throws SQLException {
 		List<Vacancy> vacancyList = new ArrayList<Vacancy>();
 
-		while (rs.next()) {
+		int amount = 9;
+		if (amountVacanciesRS < 9) {
+			amount = amountVacanciesRS;
+		}
+		while (rs.next() && amount > 0) {
 			Vacancy vacancy = new Vacancy();
 			vacancy.setId(rs.getInt(SQL_ID_VACANCY));
 			vacancy.setName(rs.getString(SQL_NAME));
 			vacancy.setShortDescription(rs.getString(SQL_SHORT_DESCRIPTION));
 			vacancy.setSalary(rs.getInt(SQL_SALARY));
 			vacancyList.add(vacancy);
+			amount--;
 		}
 		return vacancyList;
 
 	}
-
 
 	private List<Vacancy> getFullVacancyList(ResultSet rs) throws SQLException {
 		List<Vacancy> vacancyList = new ArrayList<Vacancy>();
@@ -333,7 +345,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		PreparedStatement countVacanciesPS = null;
 		try {
 			connection = connectionPool.takeConnection();
-			countVacanciesPS = connection.prepareStatement(SQL_SELECT_COUNT_VACANCIES);
+			countVacanciesPS = connection.prepareStatement(SQL_SELECT_AMOUNT_VACANCIES);
 			countVacancies = getCountRows(countVacanciesPS.executeQuery());
 
 		} catch (SQLException | ConnectionPoolException e) {
@@ -612,6 +624,5 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		return vacancyList;
 
 	}
-
 
 }

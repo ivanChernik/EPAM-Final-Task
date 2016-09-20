@@ -21,6 +21,14 @@ import by.epam.tc.hr_system.exception.DAOException;
 
 public class ResumeDAOImpl implements IResumeDAO {
 
+	private static final String SQL_DELETE_RESPONCE_BY_ID_APPLICANT = "DELETE FROM `hr-system`.`applicants_vacancies` WHERE `id_applicant`= ?;";
+
+	private static final String SQL_DELETE_EXPERIENCE_BY_ID_APPLICANT = "DELETE FROM `hr-system`.`experience` WHERE  `id_applicant`= ?;";
+
+	private static final String SQL_DELETE_EDUCATION_BY_ID_APPLICANT = "DELETE FROM `hr-system`.`education` WHERE `id_candidate`= ?;";
+
+	private static final String SQL_DELETE_RESUME_BY_ID_APPLICANT = "DELETE FROM `hr-system`.`resume_info` WHERE `id_applicant`= ?;";
+
 	private static final char PROCENT = '%';
 
 	private static final String SQL_EDUCATION_KIND = "kind_education";
@@ -61,7 +69,7 @@ public class ResumeDAOImpl implements IResumeDAO {
 	private static final String SQL_SELECT_EDUCATION_BY_RESUME_ID = "SELECT DISTINCT  kind_education, education.description, date_of_graduation , `date_of_entry`, form_education, speciality, department, institution FROM `hr-system`.resume_info JOIN `hr-system`.education ON resume_info.id_applicant = education.id_candidate WHERE resume_info.`id_applicant`= ?;";
 	private static final String SQL_SELECT_EXPERIENCE_BY_ID_RESUME = "SELECT DISTINCT experience.`position`, experience.`description`, date_of_beginning , date_of_completion FROM `hr-system`.resume_info  JOIN `hr-system`.experience ON resume_info.id_applicant = experience.id_applicant WHERE resume_info.`id_applicant`= ?;";
 	private static final String SQL_SELECT_CONTACT_INFORMATION_BY_ID_RESUME = "SELECT DISTINCT `name`, `surname`,`skill`, resume_info.`position`, `professional_info`,`photo_path`,`google_plus_link`, `linkedin_link`, `twitter_link`, `facebook_link`, resume_info.`phone`, resume_info.`email`, `address` FROM `hr-system`.resume_info JOIN `hr-system`.person ON resume_info.id_applicant = person.id_person WHERE id_person = ?;";
-	private static final String SQL_SELECT_SHORT_RESUME_INFO_BY_POSITION_AND_EDUCATION = "SELECT id_applicant, resume_info.`position`, `name`, surname, professional_info  FROM `hr-system`.resume_info INNER JOIN `hr-system`.person ON resume_info.id_applicant = person.id_person JOIN `hr-system`.education ON  resume_info.id_applicant = education.id_candidate WHERE education.kind_education = ? AND resume_info.`position` LIKE ?;";
+	private static final String SQL_SELECT_SHORT_RESUME_INFO_BY_POSITION_AND_EDUCATION = "SELECT DISTINCT id_applicant, resume_info.`position`, `name`, surname, professional_info  FROM `hr-system`.resume_info INNER JOIN `hr-system`.person ON resume_info.id_applicant = person.id_person JOIN `hr-system`.education ON  resume_info.id_applicant = education.id_candidate WHERE education.kind_education = ? AND resume_info.`position` LIKE ?;";
 
 	private static final Logger log = Logger.getLogger(ResumeDAOImpl.class);
 
@@ -562,6 +570,98 @@ public class ResumeDAOImpl implements IResumeDAO {
 		}
 
 		return resumeList;
+	}
+
+	@Override
+	public void deleteResume(int idUser) throws DAOException {
+		ConnectionPool connectionPool = null;
+		try {
+			connectionPool = ConnectionPool.getInstance();
+		} catch (ConnectionPoolException e) {
+			log.fatal("Error connection pool instanse", e);
+			throw new DAOException("Error connection pool instanse", e);
+		}
+
+		Connection connection = null;
+
+		PreparedStatement removeResumeInfoPS = null;
+		PreparedStatement removeEducationPS = null;
+		PreparedStatement removePreviousPositionPS = null;
+		PreparedStatement removeResponcePS = null;
+		try {
+			connection = connectionPool.takeConnection();
+			connection.setAutoCommit(false);
+
+			// first
+			removeEducationPS = connection.prepareStatement(SQL_DELETE_EDUCATION_BY_ID_APPLICANT);
+			removeEducationPS.setInt(1, idUser);
+			removeEducationPS.executeUpdate();
+
+			// second
+			removePreviousPositionPS = connection.prepareStatement(SQL_DELETE_EXPERIENCE_BY_ID_APPLICANT);
+			removePreviousPositionPS.setInt(1, idUser);
+			removePreviousPositionPS.executeUpdate();
+
+			// third
+			removeResumeInfoPS = connection.prepareStatement(SQL_DELETE_RESUME_BY_ID_APPLICANT);
+
+			removeResumeInfoPS.setInt(1, idUser);
+			removeResumeInfoPS.executeUpdate();
+			
+			//fourth
+			removeResponcePS = connection.prepareStatement(SQL_DELETE_RESPONCE_BY_ID_APPLICANT);
+			removeResponcePS.setInt(1, idUser);
+			removeResponcePS.executeUpdate();
+			
+			
+			connection.commit();
+		}
+
+		catch (ConnectionPoolException | SQLException e) {
+
+			try {
+				connection.rollback();
+			} catch (SQLException eSQL) {
+				log.fatal("Error rollback", eSQL);
+				throw new DAOException("Fatal error rollback", e);
+			}
+
+			log.error("Error deletion person", e);
+			throw new DAOException("Error deletion resume", e);
+
+		} finally {
+
+			try {
+				removePreviousPositionPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
+				removePreviousPositionPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
+				removeResumeInfoPS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+			
+			try {
+				removeResponcePS.close();
+			} catch (SQLException e) {
+				log.error("Error closing statements", e);
+			}
+
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				log.error("Error closing connection", e);
+			}
+		}
+
 	}
 
 }

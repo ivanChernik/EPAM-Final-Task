@@ -15,6 +15,7 @@ import by.epam.tc.hr_system.command.impl.ChangeResponceStatusCommand;
 import by.epam.tc.hr_system.command.impl.CheckAffiliationVacancyToHRCommand;
 import by.epam.tc.hr_system.command.impl.CreateResumeCommand;
 import by.epam.tc.hr_system.command.impl.CreateVacancyCommand;
+import by.epam.tc.hr_system.command.impl.DeleteResumeCommand;
 import by.epam.tc.hr_system.command.impl.DeleteVacancyCommand;
 import by.epam.tc.hr_system.command.impl.LogOutCommand;
 import by.epam.tc.hr_system.command.impl.RegistrationCommand;
@@ -60,6 +61,7 @@ public class CommandHelper {
 		commands.put(CommandName.ADD_PREVIOUS_POSITION, new AddPreviousPositionToResumeCommand());
 		commands.put(CommandName.SEARCH_VACANCY, new SearchVacancyCommand());
 		commands.put(CommandName.SEARCH_RESUME, new SearchResumeCommand());
+		commands.put(CommandName.DELETE_RESUME, new DeleteResumeCommand());
 	}
 	
 	public ICommand getCommand(String name) throws CommandException {

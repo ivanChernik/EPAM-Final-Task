@@ -24,6 +24,7 @@ import by.epam.tc.hr_system.util.parameter.ResumeParamater;
 
 public class SearchResumeCommand implements ICommand {
 
+	private static final String RESULT = "result";
 	private static final String RESUME_LIST = "resumeList";
 	private static final String ERROR_MESSAGE = "errorMessage";
 	private static final Logger log = Logger.getLogger(SearchResumeCommand.class);
@@ -40,6 +41,7 @@ public class SearchResumeCommand implements ICommand {
 				IResumeService resumeService = serviceFactory.getResumeService();
 				List<Resume> resumeList = resumeService.searchResumesByParameter(position, kindEducation);
 				request.setAttribute(RESUME_LIST, resumeList);
+				request.setAttribute(RESULT, true);
 			} catch (IllegalSizeException e) {
 				request.setAttribute(ERROR_MESSAGE, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
 			} catch (EmptyPropertyException e) {

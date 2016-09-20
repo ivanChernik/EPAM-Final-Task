@@ -35,7 +35,7 @@ public class FireWallFilter implements Filter {
 		String uri = httpRequest.getRequestURI();
 		HttpSession session = httpRequest.getSession();
 
-		if (uri != null) {
+		if (uri != null ) {
 
 			Person person = (Person) session.getAttribute(PERSON);
 
@@ -82,8 +82,10 @@ public class FireWallFilter implements Filter {
 	private void checkNotAuthorizeUserAccess(HttpServletRequest request, HttpServletResponse response) {
 		String uri = request.getRequestURI();
 		if (uri.contains(JSP_EXSTENTION)) {
-			if (!uri.contains(PageName.SEARCH_VACANCY_PAGE) && !uri.contains(PageName.SEARCH_RESUME_PAGE) && !uri.contains(PageName.INDEX_PAGE)
-					&& !uri.contains(PageName.ERROR_505_PAGE) && !uri.contains(PageName.SEARCH_VACANCY_PAGE) && !uri.contains(PageName.SEARCH_VACANCY_PAGE)) {
+			if (!uri.contains(PageName.SEARCH_VACANCY_PAGE) && !uri.contains(PageName.SEARCH_RESUME_PAGE)
+					&& !uri.contains(PageName.INDEX_PAGE) && !uri.contains(PageName.ERROR_505_PAGE)
+					&& !uri.contains(PageName.SEARCH_VACANCY_PAGE) && !uri.contains(PageName.SEARCH_VACANCY_PAGE)
+					&& !uri.contains(PageName.RESUME_PAGE)) {
 				goTo404Page(request, response);
 			}
 		}

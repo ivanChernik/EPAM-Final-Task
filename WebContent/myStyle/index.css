@@ -109,3 +109,11 @@ footer {
 	font-size: 18px;
 }
 
+.vacancy-block{
+	height: 250px;
+}
+
+.required-field{ 
+    color: #d00;
+    content: "*";
+}

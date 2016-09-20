@@ -83,16 +83,17 @@
 							вакансии</button>
 					</form>
 				</div>
-
-				<c:forEach var="vacancy" items="${requestScope.vacancyList}">
 				
-				<c:if test="${empty requestScope.vacancyList}">
+				
+				<c:if test="${empty requestScope.vacancyList && requestScope.result eq true}">
 					<div class="col-sm-6 col-md-4">
 					<div class="thumbnail message">
 						<p>Вакансий не найдено</p>
 						</div>
 					</div>
 				</c:if>
+
+				<c:forEach var="vacancy" items="${requestScope.vacancyList}">
 
 					<form action="Controller" method="get">
 						<input name="command" value="show-vacancy" type="hidden">

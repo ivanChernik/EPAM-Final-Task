@@ -22,8 +22,9 @@ public class ScreenRoleDispatcher {
 			throws ServletException, IOException {
 		String pageName = pages.get(role);
 		if (pageName == null || pageName.isEmpty()) {
-			pageName = PageName.ERROR_505_PAGE;
+			pageName = PageName.ERROR_404_PAGE;
 		}
+		
 		request.getRequestDispatcher(pageName).forward(request, response);
 	}
 	

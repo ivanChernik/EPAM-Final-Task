@@ -67,39 +67,34 @@
 						</select>
 					</div>
 
-					<button type="submit" class="btn btn-success">Найти
-						резюме</button>
+					<button type="submit" class="btn btn-success">Найти резюме</button>
 				</form>
 			</div>
-
-			<div class="row">
-			<c:forEach var="resume" items="${requestScope.resumeList}">
+			
+			<c:if test="${empty requestScope.resumeList && requestScope.result eq true}">
 						<div class="col-sm-6 col-md-4">
-							<div class="thumbnail">
-								<div class="caption">
-									<h3>${resume.position}</h3>
-									<h4>${resume.person.name}&nbsp;${resume.person.surname}</h4>
-									<p>${resume.profInformation}</p>
-									<a href="./resume.jsp?idResume=${resume.id}"  type="submit" class="btn btn-success">${look}</a>
-								</div>
+							<div class="thumbnail message">
+								<p>Резюме не найдено</p>
 							</div>
 						</div>
-				</c:forEach>
-				<!-- <div class="col-sm-6 col-md-4">
-					<div class="thumbnail">
-						<div class="caption item-height">
-							<h3>Junior Java Developer</h3>
-							<h4>Иванов Иван</h4>
-							<p>Cras justo odio, dapibus ac facilisis in, egestas eget
-								quam. Donec id elit non mi porta gravida at eget metus. Nullam
-								id dolor id nibh ultricies vehicula ut id elit.</p>
+					</c:if>
 
-							<a href="resume.html" class="btn btn-success" role="button">Просмотреть</a>
-
+			<div class="row">
+				<c:forEach var="resume" items="${requestScope.resumeList}">
+					<div class="col-sm-6 col-md-4">
+						<div class="thumbnail resume-block">
+							<div class="caption">
+								<h3>${resume.position}</h3>
+								<h4>${resume.person.name}&nbsp;${resume.person.surname}</h4>
+								<p>${resume.profInformation}</p>
+								<a href="./resume.jsp?idResume=${resume.id}" type="submit"
+									class="btn btn-success">${look}</a>
+							</div>
 						</div>
-					</div> -->
-				</div>
+					</div>
+				</c:forEach>
 			</div>
+		</div>
 	</section>
 	<!-- FOOTER -->
 	<jsp:include page="footer.jsp" />

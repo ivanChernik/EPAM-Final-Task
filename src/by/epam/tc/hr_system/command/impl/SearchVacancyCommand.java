@@ -24,6 +24,7 @@ import by.epam.tc.hr_system.util.parameter.VacancyParameter;
 
 public class SearchVacancyCommand implements ICommand {
 
+	private static final String RESULT = "result";
 	private static final String SALARY_FROM = "salaryFrom";
 	private static final String SALARY_TO = "salaryTo";
 	private static final String ERROR_MESSAGE = "errorMessage";
@@ -46,6 +47,7 @@ public class SearchVacancyCommand implements ICommand {
 				List<Vacancy> vacancyList = vacancyService.searchVacancyByParameters(titleVacancy, employment,
 						salaryFromString, salaryToString);
 				request.setAttribute(VACANCY_LIST, vacancyList);
+				request.setAttribute(RESULT, true);
 			} catch (IllegalSizeException e) {
 				request.setAttribute(ERROR_MESSAGE, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
 			} catch (EmptyPropertyException e) {

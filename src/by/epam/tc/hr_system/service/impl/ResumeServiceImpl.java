@@ -205,4 +205,18 @@ public class ResumeServiceImpl implements IResumeService {
 		return resumeList;
 	}
 
+	@Override
+	public void deleteResume(int idApplicant) throws ServiceException {
+		validatePositiveInt(idApplicant);
+
+		DAOFactory daoFactory = DAOFactory.getInstance();
+
+		try {
+			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
+			resumeDAO.deleteResume(idApplicant);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
 }
