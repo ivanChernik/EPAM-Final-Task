@@ -13,7 +13,17 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="jquery/jquery-3.0.0.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
+
 <meta charset="UTF-8">
+
+<fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="localization.local" var="loc" />
 <fmt:message bundle="${loc}" key="local.higher.education"
 	var="higherEducation" />
@@ -30,10 +40,16 @@
 <fmt:message bundle="${loc}" key="local.part.employment"
 	var="partEmployment" />
 <fmt:message bundle="${loc}" key="local.look" var="look" />
+<fmt:message bundle="${loc}" key="local.postion.name" var="positionName" />
+<fmt:message bundle="${loc}" key="local.search.resumes"
+	var="searchResumes" />
+<fmt:message bundle="${loc}" key="local.resume.not.found"
+	var="resumeNotFound" />
 
 <title>Search resume</title>
 </head>
 <body>
+	<c:set var="pageName" value="searchingResume.jsp" scope="session" />
 	<jsp:include page="navigation.jsp"></jsp:include>
 	<section>
 		<div class="row row-grid">
@@ -49,9 +65,9 @@
 					</c:if>
 
 					<div class="form-group">
-						<label for="position">Название должности:</label> <input
-							type="text" placeholder="Vacancy title" class="form-control"
-							id="position" name="position">
+						<label for="position">${positionName}:</label> <input type="text"
+							placeholder="${positionName}" class="form-control" id="position"
+							name="position">
 					</div>
 
 					<div class="form-group">
@@ -67,22 +83,23 @@
 						</select>
 					</div>
 
-					<button type="submit" class="btn btn-success">Найти резюме</button>
+					<button type="submit" class="btn btn-success">${searchResumes}</button>
 				</form>
 			</div>
-			
-			<c:if test="${empty requestScope.resumeList && requestScope.result eq true}">
-						<div class="col-sm-6 col-md-4">
-							<div class="thumbnail message">
-								<p>Резюме не найдено</p>
-							</div>
-						</div>
-					</c:if>
+
+			<c:if
+				test="${empty requestScope.resumeList && requestScope.result eq true}">
+				<div class="col-sm-6 col-md-4">
+					<div class="thumbnail message">
+						<p>${resumeNotFound}</p>
+					</div>
+				</div>
+			</c:if>
 
 			<div class="row">
 				<c:forEach var="resume" items="${requestScope.resumeList}">
 					<div class="col-sm-6 col-md-4">
-						<div class="thumbnail resume-block">
+						<div class="thumbnail">
 							<div class="caption">
 								<h3>${resume.position}</h3>
 								<h4>${resume.person.name}&nbsp;${resume.person.surname}</h4>

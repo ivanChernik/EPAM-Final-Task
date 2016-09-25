@@ -30,6 +30,15 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="localization.local" var="loc" />
 <fmt:message bundle="${loc}" key="local.look" var="look" />
+<fmt:message bundle="${loc}" key="local.search.vacancies" var="searchVavancy" />
+<fmt:message bundle="${loc}" key="local.vacancies.not.found" var="vacanciesNotFound" />
+<fmt:message bundle="${loc}" key="local.salary" var="salary" />
+<fmt:message bundle="${loc}" key="local.postion.name" var="positionName" />
+<fmt:message bundle="${loc}" key="local.full.employment" var="fullEmployment" />
+<fmt:message bundle="${loc}" key="local.part.employment" var="partEmployment" />
+<fmt:message bundle="${loc}" key="local.from" var="from" />
+<fmt:message bundle="${loc}" key="local.to" var="to" />
+
 <meta charset="UTF-8">
 <title>Search vacancy</title>
 </head>
@@ -56,31 +65,30 @@
 
 						<input name="command" value="search-vacancy" type="hidden" />
 						<div class="form-group">
-							<label for="titleVacancy">Название должности:</label> <input
-								type="text" placeholder="Vacancy title" class="form-control"
+							<label for="titleVacancy">${positionName}:</label> <input
+								type="text" placeholder="${positionName}" class="form-control"
 								id="titleVacancy" name="titleVacancy" required>
 						</div>
 						<div class="form-group">
 							<select class="selectpicker" name="employment">
-								<option value="full-time">Полная занятость</option>
-								<option value="part-time">Частичная занятость</option>
+								<option value="full-time">${fullEmployment}</option>
+								<option value="part-time">${partEmployment}</option>
 							</select>
 						</div>
-						<p>Заработная плата:</p>
+						<p>${salary}</p>
 						<div class="form-group">
-							<label for="salary-from">От:</label> <input type="text"
+							<label for="salary-from">${from}:</label> <input type="text"
 								placeholder="Salary from" class="form-control" id="salary-from"
 								name="salaryFrom" pattern="[0-9]+" required>
 						</div>
 
 						<div class="form-group">
-							<label for="salary-to">До:</label> <input type="text"
+							<label for="salary-to">${to}:</label> <input type="text"
 								placeholder="Salary from" class="form-control" id="salary-to"
 								name="salaryTo" pattern="[0-9]+" required>
 						</div>
 
-						<button type="submit" class="btn btn-success">Найти
-							вакансии</button>
+						<button type="submit" class="btn btn-success">${searchVavancy}</button>
 					</form>
 				</div>
 				
@@ -88,7 +96,7 @@
 				<c:if test="${empty requestScope.vacancyList && requestScope.result eq true}">
 					<div class="col-sm-6 col-md-4">
 					<div class="thumbnail message">
-						<p>Вакансий не найдено</p>
+						<p>${vacanciesNotFound}</p>
 						</div>
 					</div>
 				</c:if>
