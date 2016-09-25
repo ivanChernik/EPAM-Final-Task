@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception.validation;
 
+/**
+ * Validation exception for negative number.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class NegativeNumberValueException extends ValidationException {
 
 	public NegativeNumberValueException(String message) {

@@ -9,12 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import by.epam.tc.hr_system.domain.Person;
 
+/**
+ * Dispatches the page after user authorization.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class ScreenRoleDispatcher {
 	private Map<String, String> pages = new HashMap<>();
 	private static final ScreenRoleDispatcher instance = new ScreenRoleDispatcher();
 
 	private ScreenRoleDispatcher() {
-		pages.put(Person.HR_ROLE, PageName.TABLE_VACANCY_PAGE);
+		pages.put(Person.HR_ROLE, PageName.INDEX_HR_PAGE);
 		pages.put(Person.APPLICANT_ROLE, PageName.INDEX_APPLICANT_PAGE);
 	}
 

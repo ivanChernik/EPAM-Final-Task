@@ -5,8 +5,21 @@ import java.sql.Date;
 import by.epam.tc.hr_system.exception.validation.IllegalEntriedValueException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 
+/**
+ * Converts String to others types with validation.
+ * 
+ * @see Validator
+ * @author Ivan Chernikau
+ *
+ */
 public class StringConverter {
 
+	/**
+	 * Parse String value to int.
+	 * 
+	 * @param property
+	 * @return int
+	 */
 	public static int parseStringToInt(String property) {
 		property = Validator.validateEmptyString(property);
 		int numer = 0;
@@ -19,7 +32,13 @@ public class StringConverter {
 		return numer;
 	}
 
-	public static Date parseStringToDate(String dateString){
+	/**
+	 * Parse String value to Date.
+	 * 
+	 * @param property
+	 * @return Date
+	 */
+	public static Date parseStringToDate(String dateString) {
 		dateString = Validator.validateEmptyString(dateString);
 		Date date = null;
 		try {
@@ -32,6 +51,12 @@ public class StringConverter {
 		return date;
 	}
 
+	/**
+	 * Parse array of String values to int.
+	 * 
+	 * @param property
+	 * @return int
+	 */
 	public static int[] parseArrayStringToInt(String[] arrayString) {
 
 		if (arrayString == null) {

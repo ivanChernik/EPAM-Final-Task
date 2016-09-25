@@ -5,12 +5,18 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * JavaBean for user. Contain all roles and information about profile of user.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class Person implements Serializable {
 	public static final String APPLICANT_ROLE = "applicant";
 	public static final String HR_ROLE = "hr";
 	public static final String ADMINISTRATOR_ROLE = "admin";
-	
-	private static List<String> roleList = Arrays.asList(APPLICANT_ROLE,HR_ROLE, ADMINISTRATOR_ROLE);
+
+	private static List<String> roleList = Arrays.asList(APPLICANT_ROLE, HR_ROLE, ADMINISTRATOR_ROLE);
 	private int id;
 	private String name;
 	private String surname;
@@ -19,13 +25,13 @@ public class Person implements Serializable {
 	private String email;
 	private String phone;
 	private String role;
-	
+
 	public Person() {
 
 	}
 
-	public Person(String name, String surname, String middleName, Date dateOfBirthday, String email,
-			String phone, String role) {
+	public Person(String name, String surname, String middleName, Date dateOfBirthday, String email, String phone,
+			String role) {
 		this.name = name;
 		this.surname = surname;
 		this.middleName = middleName;
@@ -34,8 +40,6 @@ public class Person implements Serializable {
 		this.phone = phone;
 		this.role = role;
 	}
-	
-	
 
 	public Person(int id, String name, String surname, String middleName, Date dateOfBirthday, String email,
 			String phone) {
@@ -112,7 +116,7 @@ public class Person implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public static List<String> getRoleList() {
 		return roleList;
 	}
@@ -187,6 +191,5 @@ public class Person implements Serializable {
 				+ ", dateOfBirthday=" + dateOfBirthday + ", email=" + email + ", phone=" + phone + ", role=" + role
 				+ "]";
 	}
-
 
 }

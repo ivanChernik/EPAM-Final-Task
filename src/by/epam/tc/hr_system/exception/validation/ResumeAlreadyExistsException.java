@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception.validation;
 
+/**
+ * Validation exception for existing resume.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class ResumeAlreadyExistsException extends ValidationException {
 
 	public ResumeAlreadyExistsException(String message) {

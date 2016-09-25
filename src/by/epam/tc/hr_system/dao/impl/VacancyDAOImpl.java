@@ -15,6 +15,12 @@ import by.epam.tc.hr_system.domain.Vacancy;
 import by.epam.tc.hr_system.exception.ConnectionPoolException;
 import by.epam.tc.hr_system.exception.DAOException;
 
+/**
+ * DAO implementation for vacancy.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class VacancyDAOImpl implements IVacancyDAO {
 
 	private static final char PROCENT = '%';

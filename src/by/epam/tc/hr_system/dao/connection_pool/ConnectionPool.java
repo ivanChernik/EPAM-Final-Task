@@ -26,7 +26,12 @@ import java.util.concurrent.Executor;
 import by.epam.tc.hr_system.exception.ConnectionPoolException;
 import by.epam.tc.hr_system.util.db.DBParameter;
 import by.epam.tc.hr_system.util.db.DBResourceManager;
-
+/**
+ * Connection pool for operations with connections.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public final class ConnectionPool {
 
 	private String driverName;
@@ -38,6 +43,9 @@ public final class ConnectionPool {
 	private BlockingQueue<Connection> givenAwayConQueue;
 	private static ConnectionPool instance = new ConnectionPool();
 
+	/**
+	 * Get database properties.
+	 */
 	private ConnectionPool() {
 		DBResourceManager dbManager = new DBResourceManager();
 		driverName = dbManager.getValue(DBParameter.DB_DRIVER);
@@ -51,9 +59,21 @@ public final class ConnectionPool {
 		}
 	}
 
+	/**
+	 * Get instance of connection pool.
+	 * 
+	 * @return
+	 * @throws ConnectionPoolException
+	 */
 	public static ConnectionPool getInstance() throws ConnectionPoolException {
 		return instance;
 	}
+	
+	/**
+	 * Initialization of connection pool.
+	 * 
+	 * @throws ConnectionPoolException
+	 */
 
 	public void initConnectionPool() throws ConnectionPoolException {
 		givenAwayConQueue = new ArrayBlockingQueue<Connection>(poolSize);
@@ -76,6 +96,12 @@ public final class ConnectionPool {
 
 	}
 
+	/**
+	 * Take the connetion from pool.
+	 * 
+	 * @return connection
+	 * @throws ConnectionPoolException
+	 */
 	public Connection takeConnection() throws ConnectionPoolException {
 		Connection connection = null;
 
@@ -88,6 +114,12 @@ public final class ConnectionPool {
 		return connection;
 
 	}
+	
+	/**
+	 * Destroy connection pool.
+	 * 
+	 * @throws ConnectionPoolException
+	 */
 
 	public void dispose() throws ConnectionPoolException {
 		clearConnectionQueue();

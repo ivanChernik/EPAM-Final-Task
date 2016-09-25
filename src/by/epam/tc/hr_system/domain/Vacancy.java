@@ -5,6 +5,13 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 
+ * JavaBean for vacancy.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class Vacancy implements Serializable {
 	
 	public static final String OPEN_STATUS = "open";
@@ -159,4 +166,84 @@ public class Vacancy implements Serializable {
 		return timeList;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
+		result = prime * result + ((contactInformation == null) ? 0 : contactInformation.hashCode());
+		result = prime * result + ((dateSubmission == null) ? 0 : dateSubmission.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((employment == null) ? 0 : employment.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((requirement == null) ? 0 : requirement.hashCode());
+		result = prime * result + salary;
+		result = prime * result + ((shortDescription == null) ? 0 : shortDescription.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vacancy other = (Vacancy) obj;
+		if (companyName == null) {
+			if (other.companyName != null)
+				return false;
+		} else if (!companyName.equals(other.companyName))
+			return false;
+		if (contactInformation == null) {
+			if (other.contactInformation != null)
+				return false;
+		} else if (!contactInformation.equals(other.contactInformation))
+			return false;
+		if (dateSubmission == null) {
+			if (other.dateSubmission != null)
+				return false;
+		} else if (!dateSubmission.equals(other.dateSubmission))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (employment == null) {
+			if (other.employment != null)
+				return false;
+		} else if (!employment.equals(other.employment))
+			return false;
+		if (id != other.id)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (requirement == null) {
+			if (other.requirement != null)
+				return false;
+		} else if (!requirement.equals(other.requirement))
+			return false;
+		if (salary != other.salary)
+			return false;
+		if (shortDescription == null) {
+			if (other.shortDescription != null)
+				return false;
+		} else if (!shortDescription.equals(other.shortDescription))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		return true;
+	}
+
+	
 }

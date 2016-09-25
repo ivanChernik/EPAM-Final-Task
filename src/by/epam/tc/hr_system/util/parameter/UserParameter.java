@@ -1,5 +1,12 @@
 package by.epam.tc.hr_system.util.parameter;
 
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * User parameters from {@link HttpServletRequest}.
+ * @author Ivan Chernikau
+ *
+ */
 public class UserParameter {
 	public static final String DATE_OF_BIRTHDAY = "dateOfBirthday";
 	public static final String PHONE_NUMBER = "phoneNumber";

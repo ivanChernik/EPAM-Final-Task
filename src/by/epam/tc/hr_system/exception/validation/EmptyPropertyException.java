@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception.validation;
 
+/**
+ * Validation exception for empty value.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class EmptyPropertyException extends ValidationException {
 
 	public EmptyPropertyException(String message) {

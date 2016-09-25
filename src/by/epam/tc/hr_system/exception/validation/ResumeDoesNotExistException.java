@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception.validation;
 
+/**
+ * Validation exception for not existing resume.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class ResumeDoesNotExistException extends ValidationException {
 
 	public ResumeDoesNotExistException(String message) {

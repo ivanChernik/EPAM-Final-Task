@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception.validation;
 
+/**
+ * Validation exception for illegal values.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class IllegalEntriedValueException extends ValidationException {
 
 	public IllegalEntriedValueException(String message) {

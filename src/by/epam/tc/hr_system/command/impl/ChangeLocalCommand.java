@@ -12,6 +12,13 @@ import org.apache.log4j.Logger;
 import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.exception.CommandException;
 
+/**
+ * Command for changing local.
+ * 
+ * at 25-09-2016 were created possibility of RU and EN locals
+ * @author Ivan Chernikau
+ *
+ */
 public class ChangeLocalCommand implements ICommand {
 
 	private static final String LITERAL_QUESTION = "?";
@@ -21,10 +28,18 @@ public class ChangeLocalCommand implements ICommand {
 	private static final String LOCAL = "local";
 	private static final Logger log = Logger.getLogger(ChangeLocalCommand.class);
 
+	
+	/**
+	 * Get url and HTTP parameters of refer.
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws CommandException
+	 */
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		session.setAttribute(LOCAL, request.getParameter(LOCAL));
 
 		String url = ROOT_PATH;

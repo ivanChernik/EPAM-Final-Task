@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception.validation;
 
+/**
+ * Validation exception for not picked photo.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class PhotoNotChosenException extends ValidationException {
 
 	public PhotoNotChosenException(Exception e) {

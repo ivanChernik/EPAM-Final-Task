@@ -12,33 +12,51 @@ import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.command.ICommand;
 import by.epam.tc.hr_system.domain.Person;
-import by.epam.tc.hr_system.domain.VacancyResponce;
+import by.epam.tc.hr_system.domain.VacancyResponse;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
-import by.epam.tc.hr_system.service.IVacancyResponceService;
+import by.epam.tc.hr_system.service.IVacancyResponseService;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
-import by.epam.tc.hr_system.util.MessageManager;
+import by.epam.tc.hr_system.util.ErrorMessage;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.VacancyParameter;
+import by.epam.tc.hr_system.util.validation.AuthorizingUser;
 
+/**
+ * Command for change response status (viewed, rejection and etc).
+ * @see VacancyResponse - contains statuses
+ * 
+ * It's possible to change status for one and more responses.
+ * @author Ivan Chernikau
+ *
+ */
 public class ChangeResponceStatusCommand implements ICommand {
 
+	private static final String HTTP_VACANCY_NAME = "&vacancyName=";
+	private static final String HTTP_GO_TO_VACANCY = "./Controller?command=show-responce-to-vacancy&idVacancy=";
 	private static final String VACANCY_NAME = "vacancyName";
 	private static final String STATUS = "status";
 	private static final String RESPONCE_LIST = "responceList";
 	private static final String ID_RESPONCE = "idResponce";
 	private static final String ERROR_MESSAGES = "errormessages";
-	private static final String PERSON = "person";
 	private static final Logger log = Logger.getLogger(CreateVacancyCommand.class);
 
+	/**
+	 * Invoke IVacancyResponceService for changing status
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws CommandException
+	 */
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
-			HttpSession session = request.getSession(true);
-			Person person = (Person) session.getAttribute(PERSON);
+			Person person = AuthorizingUser.getPersonInSession(request);
+
 			if (person == null) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
@@ -52,19 +70,19 @@ public class ChangeResponceStatusCommand implements ICommand {
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
 			try {
-				List<VacancyResponce> responceList = null;
+				List<VacancyResponse> responceList = null;
 
-				IVacancyResponceService responceService = serviceFactory.getVacancyResponceService();
+				IVacancyResponseService responceService = serviceFactory.getVacancyResponceService();
 				responceService.changeResponceStatus(idResponceArrayString, status, idVacancy);
 				request.setAttribute(RESPONCE_LIST, responceList);
+			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_SELECTION_IS_EMPTY);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
-			} catch (ValidationException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_SELECTION_IS_EMPTY);
 			}
 
-			request.getRequestDispatcher("./Controller?command=show-responce-to-vacancy&idVacancy=" + idVacancy
-					+ "&vacancyName=" + vacancyName).forward(request, response);
+			request.getRequestDispatcher(HTTP_GO_TO_VACANCY + idVacancy
+					+ HTTP_VACANCY_NAME + vacancyName).forward(request, response);
 
 		} catch (ServletException | IOException e) {
 			log.error(e);

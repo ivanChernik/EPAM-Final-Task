@@ -2,6 +2,12 @@ package by.epam.tc.hr_system.util.db;
 
 import java.util.ResourceBundle;
 
+/**
+ * Configuration file for database properties manager.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class DBResourceManager {
 	private static final String PROPERTIES_FILE_PATH = "by.epam.tc.hr_system.util.db.db";
 	private final static DBResourceManager instance = new DBResourceManager();

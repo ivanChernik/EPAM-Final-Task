@@ -16,6 +16,13 @@ import javax.servlet.http.HttpSession;
 import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.util.PageName;
 
+/**
+ * Filter organizes the access to screens for all roles and not authorized users
+ * 
+ * @author Ivan Chernikau
+ *
+ */
+
 @WebFilter(urlPatterns = "/*")
 public class FireWallFilter implements Filter {
 	private static final String JSP_EXSTENTION = ".jsp";
@@ -35,7 +42,7 @@ public class FireWallFilter implements Filter {
 		String uri = httpRequest.getRequestURI();
 		HttpSession session = httpRequest.getSession();
 
-		if (uri != null ) {
+		if (uri != null) {
 
 			Person person = (Person) session.getAttribute(PERSON);
 

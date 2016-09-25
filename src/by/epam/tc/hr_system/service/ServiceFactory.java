@@ -5,12 +5,17 @@ import by.epam.tc.hr_system.service.impl.PersonServiceImpl;
 import by.epam.tc.hr_system.service.impl.VacancyResponceServiceImpl;
 import by.epam.tc.hr_system.service.impl.VacancyServiceImpl;
 
+/**
+ * Singleton for all Services
+ * @author Ivan Chernikau
+ *
+ */
 public class ServiceFactory {
 	private static final ServiceFactory instance = new ServiceFactory();
 	private IPersonService userService = new PersonServiceImpl();
 	private IVacancyService vacancyService = new VacancyServiceImpl();
 	private IResumeService resumeService = new ResumeServiceImpl();
-	private IVacancyResponceService vacancyResponceService = new VacancyResponceServiceImpl();
+	private IVacancyResponseService vacancyResponceService = new VacancyResponceServiceImpl();
 
 	public static ServiceFactory getInstance() {
 		return instance;
@@ -28,7 +33,7 @@ public class ServiceFactory {
 		return resumeService;
 	}
 
-	public IVacancyResponceService getVacancyResponceService() {
+	public IVacancyResponseService getVacancyResponceService() {
 		return vacancyResponceService;
 	}
 

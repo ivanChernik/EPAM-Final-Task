@@ -1,5 +1,10 @@
 package by.epam.tc.hr_system.util.db;
 
+/**
+ * Parameters for darabase.
+ * @author Ivan Chernikau
+ *
+ */
 public final class DBParameter {
 	public static final String DB_DRIVER = "db.driver";
 	public static final String DB_URL = "db.url";

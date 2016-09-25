@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception;
 
+/**
+ * Exception for controller (command) layer
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class CommandException extends Exception {
 
     private static final long serialVersionUID = 1L;

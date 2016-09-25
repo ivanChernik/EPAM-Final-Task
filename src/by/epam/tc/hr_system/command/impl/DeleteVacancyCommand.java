@@ -18,21 +18,35 @@ import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
-import by.epam.tc.hr_system.util.MessageManager;
+import by.epam.tc.hr_system.util.ErrorMessage;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.VacancyParameter;
+import by.epam.tc.hr_system.util.validation.AuthorizingUser;
 
+/**
+ * Command for removal one or more vacancies of appropriate HR-employee
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class DeleteVacancyCommand implements ICommand {
 	private static final String VACANCY_LIST = "vacancyList";
 	private static final String ERROR_MESSAGES = "errorMessage";
-	private static final String PERSON = "person";
+
 	private static final Logger log = Logger.getLogger(CreateVacancyCommand.class);
 
+
+	/**
+	 * Invoke IVacancyService for removal vacancy(s). 
+	 * @param request
+	 * @param response
+	 * @throws CommandException
+	 */
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
-			HttpSession session = request.getSession(true);
-			Person person = (Person) session.getAttribute(PERSON);
+			Person person = AuthorizingUser.getPersonInSession(request);
 			if (person == null) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
@@ -47,10 +61,10 @@ public class DeleteVacancyCommand implements ICommand {
 				IVacancyService vacancyService = serviceFactory.getVacancyService();
 				vacancyList = vacancyService.deleteVacancies(idResponceArrayString, person.getId());
 				request.setAttribute(VACANCY_LIST, vacancyList);
+			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_SELECTION_IS_EMPTY);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
-			} catch (ValidationException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_SELECTION_IS_EMPTY);
 			}
 
 			request.getRequestDispatcher(PageName.TABLE_VACANCY_PAGE).forward(request, response);

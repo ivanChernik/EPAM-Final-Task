@@ -39,6 +39,15 @@ footer {
 	margin-top: 30px;
 }
 
+.caption{
+	postion: relative;
+}
+
+.position-block{
+	position: absolute;
+	top: 200px;
+}
+
 .vertical-line {
 	height: 230px;
 	width: 1px;

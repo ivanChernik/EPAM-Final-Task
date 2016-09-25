@@ -17,6 +17,12 @@ import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.util.validation.StringConverter;
 import static by.epam.tc.hr_system.util.validation.Validator.*;
 
+/**
+ * Service implementation for resume.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class ResumeServiceImpl implements IResumeService {
 
 	@Override
@@ -188,7 +194,7 @@ public class ResumeServiceImpl implements IResumeService {
 	}
 
 	@Override
-	public List<Resume> searchResumesByParameter(String position, String kindEducation) throws ServiceException {
+	public List<Resume> searchResumeByParameter(String position, String kindEducation) throws ServiceException {
 
 		validateRequiredString(position, 30);
 		validateSelectedItem(Education.getKindEducationList(), kindEducation);

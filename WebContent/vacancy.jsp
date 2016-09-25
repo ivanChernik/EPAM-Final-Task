@@ -92,7 +92,9 @@
 						</c:if>
 					</c:if>
 
-					<p>${requestScope.vacancy.status}${requestScope.vacancy.dateSubmission}</p>
+					<span class="pull-right"> ${requestScope.vacancy.status}</span>
+					<br>
+					<span class="pull-right"> ${requestScope.vacancy.dateSubmission}</span>
 					<h1>${requestScope.vacancy.name}</h1>
 					<h4>${requestScope.vacancy.companyName}</h4>
 					<h4 class="page-header">${description}</h4>

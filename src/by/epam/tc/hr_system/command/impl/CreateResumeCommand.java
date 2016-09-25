@@ -9,7 +9,6 @@ import java.nio.file.StandardCopyOption;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.apache.log4j.Logger;
@@ -23,19 +22,28 @@ import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
+import by.epam.tc.hr_system.exception.validation.IllegalEntriedValueException;
 import by.epam.tc.hr_system.exception.validation.IllegalSizeException;
 import by.epam.tc.hr_system.exception.validation.InvalidFormatImageException;
 import by.epam.tc.hr_system.exception.validation.PhotoNotChosenException;
-import by.epam.tc.hr_system.exception.validation.ResponceAlreadyExistsException;
 import by.epam.tc.hr_system.exception.validation.ResumeAlreadyExistsException;
-import by.epam.tc.hr_system.exception.validation.ResumeDoesNotExistException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.domain.ApplicantContactInfo;
-import by.epam.tc.hr_system.util.MessageManager;
+import by.epam.tc.hr_system.util.ErrorMessage;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.ResumeParamater;
+import by.epam.tc.hr_system.util.validation.AuthorizingUser;
+
+/**
+ * 
+ * Command for creation resume. 
+ * One applicant can have only one resume.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 
 public class CreateResumeCommand implements ICommand {
 
@@ -50,16 +58,23 @@ public class CreateResumeCommand implements ICommand {
 
 	private static final String ERROR_MESSAGES = "errormessages";
 	private static final String FILE = "photo";
-	private static final String PERSON = "person";
 
 	private static final Logger log = Logger.getLogger(CreateResumeCommand.class);
 
+	/**
+	 * Invoke IResumeService for checking existing resume of appropriate applicant.
+	 * Steps:
+	 * 1. Checking existing.
+	 * 2. Addiction resume.
+	 * @param request
+	 * @param response
+	 * @throws CommandException
+	 */
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
-			HttpSession session = request.getSession(true);
-
-			Person person = (Person) session.getAttribute(PERSON);
+			Person person = AuthorizingUser.getPersonInSession(request);
 
 			if (person == null) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
@@ -123,23 +138,30 @@ public class CreateResumeCommand implements ICommand {
 				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
 				return;
 			} catch (PhotoNotChosenException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_PHOTO_NOT_UPLOADED);
-				
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_PHOTO_NOT_UPLOADED);
+
 			} catch (ResumeAlreadyExistsException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_RESUME_ALREADY_EXISTS);
-				
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_RESUME_ALREADY_EXISTS);
+
 			} catch (InvalidFormatImageException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_PHOTO_HAS_WRONG_FORMAT);
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_PHOTO_HAS_WRONG_FORMAT);
 
 			} catch (IllegalSizeException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_ENTRY_VERY_LONG);
 
 			} catch (IllegalDatesPeriodException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_INVALID_DATE_VALUE);
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_INVALID_DATE_VALUE);
 
 			} catch (EmptyPropertyException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
-			} catch (ServiceException | ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
+
+			} catch (IllegalEntriedValueException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_ILLEGAL_ENTRIED_VALUE);
+				
+			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_VALIDATION_WAS_NOT_PASSED);
+				
+			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 

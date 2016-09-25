@@ -14,26 +14,39 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
+import by.epam.tc.hr_system.exception.validation.IllegalEntriedValueException;
 import by.epam.tc.hr_system.exception.validation.IllegalSizeException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
-import by.epam.tc.hr_system.util.MessageManager;
+import by.epam.tc.hr_system.util.ErrorMessage;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.VacancyParameter;
+import by.epam.tc.hr_system.util.validation.AuthorizingUser;
 
+/**
+ * Command for creation vacancy.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class CreateVacancyCommand implements ICommand {
 
 	private static final String ERROR_MESSAGES = "errormessages";
-	private static final String PERSON = "person";
 	private static final Logger log = Logger.getLogger(CreateVacancyCommand.class);
 
+	
+	/**
+	 * Invoke IvacancyService for creation and addiction new vacancy to appropriate HR-employee. 
+	 * @param request
+	 * @param response
+	 * @throws CommandException
+	 */
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
 		try {
-			HttpSession session = request.getSession(true);
-			Person person = (Person) session.getAttribute(PERSON);
+			Person person = AuthorizingUser.getPersonInSession(request);
 			if (person == null) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
@@ -58,10 +71,16 @@ public class CreateVacancyCommand implements ICommand {
 				return;
 
 			} catch (IllegalSizeException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_ENTRY_VERY_LONG);
 			} catch (EmptyPropertyException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
-			} catch (ServiceException | ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
+			} catch (IllegalEntriedValueException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_ILLEGAL_ENTRIED_VALUE);
+
+			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_VALIDATION_WAS_NOT_PASSED);
+
+			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 

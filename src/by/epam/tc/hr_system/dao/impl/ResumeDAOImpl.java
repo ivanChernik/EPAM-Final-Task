@@ -19,6 +19,12 @@ import by.epam.tc.hr_system.domain.Vacancy;
 import by.epam.tc.hr_system.exception.ConnectionPoolException;
 import by.epam.tc.hr_system.exception.DAOException;
 
+/**
+ * DAO implementation for resume.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class ResumeDAOImpl implements IResumeDAO {
 
 	private static final String SQL_DELETE_RESPONCE_BY_ID_APPLICANT = "DELETE FROM `hr-system`.`applicants_vacancies` WHERE `id_applicant`= ?;";

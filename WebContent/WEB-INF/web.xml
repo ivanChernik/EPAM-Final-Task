@@ -14,4 +14,7 @@
 		<error-code>404</error-code>
 		<location>/404.html</location>
 	</error-page>
+	<session-config>
+		<session-timeout>1</session-timeout>
+	</session-config>
 </web-app>

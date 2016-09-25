@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception.validation;
 
+/**
+ * Validation exception for invalid format image.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class InvalidFormatImageException extends ValidationException {
 
 	public InvalidFormatImageException(Exception e) {

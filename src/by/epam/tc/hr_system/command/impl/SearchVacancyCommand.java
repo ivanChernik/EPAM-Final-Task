@@ -14,14 +14,21 @@ import by.epam.tc.hr_system.domain.Vacancy;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
+import by.epam.tc.hr_system.exception.validation.IllegalEntriedValueException;
 import by.epam.tc.hr_system.exception.validation.IllegalSizeException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
-import by.epam.tc.hr_system.util.MessageManager;
+import by.epam.tc.hr_system.util.ErrorMessage;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.VacancyParameter;
 
+/**
+ * Command for searching vacancies by parameters, entried by user.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class SearchVacancyCommand implements ICommand {
 
 	private static final String RESULT = "result";
@@ -32,6 +39,13 @@ public class SearchVacancyCommand implements ICommand {
 
 	private static final Logger log = Logger.getLogger(CreateResumeCommand.class);
 
+	/**
+	 * Invoke IVacancyService to search vacancies.
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws CommandException
+	 */
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
@@ -49,10 +63,14 @@ public class SearchVacancyCommand implements ICommand {
 				request.setAttribute(VACANCY_LIST, vacancyList);
 				request.setAttribute(RESULT, true);
 			} catch (IllegalSizeException e) {
-				request.setAttribute(ERROR_MESSAGE, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
+				request.setAttribute(ERROR_MESSAGE, ErrorMessage.ERROR_MESSAGE_ENTRY_VERY_LONG);
 			} catch (EmptyPropertyException e) {
-				request.setAttribute(ERROR_MESSAGE, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
-			} catch (ServiceException | ValidationException e) {
+				request.setAttribute(ERROR_MESSAGE, ErrorMessage.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
+			} catch (IllegalEntriedValueException e) {
+				request.setAttribute(ERROR_MESSAGE, ErrorMessage.ERROR_MESSAGE_ILLEGAL_ENTRIED_VALUE);
+			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGE, ErrorMessage.ERROR_MESSAGE_VALIDATION_WAS_NOT_PASSED);
+			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 

@@ -16,23 +16,40 @@ import by.epam.tc.hr_system.controller.helper.CommandHelper;
 import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.util.PageName;
 
+/**
+ * HttpServlet receives all data from view (JSP-pages) and invokes appropriate
+ * command.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 
 @WebServlet(asyncSupported = true, urlPatterns = { "/Controller" })
 @MultipartConfig
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String COMMAND = "command";	
-	//private static final Logger log = Logger.getLogger(Controller.class);
-	
-    public Controller() {
-        super();
-    }
+	private static final String COMMAND = "command";
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request,response);
+	public Controller() {
+		super();
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doPost(request, response);
+	}
+
+	/**
+	 * Forward HttpServletRequest request, HttpServletResponse response for
+	 * appropriate command
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException,
+	 *             IOException
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String commandName = request.getParameter(COMMAND);
 		ICommand command;
 		try {
@@ -40,7 +57,7 @@ public class Controller extends HttpServlet {
 			command.execute(request, response);
 		} catch (CommandException e) {
 			response.sendRedirect(PageName.ERROR_505_PAGE);
-		}	
+		}
 	}
 
 }

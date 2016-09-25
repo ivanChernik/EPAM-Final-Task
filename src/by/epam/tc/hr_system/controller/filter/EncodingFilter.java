@@ -10,7 +10,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
-
+/**
+ * Filter encodes all data to UTF-8 from ServletRequest request
+ * 
+ * @author Ivan Chernikau
+ *
+ */
+ 
 @WebFilter(urlPatterns = "/*", initParams = {@WebInitParam(name = "encoding", value = "UTF-8", description = "Encoding Param")})
 public class EncodingFilter implements Filter {
 

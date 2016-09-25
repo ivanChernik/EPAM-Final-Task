@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception.validation;
 
+/**
+ * Validation exception for existing login.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class LoginAlreadyExistsExeption extends ValidationException {
 
 	public LoginAlreadyExistsExeption(String message) {

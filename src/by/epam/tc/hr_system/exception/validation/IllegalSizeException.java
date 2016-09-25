@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception.validation;
 
+/**
+ * Validation exception for illegal size.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class IllegalSizeException extends ValidationException {
 
 	public IllegalSizeException(String message) {

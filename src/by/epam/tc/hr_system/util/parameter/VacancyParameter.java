@@ -1,5 +1,12 @@
 package by.epam.tc.hr_system.util.parameter;
 
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * Vacancy parameters from {@link HttpServletRequest}.
+ * @author Ivan Chernikau
+ *
+ */
 public class VacancyParameter {
 	public static final String ID = "idVacancy";
 	public static final String EMPLOYMENT = "employment";

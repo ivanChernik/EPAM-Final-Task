@@ -12,13 +12,23 @@ import by.epam.tc.hr_system.exception.validation.NegativeNumberValueException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
-import by.epam.tc.hr_system.exception.validation.IllegalNumbersException;
+import by.epam.tc.hr_system.exception.validation.IllegalNumberPeriodException;
 import by.epam.tc.hr_system.util.validation.Validator;
 
+/**
+ * Validate values accordingly rules.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class Validator {
 
-	// private static final Logger log = Logger.getLogger(Validator.class);
-
+	/**
+	 * Validate on empty String.
+	 * 
+	 * @param property
+	 * @return
+	 */
 	public static String validateEmptyString(String property) {
 		property = property.trim();
 
@@ -29,6 +39,14 @@ public class Validator {
 		return property;
 	}
 
+	/**
+	 * Validate not required String on length.
+	 * 
+	 * @param property
+	 * @param length
+	 * @return
+	 */
+
 	public static String validateNotRequiredString(String property, int length) {
 		property = property.trim();
 
@@ -38,6 +56,14 @@ public class Validator {
 
 		return property;
 	}
+
+	/**
+	 * Validate required String on length and emptiness.
+	 * 
+	 * @param property
+	 * @param length
+	 * @return
+	 */
 
 	public static String validateRequiredString(String property, int length) {
 
@@ -50,30 +76,63 @@ public class Validator {
 		return property;
 	}
 
+	/**
+	 * Validate on positive int.
+	 * 
+	 * @param property
+	 */
+
 	public static void validatePositiveInt(int property) {
 		if (property < 0) {
 			throw new NegativeNumberValueException("Error validation: number  < 0.");
 		}
-		
-		if (property > 1000000) {
-			throw new IllegalSizeException("Error validation: number  > 1 000 000 .");
-		}
-		
-	}
-	
-	public static void validateNumberPeriod(int lessNumber, int moreNumber) {
-		if (lessNumber > moreNumber) {
-			throw new IllegalNumbersException("Error validation: less number > more big number.");
-		}
-		
+
 	}
 
-	public static void validateDate(Date date) throws ValidationException {
+	/**
+	 * Validate on max value.
+	 * 
+	 * @param property
+	 * @param maxValue
+	 */
+	public static void validateMaxValueInt(int property, int maxValue) {
+
+		if (property > maxValue) {
+			throw new IllegalSizeException("Error validation: number  > max value .");
+		}
+
+	}
+
+	/**
+	 * Validate the number period.
+	 * 
+	 * @param lessNumber
+	 * @param moreNumber
+	 */
+	public static void validateNumberPeriod(int lessNumber, int moreNumber) {
+		if (lessNumber > moreNumber) {
+			throw new IllegalNumberPeriodException("Error validation: less number > more big number.");
+		}
+
+	}
+
+	/**
+	 * Validate Date on emptiness.
+	 * 
+	 * @param date
+	 */
+	public static void validateDate(Date date) {
 		if (date == null) {
 			throw new EmptyPropertyException("Error validation: Date is null.");
 		}
 	}
 
+	/**
+	 * Validate a period between dates.
+	 * 
+	 * @param eirlyDate
+	 * @param laterDate
+	 */
 	public static void validateDatesPeriod(Date eirlyDate, Date laterDate) {
 		validateDate(eirlyDate);
 		validateDate(laterDate);
@@ -83,6 +142,12 @@ public class Validator {
 		}
 	}
 
+	/**
+	 * Validate a value on affiliation in list.
+	 * 
+	 * @param options
+	 * @param value
+	 */
 	public static void validateSelectedItem(List<String> options, String value) {
 		validateEmptyString(value);
 		if (options != null) {

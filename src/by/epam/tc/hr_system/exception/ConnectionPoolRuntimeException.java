@@ -1,5 +1,10 @@
 package by.epam.tc.hr_system.exception;
 
+/**
+ * Exception for connection pool initialization or dispose.
+ * @author Ivan Chernikau
+ *
+ */
 public class ConnectionPoolRuntimeException extends RuntimeException {
 	
 	public ConnectionPoolRuntimeException(String message) {

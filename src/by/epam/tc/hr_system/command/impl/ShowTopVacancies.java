@@ -13,14 +13,30 @@ import by.epam.tc.hr_system.service.IResumeService;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 
+/**
+ * Command shows top (9) most popular vacancies.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
+
 public class ShowTopVacancies implements ICommand {
 
-	private static final String ERROR_MESSAGES = "errormessages";
+
 	private static final String COUNT_COMPANIES = "countCompanies";
 	private static final String COUNT_VACANCIES = "countVacancies";
 	private static final String COUNT_RESUMES = "countResumes";
 	private static final String VACANCY_LIST = "vacancyList";
 
+
+	/**
+	 * Invoke IVacancyService to show top (9) vacancies 
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws CommandException
+	 */
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		

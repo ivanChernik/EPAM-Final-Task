@@ -11,31 +11,41 @@ import by.epam.tc.hr_system.command.impl.AuthorizationCommand;
 import by.epam.tc.hr_system.dao.DAOFactory;
 import by.epam.tc.hr_system.dao.IResumeDAO;
 import by.epam.tc.hr_system.dao.IVacancyDAO;
-import by.epam.tc.hr_system.dao.IVacancyResponceDAO;
-import by.epam.tc.hr_system.domain.VacancyResponce;
+import by.epam.tc.hr_system.dao.IVacancyResponseDAO;
+import by.epam.tc.hr_system.domain.VacancyResponse;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
-import by.epam.tc.hr_system.exception.validation.ResponceAlreadyExistsException;
+import by.epam.tc.hr_system.exception.validation.ResponseAlreadyExistsException;
 import by.epam.tc.hr_system.exception.validation.ResumeDoesNotExistException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
-import by.epam.tc.hr_system.service.IVacancyResponceService;
+import by.epam.tc.hr_system.service.IVacancyResponseService;
 import by.epam.tc.hr_system.util.validation.StringConverter;
 
 import static by.epam.tc.hr_system.util.validation.Validator.*;
 
-public class VacancyResponceServiceImpl implements IVacancyResponceService {
-	
+/**
+ * Service implementation for response to vacancy.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
+public class VacancyResponceServiceImpl implements IVacancyResponseService {
+
 	private static final Logger log = Logger.getLogger(VacancyResponceServiceImpl.class);
 
 	@Override
-	public void addResponceToVacancy(VacancyResponce vacancyResponce) throws ServiceException {
+	public void addResponceToVacancy(int idApplicant, String idVacancyString) throws ServiceException {
 
-		validatePositiveInt(vacancyResponce.getResume().getId());
-		validatePositiveInt(vacancyResponce.getVacancy().getId());
-		vacancyResponce.setStatus(VacancyResponce.NOT_VIEWED_STATUS);
-
+		validatePositiveInt(idApplicant);
+		int idVacancy = StringConverter.parseStringToInt(idVacancyString);
 		java.util.Date currentDate = new java.util.Date();
+		
+		VacancyResponse vacancyResponce = new VacancyResponse();
+		
+		vacancyResponce.getPerson().setId(idApplicant);
+		vacancyResponce.getVacancy().setId(idVacancy);
 		vacancyResponce.setDate(new Date(currentDate.getTime()));
+		vacancyResponce.setStatus(VacancyResponse.NOT_VIEWED_STATUS);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 
@@ -45,7 +55,7 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 				log.warn("Resume doesn't exist");
 				throw new ResumeDoesNotExistException("Resume doesn't exist");
 			}
-			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
+			IVacancyResponseDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
 			vacancyResponceDAO.addResponceToVacancy(vacancyResponce);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -53,15 +63,15 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 	}
 
 	@Override
-	public List<VacancyResponce> getApplicantReponces(int idApplicant) throws ServiceException {
+	public List<VacancyResponse> getApplicantReponces(int idApplicant) throws ServiceException {
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 
 		validatePositiveInt(idApplicant);
 
-		List<VacancyResponce> responceList = null;
+		List<VacancyResponse> responceList = null;
 		try {
-			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
+			IVacancyResponseDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
 			responceList = vacancyResponceDAO.getResponcesForApplicant(idApplicant);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -71,15 +81,15 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 	}
 
 	@Override
-	public List<VacancyResponce> getReponcesForVacancy(String idVacancyString) throws ServiceException {
+	public List<VacancyResponse> getReponcesForVacancy(String idVacancyString) throws ServiceException {
 
 		int idVacancy = StringConverter.parseStringToInt(idVacancyString);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
-		List<VacancyResponce> responceList = null;
+		List<VacancyResponse> responceList = null;
 
 		try {
-			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
+			IVacancyResponseDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
 			responceList = vacancyResponceDAO.getResponcesForVacancy(idVacancy);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -89,18 +99,18 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 	}
 
 	@Override
-	public List<VacancyResponce> changeResponceStatus(String[] idResponceArrayString, String status,
+	public List<VacancyResponse> changeResponceStatus(String[] idResponceArrayString, String status,
 			String idVacancyString) throws ServiceException {
 
 		int[] idResponceArray = StringConverter.parseArrayStringToInt(idResponceArrayString);
-		validateSelectedItem(VacancyResponce.getStatusList(), status);
+		validateSelectedItem(VacancyResponse.getStatusList(), status);
 		int idVacancy = StringConverter.parseStringToInt(idVacancyString);
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
-		List<VacancyResponce> responceList = null;
+		List<VacancyResponse> responceList = null;
 
 		try {
-			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
+			IVacancyResponseDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
 			vacancyResponceDAO.changeStatus(status, idResponceArray);
 			responceList = vacancyResponceDAO.getResponcesForVacancy(idVacancy);
 		} catch (DAOException e) {
@@ -118,11 +128,11 @@ public class VacancyResponceServiceImpl implements IVacancyResponceService {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 
 		try {
-			IVacancyResponceDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
-			//if responce exists
-			if(vacancyResponceDAO.checkResponceToVacancy(idVacancy, idApplicant)){
+			IVacancyResponseDAO vacancyResponceDAO = daoFactory.getVacancyResponceDAO();
+			// if responce exists
+			if (vacancyResponceDAO.checkResponceToVacancy(idVacancy, idApplicant)) {
 				log.warn("Responce has already applied");
-				throw new ResponceAlreadyExistsException("Responce has already applied");
+				throw new ResponseAlreadyExistsException("Responce has already applied");
 			}
 		} catch (DAOException e) {
 			throw new ServiceException(e);

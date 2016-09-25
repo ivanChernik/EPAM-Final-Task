@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.exception.validation;
 
+/**
+ * Validation exception for illegal period of between dates.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class IllegalDatesPeriodException extends ValidationException {
 
 	public IllegalDatesPeriodException(Exception e) {

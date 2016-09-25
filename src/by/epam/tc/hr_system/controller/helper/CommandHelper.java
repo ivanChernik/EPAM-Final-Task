@@ -32,12 +32,19 @@ import by.epam.tc.hr_system.command.impl.UpdateProfileCommand;
 import by.epam.tc.hr_system.command.impl.UpdateVacancyCommand;
 import by.epam.tc.hr_system.exception.CommandException;
 
+/**
+ * Contains all commands and their names in HashMap.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
+
 public class CommandHelper {
 	private static final CommandHelper instance = new CommandHelper();
 	private Map<CommandName, ICommand> commands = new HashMap<>();
 	private static final Logger log = Logger.getLogger(CommandHelper.class);
-	
-	private CommandHelper(){
+
+	private CommandHelper() {
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());
 		commands.put(CommandName.CHANGE_LOCAL, new ChangeLocalCommand());
 		commands.put(CommandName.AUTHORIZATION, new AuthorizationCommand());
@@ -63,22 +70,30 @@ public class CommandHelper {
 		commands.put(CommandName.SEARCH_RESUME, new SearchResumeCommand());
 		commands.put(CommandName.DELETE_RESUME, new DeleteResumeCommand());
 	}
-	
+
+	/**
+	 * Give command by name.
+	 * 
+	 * @param name
+	 * @return ICommand - command for execution particular action
+	 * @throws CommandException
+	 */
+
 	public ICommand getCommand(String name) throws CommandException {
-		
-		if(name == null || name.isEmpty()){
+
+		if (name == null || name.isEmpty()) {
 			log.error("Error in command name");
-			throw new CommandException("Error in command name"); 
+			throw new CommandException("Error in command name");
 		}
-		
+
 		name = name.replace('-', '_');
-		
+
 		CommandName commandName = CommandName.valueOf(name.toUpperCase());
 		ICommand command = commands.get(commandName);
 
 		return command;
 	}
-	
+
 	public static CommandHelper getInstance() {
 		return instance;
 	}

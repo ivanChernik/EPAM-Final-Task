@@ -1,18 +1,24 @@
 package by.epam.tc.hr_system.exception.validation;
 
-public class ResponceAlreadyExistsException extends ValidationException {
+/**
+ * Validation exception for exising response to vacancy
+ * 
+ * @author Ivan Chernikau
+ *
+ */
+public class ResponseAlreadyExistsException extends ValidationException {
 
-	public ResponceAlreadyExistsException(String message) {
+	public ResponseAlreadyExistsException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ResponceAlreadyExistsException(Exception e) {
+	public ResponseAlreadyExistsException(Exception e) {
 		super(e);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ResponceAlreadyExistsException(String message, Exception e) {
+	public ResponseAlreadyExistsException(String message, Exception e) {
 		super(message, e);
 		// TODO Auto-generated constructor stub
 	}

@@ -116,7 +116,7 @@
 								<h3>${vacancy.name}</h3>
 								<h4>${vacancy.salary}$</h4>
 								<p>${vacancy.shortDescription}</p>
-								<button type="submit" class="btn btn-success">${look}</button>
+								<button type="submit" class="btn btn-success position-block">${look}</button>
 							</div>
 						</div>
 					</div>

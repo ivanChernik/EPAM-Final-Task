@@ -1,5 +1,10 @@
 package by.epam.tc.hr_system.controller.helper;
 
+/**
+ * Contains name of all commands
+ * @author Ivan Chernikau
+ *
+ */
 public enum CommandName {
 	REGISTRATION, AUTHORIZATION, CHANGE_LOCAL, DELETE_VACANCY,
 	CHANGE_RESPONCE_STATUS, CREATE_VACANCY, UPDATE_VACANCY, CREATE_RESUME, 

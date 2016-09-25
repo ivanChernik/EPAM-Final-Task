@@ -10,14 +10,20 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import by.epam.tc.hr_system.dao.IVacancyResponceDAO;
+import by.epam.tc.hr_system.dao.IVacancyResponseDAO;
 import by.epam.tc.hr_system.dao.connection_pool.ConnectionPool;
 import by.epam.tc.hr_system.domain.Vacancy;
-import by.epam.tc.hr_system.domain.VacancyResponce;
+import by.epam.tc.hr_system.domain.VacancyResponse;
 import by.epam.tc.hr_system.exception.ConnectionPoolException;
 import by.epam.tc.hr_system.exception.DAOException;
 
-public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
+/**
+ * DAO implementation for response to vacancy.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
+public class VacancyResponseDAOImpl implements IVacancyResponseDAO {
 
 	private static final String ID_RESPONCE = "id_responce";
 	private static final String ID_VACANCY = "vacancy.id_vacancy";
@@ -39,10 +45,10 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 	
 	private static final String SQL_UPDATE_RESPONCE_STATUS = "UPDATE `hr-system`.`applicants_vacancies` SET `status`=? WHERE `id_responce`=?;";
 
-	private static final Logger log = Logger.getLogger(VacancyResponceDAOImpl.class);
+	private static final Logger log = Logger.getLogger(VacancyResponseDAOImpl.class);
 
 	@Override
-	public void addResponceToVacancy(VacancyResponce vacancyResponce) throws DAOException {
+	public void addResponceToVacancy(VacancyResponse vacancyResponce) throws DAOException {
 		ConnectionPool connectionPool = null;
 		try {
 			connectionPool = ConnectionPool.getInstance();
@@ -82,8 +88,8 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 	}
 
 	@Override
-	public List<VacancyResponce> getResponcesForApplicant(int idApplicant) throws DAOException {
-		List<VacancyResponce> responceList = null;
+	public List<VacancyResponse> getResponcesForApplicant(int idApplicant) throws DAOException {
+		List<VacancyResponse> responceList = null;
 		ConnectionPool connectionPool = null;
 		try {
 			connectionPool = ConnectionPool.getInstance();
@@ -121,11 +127,11 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 		return responceList;
 	}
 
-	private List<VacancyResponce> getResponceListForApplicant(ResultSet rs) throws SQLException {
-		List<VacancyResponce> responceList = new ArrayList<VacancyResponce>();
+	private List<VacancyResponse> getResponceListForApplicant(ResultSet rs) throws SQLException {
+		List<VacancyResponse> responceList = new ArrayList<VacancyResponse>();
 
 		while (rs.next()) {
-			VacancyResponce responce = new VacancyResponce();
+			VacancyResponse responce = new VacancyResponse();
 			responce.setStatus(rs.getString(SQL_STATUS));
 			responce.setDate((rs.getDate(SQL_APPLICATION_VACANCY_DATE)));
 			responce.getVacancy().setId((rs.getInt(ID_VACANCY)));
@@ -138,8 +144,8 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 	}
 
 	@Override
-	public List<VacancyResponce> getResponcesForVacancy(int idVacancy) throws DAOException {
-		List<VacancyResponce> responceList = null;
+	public List<VacancyResponse> getResponcesForVacancy(int idVacancy) throws DAOException {
+		List<VacancyResponse> responceList = null;
 		ConnectionPool connectionPool = null;
 		try {
 			connectionPool = ConnectionPool.getInstance();
@@ -177,11 +183,11 @@ public class VacancyResponceDAOImpl implements IVacancyResponceDAO {
 		return responceList;
 	}
 
-	private List<VacancyResponce> getResponceListForVacancy(ResultSet rs) throws SQLException {
-		List<VacancyResponce> responceList = new ArrayList<VacancyResponce>();
+	private List<VacancyResponse> getResponceListForVacancy(ResultSet rs) throws SQLException {
+		List<VacancyResponse> responceList = new ArrayList<VacancyResponse>();
 
 		while (rs.next()) {
-			VacancyResponce responce = new VacancyResponce();
+			VacancyResponse responce = new VacancyResponse();
 			responce.setId(rs.getInt(ID_RESPONCE));
 			responce.setStatus(rs.getString(SQL_STATUS));
 			responce.setDate((rs.getDate(SQL_APPLICATION_VACANCY_DATE)));

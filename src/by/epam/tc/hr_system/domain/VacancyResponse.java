@@ -5,7 +5,13 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
-public class VacancyResponce implements Serializable{
+/**
+ * JavaBean for response to Vacancy
+ * 
+ * @author Ivan Chernikau
+ *
+ */
+public class VacancyResponse implements Serializable{
 
 	public static final String VIEWED_STATUS = "viewed";
 	public static final String NOT_VIEWED_STATUS = "not-viewed";
@@ -20,10 +26,10 @@ public class VacancyResponce implements Serializable{
 	private String status;
 	private Date date;
 	
-	public VacancyResponce(){
+	public VacancyResponse(){
 		
 	}
-	
+
 
 	public String getStatus() {
 		return status;
@@ -84,6 +90,60 @@ public class VacancyResponce implements Serializable{
 
 	public static List<String> getStatusList() {
 		return statusList;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((person == null) ? 0 : person.hashCode());
+		result = prime * result + ((resume == null) ? 0 : resume.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((vacancy == null) ? 0 : vacancy.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VacancyResponse other = (VacancyResponse) obj;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		if (id != other.id)
+			return false;
+		if (person == null) {
+			if (other.person != null)
+				return false;
+		} else if (!person.equals(other.person))
+			return false;
+		if (resume == null) {
+			if (other.resume != null)
+				return false;
+		} else if (!resume.equals(other.resume))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (vacancy == null) {
+			if (other.vacancy != null)
+				return false;
+		} else if (!vacancy.equals(other.vacancy))
+			return false;
+		return true;
 	}
 
 }

@@ -16,8 +16,14 @@ import by.epam.tc.hr_system.domain.Person;
 import by.epam.tc.hr_system.exception.ConnectionPoolException;
 import by.epam.tc.hr_system.exception.DAOException;
 
+/**
+ * DAO implementation for person.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class PersonDAOImpl implements IPersonDAO {
-	
+
 	private static final String SQL_UPDATE_PERSON_BY_ID = "UPDATE `hr-system`.`person` SET `name`= ?, `surname`= ?, `middle_name`= ?, `date_of_birthday`= ?, `email`= ?, `phone`= ? WHERE `id_person`= ?;";
 
 	private static final String SQL_DELETE_UDER_BY_ID = "DELETE FROM `hr-system`.`user` WHERE `id_user`= ?;";
@@ -226,52 +232,6 @@ public class PersonDAOImpl implements IPersonDAO {
 		return result;
 	}
 
-	@Override
-	public Person searchPersonByEmail(String email) throws DAOException {
-		ConnectionPool connectionPool = null;
-		try {
-			connectionPool = ConnectionPool.getInstance();
-		} catch (ConnectionPoolException e) {
-			log.fatal("Error connection pool instanse", e);
-			throw new DAOException("Error connection pool instanse", e);
-		}
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet rs = null;
-		Person searchedPerson = null;
-		try {
-
-			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(SQL_SELECT_PERSON_BY_EMAIL);
-			preparedStatement.setString(1, email);
-			rs = preparedStatement.executeQuery();
-			searchedPerson = getPerson(rs);
-		} catch (ConnectionPoolException | SQLException e) {
-			log.error("Error searching person by email", e);
-			throw new DAOException(e);
-
-		} finally {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				log.error("Error closing resultSet", e);
-			}
-
-			try {
-				preparedStatement.close();
-			} catch (SQLException e) {
-				log.error("Error closing statement", e);
-			}
-
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				log.error("Error closing connection", e);
-			}
-		}
-		return searchedPerson;
-	}
-
 	private Person getPerson(ResultSet rs) throws SQLException {
 		Person person = new Person();
 
@@ -288,69 +248,6 @@ public class PersonDAOImpl implements IPersonDAO {
 		person.setEmail(rs.getString(SQL_EMAIL));
 		person.setPhone(rs.getString(SQL_PHONE));
 		return person;
-	}
-
-	@Override
-	public List<Person> searchPersonByNames(String name, String surname, String middleName) throws DAOException {
-		ConnectionPool connectionPool = null;
-		try {
-			connectionPool = ConnectionPool.getInstance();
-		} catch (ConnectionPoolException e) {
-			log.fatal("Error connection pool instanse", e);
-			throw new DAOException("Error connection pool instanse", e);
-		}
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet rs = null;
-		List<Person> searchedPersonList = null;
-		try {
-			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(SQL_SELECT_PERSONS_BY_NAMES);
-			preparedStatement.setString(1, name);
-			preparedStatement.setString(2, surname);
-			preparedStatement.setString(3, middleName);
-			rs = preparedStatement.executeQuery();
-			searchedPersonList = getPersonList(rs);
-		} catch (ConnectionPoolException | SQLException e) {
-			log.error("Error searching person by name", e);
-			throw new DAOException("Error searching person by name", e);
-
-		} finally {
-
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				log.error("Error closing resultSet", e);
-			}
-
-			try {
-				preparedStatement.close();
-			} catch (SQLException e) {
-				log.error("Error closing statement", e);
-			}
-
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				log.error("Error closing connection", e);
-			}
-		}
-		return searchedPersonList;
-	}
-
-	private List<Person> getPersonList(ResultSet rs) throws SQLException {
-		List<Person> personList = new ArrayList<Person>();
-		while (rs.next()) {
-			Person searchedPerson = new Person();
-			searchedPerson.setName(rs.getString(SQL_NAME));
-			searchedPerson.setSurname(rs.getString(SQL_SURNAME));
-			searchedPerson.setMiddleName(rs.getString(SQL_MIDDLE_NAME));
-			searchedPerson.setDateOfBirthday(rs.getDate(SQL_DATE_OF_BIRTHDAY));
-			searchedPerson.setEmail(rs.getString(SQL_EMAIL));
-			searchedPerson.setPhone(rs.getString(SQL_PHONE));
-			personList.add(searchedPerson);
-		}
-		return personList;
 	}
 
 	@Override

@@ -1,5 +1,11 @@
 package by.epam.tc.hr_system.util;
 
+/**
+ * Contains all names of pages on view layer.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class PageName {
 	
 	 public static final String ADDICTION_EDUCATION_PAGE = "addictionEducation.jsp";

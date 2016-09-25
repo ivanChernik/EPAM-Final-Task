@@ -1,5 +1,12 @@
 package by.epam.tc.hr_system.util.parameter;
 
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * Resume parameters from {@link HttpServletRequest}.
+ * @author Ivan Chernikau
+ *
+ */
 public class ResumeParamater {
 
 	public static final String ID_RESUME = "idResume";

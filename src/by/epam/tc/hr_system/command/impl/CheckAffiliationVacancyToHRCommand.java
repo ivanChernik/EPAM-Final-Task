@@ -16,22 +16,35 @@ import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
-import by.epam.tc.hr_system.util.MessageManager;
+import by.epam.tc.hr_system.util.ErrorMessage;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.VacancyParameter;
+import by.epam.tc.hr_system.util.validation.AuthorizingUser;
 
+/**
+ * 
+ * Command for checking affiliation vacancy to appropriate HR.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class CheckAffiliationVacancyToHRCommand implements ICommand {
 
 	private static final String BELONGS = "belongs";
 	private static final String ERROR_MESSAGES = "errormessages";
-	private static final String PERSON = "person";
 	private static final Logger log = Logger.getLogger(ShowResumeCommand.class);
 
+	/**
+	 * Invoke IVacancyService for checking affiliation vacancy to appropriate HR.
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws CommandException
+	 */
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
-			HttpSession session = request.getSession(false);
-			Person person = (Person) session.getAttribute(PERSON);
+			Person person = AuthorizingUser.getPersonInSession(request);
 
 			if (person == null) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
@@ -49,7 +62,7 @@ public class CheckAffiliationVacancyToHRCommand implements ICommand {
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			} catch (ValidationException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_IMPOSSIBLE_ACTION);
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_VALIDATION_WAS_NOT_PASSED);
 			}
 
 

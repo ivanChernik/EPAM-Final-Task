@@ -15,10 +15,16 @@ import by.epam.tc.hr_system.exception.validation.LoginAlreadyExistsExeption;
 import by.epam.tc.hr_system.exception.validation.PasswordsNotEqualException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IPersonService;
-import by.epam.tc.hr_system.util.MessageManager;
+import by.epam.tc.hr_system.util.ErrorMessage;
 import by.epam.tc.hr_system.util.validation.StringConverter;
 
 import static by.epam.tc.hr_system.util.validation.Validator.*;
+/**
+ * Service implementation for person.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 
 public class PersonServiceImpl implements IPersonService {
 

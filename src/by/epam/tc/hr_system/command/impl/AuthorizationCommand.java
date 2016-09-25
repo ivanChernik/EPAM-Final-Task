@@ -20,15 +20,28 @@ import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.ScreenRoleDispatcher;
 import by.epam.tc.hr_system.util.parameter.UserParameter;
 
+/**
+ * Command for athorization user.
+ *
+ * @author Ivan Chernikau
+ *
+ */
 public class AuthorizationCommand implements ICommand {
 
 	private static final String PERSON = "person";
 	private static final Logger log = Logger.getLogger(AuthorizationCommand.class);
 
+	/**
+	 * Invoke IPersonService for authorization user.
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws CommandException
+	 */
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
-			HttpSession session = request.getSession(true);
+			HttpSession session = request.getSession(false);
 
 			String login = request.getParameter(UserParameter.LOGIN);
 			String password = request.getParameter(UserParameter.PASSWORD);
@@ -36,19 +49,17 @@ public class AuthorizationCommand implements ICommand {
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 
 			Person person = null;
-			IPersonService userService = null;
 
 			try {
-				userService = serviceFactory.getUserService();
+				IPersonService userService = serviceFactory.getUserService();
 				person = userService.authorizePerson(login, password);
 			} catch (ServiceException e) {
 				request.getRequestDispatcher(PageName.ERROR_505_PAGE).forward(request, response);
 				return;
-			}	catch (ValidationException e) {
+			} catch (ValidationException e) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
 				return;
 			}
-			
 
 			if (person == null) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);
@@ -58,7 +69,7 @@ public class AuthorizationCommand implements ICommand {
 			ScreenRoleDispatcher roleDispatcher = ScreenRoleDispatcher.getInstance();
 			session.setAttribute(PERSON, person);
 			roleDispatcher.forwardToIndexByRole(request, response, person.getRole());
-			
+
 		} catch (ServletException | IOException e) {
 			log.error(e);
 			throw new CommandException(e);

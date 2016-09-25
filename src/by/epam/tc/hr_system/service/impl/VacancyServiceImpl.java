@@ -9,9 +9,9 @@ import org.apache.log4j.Logger;
 
 import by.epam.tc.hr_system.dao.DAOFactory;
 import by.epam.tc.hr_system.dao.IVacancyDAO;
-import by.epam.tc.hr_system.dao.IVacancyResponceDAO;
+import by.epam.tc.hr_system.dao.IVacancyResponseDAO;
 import by.epam.tc.hr_system.domain.Vacancy;
-import by.epam.tc.hr_system.domain.VacancyResponce;
+import by.epam.tc.hr_system.domain.VacancyResponse;
 import by.epam.tc.hr_system.exception.DAOException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.service.IVacancyService;
@@ -19,6 +19,12 @@ import by.epam.tc.hr_system.util.validation.StringConverter;
 
 import static by.epam.tc.hr_system.util.validation.Validator.*;
 
+/**
+ * Service implementation for vacancy.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class VacancyServiceImpl implements IVacancyService {
 
 	private static final Logger log = Logger.getLogger(VacancyServiceImpl.class);
@@ -33,6 +39,7 @@ public class VacancyServiceImpl implements IVacancyService {
 		shortDescription = validateRequiredString(shortDescription, 250);
 		requirement = validateRequiredString(requirement, 800);
 		int salary = StringConverter.parseStringToInt(salaryString);
+		validateMaxValueInt(salary,5000000);
 		companyName = validateRequiredString(companyName, 50);
 		contactInformation = validateRequiredString(contactInformation, 100);
 		validateSelectedItem(Vacancy.getTimeList(), employment);
@@ -63,6 +70,7 @@ public class VacancyServiceImpl implements IVacancyService {
 		shortDescription = validateRequiredString(shortDescription, 250);
 		requirement = validateRequiredString(requirement, 800);
 		int salary = StringConverter.parseStringToInt(salaryString);
+		validateMaxValueInt(salary,5000000);
 		companyName = validateRequiredString(companyName, 50);
 		contactInformation = validateRequiredString(contactInformation, 100);
 		validateSelectedItem(Vacancy.getTimeList(), employment);

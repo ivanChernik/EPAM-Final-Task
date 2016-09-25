@@ -15,6 +15,7 @@ import by.epam.tc.hr_system.exception.CommandException;
 import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
+import by.epam.tc.hr_system.exception.validation.IllegalEntriedValueException;
 import by.epam.tc.hr_system.exception.validation.IllegalSizeException;
 import by.epam.tc.hr_system.exception.validation.LoginAlreadyExistsExeption;
 import by.epam.tc.hr_system.exception.validation.PasswordsNotEqualException;
@@ -22,16 +23,34 @@ import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IPersonService;
 import by.epam.tc.hr_system.service.ServiceFactory;
 import by.epam.tc.hr_system.util.ScreenRoleDispatcher;
-import by.epam.tc.hr_system.util.MessageManager;
+import by.epam.tc.hr_system.util.ErrorMessage;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.UserParameter;
 
+/**
+ * Command for registration appropriate type of user.
+ * User can register only with one role.
+ * 
+ * @see Person - type of user roles.
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class RegistrationCommand implements ICommand {
 
 	private static final String PERSON = "person";
 	private static final String ERROR_MESSAGES = "errorMessage";
 	private static final Logger log = Logger.getLogger(RegistrationCommand.class);
 
+	/**
+	 * Invoke IPersonService for registration.
+	 * Invoke ScreenRoleDispatcher for forwarding to appropriate screen.
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws CommandException
+	 */
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
@@ -58,23 +77,28 @@ public class RegistrationCommand implements ICommand {
 				IPersonService userService = serviceFactory.getUserService();
 				person = userService.registerUser(login, password, repeatedPassword, role, name, surname, patronymic,
 						email, phoneNumber, dateOfBirthday);
-				ScreenRoleDispatcher roleDispatcher = ScreenRoleDispatcher.getInstance();
+				
 				session.setAttribute(PERSON, person);
+				ScreenRoleDispatcher roleDispatcher = ScreenRoleDispatcher.getInstance();
 				roleDispatcher.forwardToIndexByRole(request, response, role);
 				return;
-			} catch (ServiceException e) {
-				throw new CommandException(e);
 			} catch (IllegalSizeException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_ENTRY_VERY_LONG);
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_ENTRY_VERY_LONG);
 			} catch (IllegalDatesPeriodException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_INVALID_DATE_VALUE);
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_INVALID_DATE_VALUE);
 			} catch (PasswordsNotEqualException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_INVALID_REPETED_PASSWORD);
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_INVALID_REPETED_PASSWORD);
 			} catch (LoginAlreadyExistsExeption e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS);
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_LOGIN_ALREADY_EXISTS);
 			} catch (EmptyPropertyException e) {
-				request.setAttribute(ERROR_MESSAGES, MessageManager.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
+			} catch (IllegalEntriedValueException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_ILLEGAL_ENTRIED_VALUE);
+				
 			} catch (ValidationException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_VALIDATION_WAS_NOT_PASSED);
+				
+			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 

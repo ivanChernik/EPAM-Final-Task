@@ -9,6 +9,13 @@ import by.epam.tc.hr_system.dao.connection_pool.ConnectionPool;
 import by.epam.tc.hr_system.exception.ConnectionPoolException;
 import by.epam.tc.hr_system.exception.ConnectionPoolRuntimeException;
 
+/**
+ * Listener initializes connection pool during loading application in container
+ * and destroys them
+ * 
+ * @author Ivan Chernikau
+ *
+ */
 public class ConnectionPoolListener implements ServletContextListener {
 	private static final Logger log = Logger.getLogger(ConnectionPoolListener.class);
 
