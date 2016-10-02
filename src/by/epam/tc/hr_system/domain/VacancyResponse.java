@@ -20,7 +20,6 @@ public class VacancyResponse implements Serializable{
 	
 	private static List<String> statusList = Arrays.asList(VIEWED_STATUS,NOT_VIEWED_STATUS,REJECTION_STATUS,INVITATION_FOR_INTERVIEW_STATUS);
 	private int id;
-	private Person person = new Person();
 	private Resume resume = new Resume();
 	private Vacancy vacancy = new Vacancy();
 	private String status;
@@ -68,15 +67,6 @@ public class VacancyResponse implements Serializable{
 	}
 
 
-	public Person getPerson() {
-		return person;
-	}
-
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
 
 	public int getId() {
 		return id;
@@ -99,7 +89,6 @@ public class VacancyResponse implements Serializable{
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((person == null) ? 0 : person.hashCode());
 		result = prime * result + ((resume == null) ? 0 : resume.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((vacancy == null) ? 0 : vacancy.hashCode());
@@ -123,11 +112,6 @@ public class VacancyResponse implements Serializable{
 			return false;
 		if (id != other.id)
 			return false;
-		if (person == null) {
-			if (other.person != null)
-				return false;
-		} else if (!person.equals(other.person))
-			return false;
 		if (resume == null) {
 			if (other.resume != null)
 				return false;
@@ -145,5 +129,14 @@ public class VacancyResponse implements Serializable{
 			return false;
 		return true;
 	}
+
+
+	@Override
+	public String toString() {
+		return "VacancyResponse [id=" + id + ", resume=" + resume + ", vacancy=" + vacancy + ", status=" + status
+				+ ", date=" + date + "]";
+	}
+
+
 
 }

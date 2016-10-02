@@ -220,7 +220,6 @@ public class ResumeDAOImpl implements IResumeDAO {
 		}
 
 		Connection connection = null;
-		PreparedStatement checkResumePS = null;
 		PreparedStatement getContactInfoPS = null;
 		PreparedStatement getExperienceInfoPS = null;
 		PreparedStatement getEducaionPS = null;
@@ -229,13 +228,6 @@ public class ResumeDAOImpl implements IResumeDAO {
 
 		try {
 			connection = connectionPool.takeConnection();
-
-			checkResumePS = connection.prepareStatement(SQL_SELECT_RESUME_ID);
-			checkResumePS.setInt(1, idResume);
-			if (!checkResumePS.executeQuery().next()) {
-				return null;
-			}
-
 			connection.setAutoCommit(false);
 
 			// first
@@ -271,12 +263,6 @@ public class ResumeDAOImpl implements IResumeDAO {
 			throw new DAOException("Error addiction resume", e);
 
 		} finally {
-
-			try {
-				checkResumePS.close();
-			} catch (SQLException e) {
-				log.error("Error closing statements", e);
-			}
 
 			try {
 				getContactInfoPS.close();

@@ -47,7 +47,7 @@
 
 	<c:set var="pageName" value="Controller" scope="session" />
 	
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 
 	<section>
 		<div class="thumbnail wrap-information">
@@ -83,8 +83,8 @@
 							<tr>
 								<td><input class="checkbox" type="checkbox"
 									name="idResponce" value="${responce.id}" /></td>
-								<td><a href="./resume.jsp?idResume=${responce.resume.id}">${responce.person.surname}
-										&nbsp; ${responce.person.name}</a></td>
+								<td><a href="./resume.jsp?idResume=${responce.resume.id}">${responce.resume.person.surname}
+										&nbsp; ${responce.resume.person.name}</a></td>
 								<td>${responce.resume.position}</td>
 								<td>${responce.resume.contactInfo.phone}</td>
 								<td>${responce.status}</td>
@@ -121,6 +121,6 @@
 
 	</section>
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 </body>
 </html>

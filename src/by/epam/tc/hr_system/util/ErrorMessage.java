@@ -15,6 +15,7 @@ public class ErrorMessage {
 	public static final String ERROR_MESSAGE_DATABASE_ERROR = "Database error.";
 	public static final String ERROR_MESSAGE_REQUERED_FILEDS_MISSED = "Requered field was missed.";
 	public static final String ERROR_MESSAGE_ENTRY_VERY_LONG = "Entry is very long.";
+	public static final String ERROR_MESSAGE_ENTRY_SHOULD_BE_LONGER = "Entry should be longer.";
 	public static final String ERROR_MESSAGE_SELECTION_IS_EMPTY = "Selection is empty.";
 	public static final String ERROR_MESSAGE_VALIDATION_WAS_NOT_PASSED = "Validation was not passed.";
 	public static final String ERROR_MESSAGE_INVALID_DATE_VALUE = "Invalid date period.";

@@ -73,7 +73,7 @@
 	<c:set var="pageName" value="index.jsp" scope="session" />
 
 	<!-- NAVIGATION START-->
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 	<!-- NAVIGATION END -->
 
 
@@ -197,7 +197,7 @@
 		<div class="form-group">
 			<label for="patronymic"><span class="required-field">*</span>${enterLogin}:</label>
 			<input type="text" class="form-control" placeholder="${enterLogin}"
-				id="login" pattern="[\w]+" name="login" required
+				id="login" name="login" required
 				value="${requestScope.login}">
 		</div>
 
@@ -228,7 +228,7 @@
 	</div>
 	<!-- POPUP SING UP END-->
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 
 </body>
 </html>

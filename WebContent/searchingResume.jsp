@@ -50,7 +50,7 @@
 </head>
 <body>
 	<c:set var="pageName" value="searchingResume.jsp" scope="session" />
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 	<section>
 		<div class="row row-grid">
 			<div class="thumbnail search-block col-sm-6 col-md-4 ">
@@ -114,6 +114,6 @@
 		</div>
 	</section>
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 </body>
 </html>

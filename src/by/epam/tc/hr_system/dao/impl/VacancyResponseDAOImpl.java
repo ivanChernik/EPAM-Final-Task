@@ -194,8 +194,8 @@ public class VacancyResponseDAOImpl implements IVacancyResponseDAO {
 			responce.getResume().setId(rs.getInt(SQL_ID_APPLICANT));
 			responce.getResume().setPosition(rs.getString(SQL_POSITION));
 			responce.getResume().getContactInfo().setPhone(rs.getString(SQL_RESUME_INFO_PHONE));
-			responce.getPerson().setName(rs.getString(SQL_NAME));
-			responce.getPerson().setSurname(rs.getString(SQL_SURNAME));
+			responce.getResume().getPerson().setName(rs.getString(SQL_NAME));
+			responce.getResume().getPerson().setSurname(rs.getString(SQL_SURNAME));
 			responceList.add(responce);
 		}
 		return responceList;

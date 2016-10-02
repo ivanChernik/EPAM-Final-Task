@@ -47,7 +47,7 @@
 
 	<c:set var="pageName" value="creationVacancy.jsp" scope="session" />
 
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 
 	<section class="section-information">
 
@@ -116,7 +116,7 @@
 		</form>
 	</section>
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 
 </body>
 </html>

@@ -46,7 +46,7 @@
 	<c:set var="pageName" value="searchingVacancy.jsp" scope="session" />
 
 	<!-- NAVIGATION START-->
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 	<!-- NAVIGATION END -->
 
 	<section>
@@ -122,6 +122,6 @@
 		</div>
 	</section>
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 </body>
 </html>

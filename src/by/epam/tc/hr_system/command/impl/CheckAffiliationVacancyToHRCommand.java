@@ -16,10 +16,10 @@ import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.service.IVacancyService;
 import by.epam.tc.hr_system.service.ServiceFactory;
+import by.epam.tc.hr_system.util.AuthorizationUser;
 import by.epam.tc.hr_system.util.ErrorMessage;
 import by.epam.tc.hr_system.util.PageName;
 import by.epam.tc.hr_system.util.parameter.VacancyParameter;
-import by.epam.tc.hr_system.util.validation.AuthorizingUser;
 
 /**
  * 
@@ -44,7 +44,7 @@ public class CheckAffiliationVacancyToHRCommand implements ICommand {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
-			Person person = AuthorizingUser.getPersonInSession(request);
+			Person person = AuthorizationUser.getPersonInSession(request);
 
 			if (person == null) {
 				request.getRequestDispatcher(PageName.INDEX_PAGE).forward(request, response);

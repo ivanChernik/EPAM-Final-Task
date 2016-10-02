@@ -45,7 +45,7 @@
 		<c:set var="personSession" value="${sessionScope.person}" scope="page" />
 	</c:if>
 
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 
 	<c:set var="pageName" value="updateProfile.jsp" scope="session" />
 
@@ -115,7 +115,7 @@
 		</form>
 	</section>
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 
 </body>
 </html>

@@ -16,6 +16,7 @@ import by.epam.tc.hr_system.exception.ServiceException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
 import by.epam.tc.hr_system.exception.validation.IllegalEntriedValueException;
+import by.epam.tc.hr_system.exception.validation.IllegalMinSizeException;
 import by.epam.tc.hr_system.exception.validation.IllegalSizeException;
 import by.epam.tc.hr_system.exception.validation.LoginAlreadyExistsExeption;
 import by.epam.tc.hr_system.exception.validation.PasswordsNotEqualException;
@@ -94,6 +95,9 @@ public class RegistrationCommand implements ICommand {
 				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_REQUERED_FILEDS_MISSED);
 			} catch (IllegalEntriedValueException e) {
 				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_ILLEGAL_ENTRIED_VALUE);
+				
+			} catch (IllegalMinSizeException e) {
+				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_ENTRY_SHOULD_BE_LONGER);
 				
 			} catch (ValidationException e) {
 				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_VALIDATION_WAS_NOT_PASSED);

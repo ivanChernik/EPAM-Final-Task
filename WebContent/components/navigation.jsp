@@ -7,7 +7,7 @@
 <fmt:setBundle basename="localization.local" var="loc" />
 
 <fmt:message bundle="${loc}" key="local.sing.up" var="singUp" />
-<fmt:message bundle="${loc}" key="local.sing.in" var="singIn" />
+<fmt:message bundle="${loc}" key="local.sign.in.navigation" var="singIn" />
 <fmt:message bundle="${loc}" key="local.log.out" var="logOut" />
 
 <fmt:message bundle="${loc}" key="local.search" var="search" />
@@ -35,8 +35,8 @@
 <fmt:message bundle="${loc}" key="local.ru" var="ru" />
 <fmt:message bundle="${loc}" key="local.en" var="en" />
 
-<fmt:message bundle="${loc}" key="local.enter.login" var="enterLogin" />
-<fmt:message bundle="${loc}" key="local.enter.password"
+<fmt:message bundle="${loc}" key="local.enter.login.authorization" var="enterLogin" />
+<fmt:message bundle="${loc}" key="local.enter.password.authorization"
 	var="enterPassword" />
 <fmt:message bundle="${loc}" key="local.look.resume" var="lookResume" />
 <fmt:message bundle="${loc}" key="local.show.vacancies"
@@ -76,7 +76,6 @@
 									<li><a href="addictionEducation.jsp"> ${addEducation}</a></li>
 									<li><a href="addictionPreviousPosition.jsp">
 											${addPreviousPosition}</a></li>
-									<li><a href="#"> ${updateResume}</a></li>
 									<li><a
 										href="./resume.jsp?idResume=${sessionScope.person.id}">
 											${lookResume}</a></li>

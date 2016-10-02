@@ -84,7 +84,7 @@
 
 	<c:set var="pageName" value="creationResume.jsp" scope="session" />
 
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 	<section class="section-information">
 
 		<c:set var="resume" value="${requestScope.resume}" scope="page" />
@@ -134,6 +134,6 @@
 		</form>
 	</section>
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 </body>
 </html>

@@ -57,7 +57,7 @@
 
 	<c:set var="pageName" value="addictionEducation.jsp" scope="session" />
 
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 	<section class="section-information">
 
 		<form action="Controller" role="form" method="post"
@@ -144,6 +144,6 @@
 		</form>
 	</section>
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 </body>
 </html>

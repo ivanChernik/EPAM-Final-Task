@@ -43,7 +43,7 @@
 
 	<c:set var="pageName" value="accountApplicant.jsp" scope="session" />
 
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 
 	<jsp:include page="${request.contextPath}/Controller" flush="true">
 		<jsp:param name="command" value="show-responce" />
@@ -86,6 +86,6 @@
 		</div>
 	</section>
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 </body>
 </html>

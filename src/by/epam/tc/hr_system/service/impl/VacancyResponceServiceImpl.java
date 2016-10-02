@@ -42,7 +42,7 @@ public class VacancyResponceServiceImpl implements IVacancyResponseService {
 		
 		VacancyResponse vacancyResponce = new VacancyResponse();
 		
-		vacancyResponce.getPerson().setId(idApplicant);
+		vacancyResponce.getResume().setId(idApplicant);
 		vacancyResponce.getVacancy().setId(idVacancy);
 		vacancyResponce.setDate(new Date(currentDate.getTime()));
 		vacancyResponce.setStatus(VacancyResponse.NOT_VIEWED_STATUS);
@@ -51,7 +51,7 @@ public class VacancyResponceServiceImpl implements IVacancyResponseService {
 
 		try {
 			IResumeDAO resumeDAO = daoFactory.getResumeDAO();
-			if (!resumeDAO.checkApplicantResume(vacancyResponce.getResume().getId())) {
+			if (!resumeDAO.checkApplicantResume(idApplicant)) {
 				log.warn("Resume doesn't exist");
 				throw new ResumeDoesNotExistException("Resume doesn't exist");
 			}

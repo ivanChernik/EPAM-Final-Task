@@ -32,7 +32,7 @@
 	<!-- NAVIGATION START-->
 
 	<c:set var="pageName" value="viewProfile.jsp" scope="session" />
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 	<c:set var="person" value="${sessionScope.person}" scope="page" />
 
 	<section>
@@ -42,14 +42,10 @@
 			<p>${dateOfBirthday}:&nbsp;${person.dateOfBirthday}</p>
 			<p>${email}:&nbsp;${person.email}</p>
 			<p>${phoneNumber}:&nbsp;${person.phone}</p>
-			<form action="Controller" method="post">
-				<input name="command" value="delete-account" type="hidden">
 				<a role="button" type="submit" class="btn btn-success" href="updateProfile.jsp">${updateProfile}</a>
-				<button type="submit" class="btn btn-danger">${deleteAccount}</button>
-			</form>
 		</div>
 	</section>
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 </body>
 </html>

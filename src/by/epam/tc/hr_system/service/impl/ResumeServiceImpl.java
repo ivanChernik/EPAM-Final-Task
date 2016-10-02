@@ -33,7 +33,7 @@ public class ResumeServiceImpl implements IResumeService {
 		validateEmptyString(filename);
 		resume.setPathImage(filename);
 		resume.setSkill(validateRequiredString(resume.getSkill(), 300));
-		resume.setPosition(validateRequiredString(resume.getSkill(), 30));
+		resume.setPosition(validateRequiredString(resume.getPosition(), 30));
 		resume.setProfInformation(validateRequiredString(resume.getProfInformation(), 800));
 
 		resume.setContactInfo(validateContactInfo(resume.getContactInfo()));

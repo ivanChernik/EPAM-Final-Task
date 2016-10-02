@@ -43,7 +43,7 @@
 
 	<c:set var="pageName" value="Controller" scope="session" />
 
-	<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="components/navigation.jsp"></jsp:include>
 	<section class="main-information">
 		<c:choose>
 			<c:when test="${empty requestScope.vacancy}">
@@ -131,6 +131,6 @@
 
 	</section>
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="components/footer.jsp" />
 </body>
 </html>

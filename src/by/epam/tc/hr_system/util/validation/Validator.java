@@ -12,6 +12,7 @@ import by.epam.tc.hr_system.exception.validation.NegativeNumberValueException;
 import by.epam.tc.hr_system.exception.validation.ValidationException;
 import by.epam.tc.hr_system.exception.validation.EmptyPropertyException;
 import by.epam.tc.hr_system.exception.validation.IllegalDatesPeriodException;
+import by.epam.tc.hr_system.exception.validation.IllegalMinSizeException;
 import by.epam.tc.hr_system.exception.validation.IllegalNumberPeriodException;
 import by.epam.tc.hr_system.util.validation.Validator;
 
@@ -50,7 +51,7 @@ public class Validator {
 	public static String validateNotRequiredString(String property, int length) {
 		property = property.trim();
 
-		if (property.length() >= length) {
+		if (property.length() > length) {
 			throw new IllegalSizeException("Error validation: String is big.");
 		}
 
@@ -69,12 +70,27 @@ public class Validator {
 
 		property = validateEmptyString(property);
 
-		if (property.length() >= length) {
+		if (property.length() > length) {
 			throw new IllegalSizeException("Error validation: String is big.");
 		}
 
 		return property;
 	}
+	
+	/**
+	 * 
+	 * @param property
+	 * @return
+	 */
+	public static void validateMinSizeString(String property, int length) {
+
+		property = validateEmptyString(property);
+
+		if (property.length() < length) {
+			throw new IllegalMinSizeException("Error validation: String is little then requred size.");
+		}
+	}
+	
 
 	/**
 	 * Validate on positive int.

@@ -39,6 +39,7 @@ public class PersonServiceImpl implements IPersonService {
 		IPersonDAO personDAO = daoFactory.getPersonDAO();
 
 		login = validateRequiredString(login, 30);
+		validateMinSizeString(login,8);
 
 		try {
 			if (personDAO.searchSimilarLogin(login)) {
@@ -59,9 +60,10 @@ public class PersonServiceImpl implements IPersonService {
 
 		Date birthdayDate = StringConverter.parseStringToDate(dateOfBirthday);
 		Date currentDate = new Date(new java.util.Date().getTime());
-		validateDatesPeriod(currentDate, birthdayDate);
+		validateDatesPeriod(birthdayDate,currentDate);
 
 		password = validateRequiredString(password, 45);
+		validateMinSizeString(password,8);
 		repeatedPassword = validateRequiredString(repeatedPassword, 45);
 
 		if (!password.equals(repeatedPassword)) {
@@ -112,7 +114,7 @@ public class PersonServiceImpl implements IPersonService {
 
 		Date birthdayDate = StringConverter.parseStringToDate(dateOfBirthday);
 		Date currentDate = new Date(new java.util.Date().getTime());
-		validateDatesPeriod(currentDate, birthdayDate);
+		validateDatesPeriod(birthdayDate,currentDate);
 
 		Person person = new Person(idPerson, name, surname, patronymic, birthdayDate, email, phoneNumber);
 		DAOFactory daoFactory = DAOFactory.getInstance();
