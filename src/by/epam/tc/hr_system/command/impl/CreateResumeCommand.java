@@ -134,7 +134,7 @@ public class CreateResumeCommand implements ICommand {
 				resumeService.checkExistingResume(person.getId());
 				resumeService.addResume(resume, person.getId(), educationFrom, educationTo, workFrom, workTo, filename,
 						doNotStudy, doNotWork);
-				request.getRequestDispatcher(PageName.INDEX_APPLICANT_PAGE).forward(request, response);
+				response.sendRedirect(PageName.INDEX_APPLICANT_PAGE);
 				return;
 			} catch (PhotoNotChosenException e) {
 				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_PHOTO_NOT_UPLOADED);

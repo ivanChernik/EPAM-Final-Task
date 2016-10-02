@@ -86,7 +86,7 @@ public class AddEducationToResumeCommand implements ICommand {
 			try {
 				IResumeService resumeService = serviceFactory.getResumeService();
 				resumeService.addEducation(education, educationFrom, educationTo, person.getId());
-				request.getRequestDispatcher(HTTP_GO_TO_RESUME_PAGE + person.getId()).forward(request, response);
+				response.sendRedirect(HTTP_GO_TO_RESUME_PAGE + person.getId());
 				return;
 			} catch (ResumeDoesNotExistException e) {
 				request.setAttribute(ERROR_MESSAGES, ErrorMessage.ERROR_MESSAGE_RESUME_DOES_NOT_EXIST);

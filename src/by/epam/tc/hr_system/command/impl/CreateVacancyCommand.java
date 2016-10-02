@@ -67,7 +67,7 @@ public class CreateVacancyCommand implements ICommand {
 				IVacancyService vacancyService = serviceFactory.getVacancyService();
 				vacancyService.addVacancy(name, descrption, shortDescription, requirement, salary, companyName,
 						contactInformation, employment, person.getId());
-				request.getRequestDispatcher(PageName.TABLE_VACANCY_PAGE).forward(request, response);
+				response.sendRedirect(PageName.TABLE_VACANCY_PAGE);
 				return;
 
 			} catch (IllegalSizeException e) {

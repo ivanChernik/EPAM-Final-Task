@@ -31,7 +31,7 @@ public class ScreenRoleDispatcher {
 			pageName = PageName.ERROR_404_PAGE;
 		}
 		
-		request.getRequestDispatcher(pageName).forward(request, response);
+		response.sendRedirect(pageName);
 	}
 	
 	public static ScreenRoleDispatcher getInstance(){
