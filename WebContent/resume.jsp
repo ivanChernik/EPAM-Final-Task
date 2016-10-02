@@ -39,7 +39,7 @@
 
 	<jsp:include page="components/navigation.jsp"></jsp:include>
 
-	<jsp:include page="${request.contextPath}/Controller" flush="true">
+	<jsp:include page="${request.contextPath}/Controller">
 		<jsp:param name="command" value="show-resume" />
 		<jsp:param name="idResume" value="${param.idResume}" />
 	</jsp:include>

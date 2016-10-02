@@ -38,7 +38,7 @@
 
 	<jsp:include page="components/navigation.jsp"></jsp:include>
 
-	<jsp:include page="${request.contextPath}/Controller" flush="true">
+	<jsp:include page="${request.contextPath}/Controller">
 		<jsp:param name="command" value="show-hr-vacancy" />
 	</jsp:include>
 
