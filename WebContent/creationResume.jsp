@@ -102,7 +102,7 @@
 					${generalInformation}</h4>
 				<div class="form-group">
 					<label for="position"><span class="required-field">*</span>${prefedPosition}:</label> <input type="text"
-						placeholder="${prefedPosition}" class="form-control" id="position"
+						placeholder="${prefedPosition}" class="form-control" id="position" pattern="[^>]*"
 						name="position" value="${resume.position}" required>
 				</div>
 
@@ -147,20 +147,20 @@
 
 				<div class="form-group">
 					<label for="university"><span class="required-field">*</span>${nameEducationInstitution}:</label> <input
-						type="text" placeholder="${nameEducationInstitution}"
+						type="text" placeholder="${nameEducationInstitution}" pattern="[^>]*"
 						class="form-control" id="university" name="university"
 						value="${resume.educationList.get(0).university}">
 				</div>
 
 				<div class="form-group">
 					<label for="faculty"><span class="required-field">*</span>${nameFaculty}:</label> <input type="text"
-						placeholder="${nameFaculty}" class="form-control" id="faculty"
+						placeholder="${nameFaculty}" class="form-control" id="faculty" pattern="[^>]*"
 						name="faculty" value="${resume.educationList.get(0).faculty}">
 				</div>
 
 				<div class="form-group">
 					<label for="specialty"><span class="required-field">*</span>${nameSpecialty}:</label> <input
-						type="text" placeholder="${nameSpecialty}" class="form-control"
+						type="text" placeholder="${nameSpecialty}" class="form-control" pattern="[^>]*"
 						id="specialty" name="specialty"
 						value="${resume.educationList.get(0).specialty}">
 				</div>
@@ -204,7 +204,7 @@
 				<div class="form-group">
 					<label for="previos-position"><span class="required-field">*</span>${previousPosition}:</label> <input
 						type="text" placeholder="${previousPosition}" class="form-control"
-						id="previos-position" name="previos-position"
+						id="previos-position" name="previos-position" pattern="[^>]*"
 						value="${resume.previousWorkList.get(0).previousPosition}">
 				</div>
 
@@ -232,7 +232,7 @@
 					<h4 class="page-header resume-item-header"><span class="required-field">*</span>${contactData}</h4>
 					<label for="phone"><span class="required-field">*</span> ${phoneNumber}:</label> <input type="text"
 						placeholder="${phoneNumber}" class="form-control" id="phone"
-						name="phone" value="${resume.contactInfo.phone}" required>
+						name="phone" value="${resume.contactInfo.phone}" required pattern="[^>]*">
 				</div>
 
 				<div class="form-group">
@@ -244,14 +244,14 @@
 				<div class="form-group">
 					<label for="address"><span class="required-field">*</span>${address}:</label> <input type="text"
 						class="form-control" id="address" placeholder="${address}"
-						name="address" value="${resume.contactInfo.address}" required>
+						name="address" value="${resume.contactInfo.address}" pattern="[^>]*" required>
 				</div>
 
 				<div class="form-group">
 					<label for="google-plus">${linkGooglePlus}:</label> <input
 						type="text" class="form-control" id="google-plus"
 						name="link-google-plus" placeholder="${linkGooglePlus}"
-						value="${resume.contactInfo.linkGooglePlus}">
+						value="${resume.contactInfo.linkGooglePlus}" pattern="[^>]*">
 				</div>
 
 
@@ -259,20 +259,20 @@
 					<label for="link-linkedin"> ${linkLinkedin}:</label> <input
 						type="text" class="form-control" id="link-linkedin"
 						name="link-linkedin" placeholder="${linkLinkedin}"
-						value="${resume.contactInfo.linkLinkedIn}">
+						value="${resume.contactInfo.linkLinkedIn}" pattern="[^>]*">
 				</div>
 
 				<div class="form-group">
 					<label for="link-twitter"> ${linkTwitter}:</label> <input
 						type="text" class="form-control" id="link-twitter"
 						name="link-twitter" placeholder="${linkTwitter}"
-						value="${resume.contactInfo.linkTwitter}">
+						value="${resume.contactInfo.linkTwitter}" pattern="[^>]*">
 				</div>
 				<div class="form-group">
 					<label for="link-facebook">${linkFacebook}:</label> <input
 						type="text" class="form-control" id="link-facebook"
 						name="link-facebook" placeholder="${linkFacebook}"
-						value="${resume.contactInfo.linkFacebook}">
+						value="${resume.contactInfo.linkFacebook}" pattern="[^>]*">
 				</div>
 			</div>
 			<button type="submit" name="createResume" class="btn btn-success">

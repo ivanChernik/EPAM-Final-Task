@@ -68,13 +68,13 @@
 				<div class="form-group">
 					<label for="name">${enterName}:</label> <input type="text"
 						class="form-control" placeholder="${enterName}" id="name"
-						name="name" required value="${personSession.name}${requestScope.name}">
+						name="name" required value="${personSession.name}${requestScope.name}" pattern="[^>]*">
 				</div>
 
 				<div class="form-group">
 					<label for="surname">${enterSurname}:</label> <input type="text"
 						class="form-control" placeholder="${enterSurname}" id="surname"
-						name="surname" required
+						name="surname" required pattern="[^>]*"
 						value="${personSession.surname}${requestScope.surname}">
 				</div>
 
@@ -82,7 +82,7 @@
 					<label for="middleName">${enterPatronymic}:</label> <input
 						type="text" class="form-control" placeholder="${enterPatronymic}"
 						id="middleName" name="middleName"
-						value="${personSession.middleName}${requestScope.middleName}">
+						value="${personSession.middleName}${requestScope.middleName}" pattern="[^>]*">
 				</div>
 
 				<div class="form-group">
@@ -102,7 +102,7 @@
 				<div class="form-group">
 					<label for="phoneNumber">${enterPhone}:</label> <input type="text"
 						class="form-control" placeholder="${enterPhone}" id="phoneNumber"
-						name="phoneNumber"
+						name="phoneNumber" pattern="[^>]*"
 						value="${personSession.phone}${requestScope.phoneNumber}">
 				</div>
 

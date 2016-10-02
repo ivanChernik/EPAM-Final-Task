@@ -74,18 +74,18 @@
 				</c:if> 
 				<div class="form-group">
 					<label for="titleVacancy"><span class="required-field">*</span>${titleVacancy}:</label>
-					<input type="text" placeholder="${titleVacancy}"
+					<input type="text" placeholder="${titleVacancy}" pattern="[^>]*"
 						class="form-control" id="titleVacancy" name="titleVacancy" value="${vacancy.name}${requestScope.titleVacancy}" required>
 				</div>
 				<div class="form-group">
 					<label for="companyName"><span class="required-field">*</span>${companyName}:</label>
-					<input type="text" placeholder="${companyName}"
+					<input type="text" placeholder="${companyName}" pattern="[^>]*"
 						class="form-control" id="companyName" name="companyName" value="${vacancy.companyName}${requestScope.companyName}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="contactData"><span class="required-field">*</span>${contactData}:</label>
-					<input type="text" placeholder="${contactData}"
+					<input type="text" placeholder="${contactData}" pattern="[^>]*"
 						class="form-control" id="contactData" name="contactData" value="${vacancy.contactInformation}${requestScope.contactData}" required>
 				</div>
 
@@ -116,7 +116,7 @@
 				<div class="form-group">
 					<label for="salary"><span class="required-field">*</span>${salary}<span
 						class="glyphicon glyphicon-usd" aria-hidden="true"></span>: </label> <input
-						type="text" placeholder="${salary}" class="form-control"
+						type="text" placeholder="${salary}" class="form-control" pattern="[^>]*"
 						id="salary" name="salary" value="${vacancy.salary}${requestScope.salary}" required>
 				</div>
 				

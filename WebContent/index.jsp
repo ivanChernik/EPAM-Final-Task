@@ -159,19 +159,19 @@
 		<div class="form-group">
 			<label for="name"><span class="required-field">*</span>${enterName}:</label>
 			<input type="text" class="form-control" placeholder="${enterName}"
-				id="name" name="name" required value="${requestScope.name}">
+				id="name" name="name"  pattern="[^>]*" required value="${requestScope.name}">
 		</div>
 
 		<div class="form-group">
 			<label for="surname"><span class="required-field">*</span>${enterSurname}:</label>
 			<input type="text" class="form-control" placeholder="${enterSurname}"
-				id="surname" name="surname" required value="${requestScope.surname}">
+				id="surname" name="surname" pattern="[^>]*" required value="${requestScope.surname}">
 		</div>
 
 		<div class="form-group">
 			<label for="middleName">${enterPatronymic}:</label> <input
 				type="text" class="form-control" placeholder="${enterPatronymic}"
-				id="middleName" name="middleName" value="${requestScope.middleName}">
+				id="middleName" name="middleName" pattern="[^>]*" value="${requestScope.middleName}">
 		</div>
 
 		<div class="form-group">
@@ -191,27 +191,27 @@
 		<div class="form-group">
 			<label for="phoneNumber">${enterPhone}:</label> <input type="text"
 				class="form-control" placeholder="${enterPhone}" id="phoneNumber"
-				name="phoneNumber" value="${requestScope.phoneNumber}">
+				name="phoneNumber" pattern="[^>]*" value="${requestScope.phoneNumber}">
 		</div>
 
 		<div class="form-group">
 			<label for="patronymic"><span class="required-field">*</span>${enterLogin}:</label>
 			<input type="text" class="form-control" placeholder="${enterLogin}"
-				id="login" name="login" required
+				id="login" pattern="[^>]*" name="login" required
 				value="${requestScope.login}">
 		</div>
 
 		<div class="form-group">
 			<label for="pwd"><span class="required-field">*</span>${enterPassword}:
 			</label> <input type="password" class="form-control"
-				placeholder="${enterPassword}" id="pwd" name="password" required
+				placeholder="${enterPassword}" id="pwd" pattern="[^>]*" name="password" required
 				value="${requestScope.password}">
 		</div>
 
 		<div class="form-group">
 			<label for="pwd-repeat"><span class="required-field">*</span>${repeatPassword}:</label>
 			<input type="password" class="form-control"
-				placeholder="${repeatPassword}" id="pwd-repeat"
+				placeholder="${repeatPassword}" id="pwd-repeat" pattern="[^>]*"
 				name="repeatedPassword" required
 				value="${requestScope.repeatedPassword}">
 		</div>

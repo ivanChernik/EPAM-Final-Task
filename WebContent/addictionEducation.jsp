@@ -94,20 +94,20 @@
 					<label for="university"> ${nameEducationInstitution}:</label> <input
 						type="text" placeholder="${nameEducationInstitution}"
 						class="form-control" id="university" name="university"
-						value="${education.university}" required>
+						value="${education.university}" pattern="[^>]*" required>
 				</div>
 
 				<div class="form-group">
 					<label for="faculty"> ${nameFaculty}:</label> <input type="text"
 						placeholder="${nameFaculty}" class="form-control" id="faculty"
-						name="faculty" value="${education.faculty}" required>
+						name="faculty" value="${education.faculty}" pattern="[^>]*" required>
 				</div>
 
 				<div class="form-group">
 					<label for="specialty"> ${nameSpecialty}:</label> <input
 						type="text" placeholder="${nameSpecialty}" class="form-control"
 						id="specialty" name="specialty"
-						value="${education.specialty}" required>
+						value="${education.specialty}"  pattern="[^>]*" required>
 				</div>
 
 
@@ -135,7 +135,7 @@
 				<div class="form-group">
 					<label for="education-description"> ${description}:</label>
 					<textarea class="form-control" placeholder="${description}"
-						rows="5" id="education-description" name="education-description" required>${education.educationDescription}</textarea>
+						rows="5" id="education-description"  name="education-description" required>${education.educationDescription}</textarea>
 				</div>
 			</div>
 

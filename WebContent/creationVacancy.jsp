@@ -65,18 +65,18 @@
 				<div class="form-group">
 					<label for="titleVacancy"><span class="required-field">*</span>${titleVacancy}:</label>
 					<input type="text" placeholder="${titleVacancy}"
-						class="form-control" id="titleVacancy" name="titleVacancy" value="${requestScope.titleVacancy}" required>
+						class="form-control" id="titleVacancy" pattern="[^>]*" name="titleVacancy" value="${requestScope.titleVacancy}" required>
 				</div>
 				<div class="form-group">
 					<label for="companyName"><span class="required-field">*</span>${companyName}:</label>
 					<input type="text" placeholder="${companyName}"
-						class="form-control" id="companyName" name="companyName" value="${requestScope.companyName}" required>
+						class="form-control" id="companyName" pattern="[^>]*" name="companyName" value="${requestScope.companyName}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="contactData"><span class="required-field">*</span>${contactData}:</label>
 					<input type="text" placeholder="${contactData}"
-						class="form-control" id="contactData" name="contactData" value="${requestScope.contactData}" required>
+						class="form-control" id="contactData" pattern="[^>]*" name="contactData" value="${requestScope.contactData}" required>
 				</div>
 
 				<div class="form-group">

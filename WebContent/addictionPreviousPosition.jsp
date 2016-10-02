@@ -107,7 +107,7 @@
 					<label for="previos-position">${previousPosition}:</label> <input
 						type="text" placeholder="${previousPosition}" class="form-control"
 						id="previos-position" name="previos-position"
-						value="${requestScope.prevPosition.previousPosition}" required>
+						value="${requestScope.prevPosition.previousPosition}" pattern="[^>]*" required>
 				</div>
 
 				<div class="form-group">
