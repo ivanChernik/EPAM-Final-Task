@@ -56,6 +56,7 @@ public class AddPreviousPositionToResumeCommand implements ICommand {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		try {
+
 			Person person = AuthorizationUser.getPersonInSession(request);
 
 			if (person == null) {

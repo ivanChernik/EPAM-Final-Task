@@ -48,6 +48,7 @@
 	<jsp:include page="${request.contextPath}/Controller">
 		<jsp:param name="command" value="show-responce" />
 	</jsp:include>
+	
 
 	<section>
 		<div class="thumbnail wrap-information">

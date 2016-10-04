@@ -56,7 +56,8 @@ public class Controller extends HttpServlet {
 			command = CommandHelper.getInstance().getCommand(commandName);
 			command.execute(request, response);
 		} catch (CommandException e) {
-			response.sendRedirect(PageName.ERROR_505_PAGE);
+			request.getRequestDispatcher(PageName.ERROR_505_PAGE).forward(request, response);
+			//response.sendRedirect(PageName.ERROR_505_PAGE);
 		}
 	}
 
