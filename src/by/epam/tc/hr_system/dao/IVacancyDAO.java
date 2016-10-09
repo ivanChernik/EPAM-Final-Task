@@ -33,16 +33,6 @@ public interface IVacancyDAO {
 	void updateVacancy(Vacancy vacancy) throws DAOException;
 
 	/**
-	 * Remove vacancy by ID.
-	 * 
-	 * @param idVacancy
-	 * @return
-	 * @throws DAOException
-	 */
-
-	boolean removeVacancy(int idVacancy) throws DAOException;
-
-	/**
 	 * Get top vacancies.
 	 * 
 	 * @return

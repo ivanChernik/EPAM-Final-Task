@@ -48,6 +48,7 @@ public class VacancyDAOImpl implements IVacancyDAO {
 	private static final String SQL_ADD_NEW_VACANCY = "INSERT INTO `hr-system`.`vacancy` (`id_hr`, `name`, `description`, `requirement`, `salary`, `date_of_submission`, `status`, `company_name`, `contact_information`, `type_employment`,`short_description`) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 
 	private static final String SQL_DELETE_VACANCY_BY_ID = "DELETE FROM `hr-system`.`vacancy` WHERE `id_vacancy`=?;";
+	private static final String SQL_DELETE_RESPONCE_TO_VACANCY_BY_ID = "DELETE FROM `hr-system`.`applicants_vacancies` WHERE `id_vacancy`= ?;";
 
 	private static final String SQL_UPDATE_VACANCY_BY_ID = "UPDATE `hr-system`.`vacancy` SET `name`= ?, `short_description`= ?, `description`= ?, `requirement`= ?, `salary`= ?, `status`= ?, `company_name`= ?, `contact_information`= ?, `type_employment`= ? WHERE `id_vacancy`= ?;";
 
@@ -148,48 +149,6 @@ public class VacancyDAOImpl implements IVacancyDAO {
 				log.error("Error closing connection", e);
 			}
 		}
-	}
-
-	@Override
-	public boolean removeVacancy(int idVacancy) throws DAOException {
-		ConnectionPool connectionPool = null;
-		try {
-			connectionPool = ConnectionPool.getInstance();
-		} catch (ConnectionPoolException e) {
-			log.fatal("Error connection pool instanse", e);
-			throw new DAOException("Error connection pool instanse", e);
-		}
-		Connection connection = null;
-		PreparedStatement deketeVacancyPS = null;
-
-		boolean result = false;
-		try {
-			connection = connectionPool.takeConnection();
-			deketeVacancyPS = connection.prepareStatement(SQL_DELETE_VACANCY_BY_ID);
-
-			deketeVacancyPS.setInt(1, idVacancy);
-
-			deketeVacancyPS.executeUpdate();
-			result = true;
-		} catch (SQLException | ConnectionPoolException e) {
-			log.error("Error deleting vacancy", e);
-			throw new DAOException("Error deleting vacancy", e);
-		}
-
-		finally {
-			try {
-				deketeVacancyPS.close();
-			} catch (SQLException e) {
-				log.error("Error closing statements", e);
-			}
-
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				log.error("Error closing connection", e);
-			}
-		}
-		return result;
 	}
 
 	@Override
@@ -501,16 +460,34 @@ public class VacancyDAOImpl implements IVacancyDAO {
 		}
 		Connection connection = null;
 		PreparedStatement deleteHRvacancies = null;
+		PreparedStatement deleteResponceForVacancies = null;
 		try {
 			connection = connectionPool.takeConnection();
+			connection.setAutoCommit(false);
 			deleteHRvacancies = connection.prepareStatement(SQL_DELETE_VACANCY_BY_ID);
+			
+			deleteResponceForVacancies = connection.prepareStatement(SQL_DELETE_RESPONCE_TO_VACANCY_BY_ID);
+			
 			for (int idVacancy : idVacancyArray) {
+				deleteResponceForVacancies.setInt(1, idVacancy);
+				deleteResponceForVacancies.executeUpdate();
+				
 				deleteHRvacancies.setInt(1, idVacancy);
-				deleteHRvacancies.execute();
+				deleteHRvacancies.executeUpdate();
 			}
+			
+			connection.commit();
 
 		} catch (SQLException | ConnectionPoolException e) {
 			log.error("Error deletion vacancy by ID", e);
+			
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				log.fatal("Error roll back connection", e);
+				throw new DAOException("Error roll back connection", e);
+			}
+			
 			throw new DAOException("Error deletion vacancy by ID", e);
 		}
 

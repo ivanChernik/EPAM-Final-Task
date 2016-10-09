@@ -63,7 +63,7 @@
 		<form role="form" method="post" action="Controller">
 
 			<input name="command" value="update-vacancy" type="hidden" />
-			<input name="idVacancy" value="${vacancy.id}" type="hidden" />
+			<input name="idVacancy" value="${vacancy.id}${requestScope.idVacancy}" type="hidden" />
 			<div class="thumbnail input-information">
 				 <c:if test="${not empty requestScope.errormessages}">
 					<div class="form-group alert alert-danger">

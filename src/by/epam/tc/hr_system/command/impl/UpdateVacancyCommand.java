@@ -77,6 +77,7 @@ public class UpdateVacancyCommand implements ICommand {
 				throw new CommandException(e);
 			}
 
+			request.setAttribute(VacancyParameter.ID, vacancyID);
 			request.setAttribute(VacancyParameter.TITLE_VACANCY, name);
 			request.setAttribute(VacancyParameter.DESCRIPTION, descrption);
 			request.setAttribute(VacancyParameter.SHORT_DESCRIPTION, shortDescription);

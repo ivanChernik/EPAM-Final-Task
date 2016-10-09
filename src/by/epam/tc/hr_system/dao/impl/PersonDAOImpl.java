@@ -195,8 +195,8 @@ public class PersonDAOImpl implements IPersonDAO {
 			removeUserPS = connection.prepareStatement(SQL_DELETE_UDER_BY_ID);
 			removeUserPS.setInt(1, idUser);
 			removeUserPS.executeUpdate();
-			result = true;
 			connection.commit();
+			result = true;
 		} catch (SQLException | ConnectionPoolException e) {
 			try {
 				connection.rollback();

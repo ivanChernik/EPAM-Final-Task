@@ -67,7 +67,6 @@ public class VacancyResponseDAOImpl implements IVacancyResponseDAO {
 			addVacancyResponcePS.setString(3, vacancyResponce.getStatus());
 			addVacancyResponcePS.setDate(4, vacancyResponce.getDate());
 			addVacancyResponcePS.executeUpdate();
-			
 		} catch (SQLException | ConnectionPoolException e) {
 			log.error("Error addiction responce to vacancy", e);
 			throw new DAOException("Error addiction responce to vacancy", e);
